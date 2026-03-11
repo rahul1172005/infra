@@ -5,7 +5,7 @@ import { LeaderboardService } from '../leaderboard/leaderboard.service';
 @WebSocketGateway({ cors: { origin: '*' } })
 export class ScoreGateway {
     @WebSocketServer()
-    server: Server;
+    server!: Server;
 
     constructor(private leaderboardService: LeaderboardService) { }
 
