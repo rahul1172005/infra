@@ -1,0 +1,5 @@
+apps/web/src/app/(app)/achievements/page.tsx: Zap, Code2, Database, Cpu
+apps/web/src/app/(app)/analytics/page.tsx: ActivityIcon
+apps/web/src/app/(app)/community/page.tsx: MessageCircle, Heart, Share2, Terminal
+apps/web/src/app/(app)/settings/page.tsx: LockIcon, KeyIcon, ShieldCheckIcon, CpuIcon, TerminalIcon
+apps/web/src/app/(app)/tournaments/page.tsx: Shield, Swords, Activity

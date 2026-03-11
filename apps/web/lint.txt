@@ -1,0 +1,16 @@
+﻿
+C:\Users\Raja\OneDrive\Desktop\scoreboard\apps\web\src\app\arena\page.tsx
+  52:46  error  Parsing error: Invalid character
+
+C:\Users\Raja\OneDrive\Desktop\scoreboard\apps\web\src\app\dashboard\page.tsx
+    4:26   warning  'Crosshair' is defined but never used                            @typescript-eslint/no-unused-vars
+    4:73   warning  'ShieldAlert' is defined but never used                          @typescript-eslint/no-unused-vars
+    4:96   warning  'Flame' is defined but never used                                @typescript-eslint/no-unused-vars
+    5:8    warning  'Link' is defined but never used                                 @typescript-eslint/no-unused-vars
+  154:150  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Raja\OneDrive\Desktop\scoreboard\apps\web\src\app\page.tsx
+  280:30  error  Parsing error: Invalid character
+
+Γ£û 7 problems (3 errors, 4 warnings)
+

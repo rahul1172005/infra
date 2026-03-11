@@ -1,0 +1,2 @@
+﻿src/components/dashboard/ClanLead3DGraph.tsx(244,48): error TS2322: Type '{ children: Element; enabled: true; disableNormalPass: true; }' is not assignable to type 'IntrinsicAttributes & EffectComposerProps & RefAttributes<unknown>'.
+  Property 'disableNormalPass' does not exist on type 'IntrinsicAttributes & EffectComposerProps & RefAttributes<unknown>'. Did you mean 'enableNormalPass'?

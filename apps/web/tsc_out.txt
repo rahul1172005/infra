@@ -1,0 +1,2 @@
+﻿src/app/(app)/settings/page.tsx(4,102): error TS2307: Cannot find module 'lucide-center' or its corresponding type declarations.
+src/app/(app)/threat-map/page.tsx(160,30): error TS2304: Cannot find name 'ArrowRight'.

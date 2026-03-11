@@ -1,0 +1,21 @@
+{
+    "name": "zapsters-monorepo",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*",
+        "infrastructure/*"
+    ],
+    "scripts": {
+        "build": "npm run build --workspaces --if-present",
+        "dev": "concurrently \"npm run dev -w @zapsters/api\" \"npm run dev -w web\"",
+        "lint": "npm run lint --workspaces --if-present",
+        "test": "npm run test --workspaces --if-present"
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.1",
+        "eslint": "^8.0.0",
+        "prettier": "^3.0.0",
+        "typescript": "^5.0.0"
+    }
+}

@@ -1,0 +1,361 @@
+﻿node.exe : ΓÜá Warning: 
+Next.js inferred your 
+workspace root, but it may 
+not be correct.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Us
+ers\Raja\AppData\Roaming\n 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (ΓÜá War  
+  ning: Ne...not be correc   
+ t.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+ We detected multiple 
+lockfiles and selected the 
+directory of C:\Users\Raja\pa
+ckage-lock.json as the root 
+directory.
+ To silence this warning, 
+set `turbopack.root` in your 
+Next.js config, or consider 
+removing one of the 
+lockfiles if it's not needed.
+   See https://nextjs.org/doc
+s/app/api-reference/config/ne
+xt-config-js/turbopack#root-d
+irectory for more 
+information.
+ Detected additional 
+lockfiles: 
+   * C:\Users\Raja\OneDrive\D
+esktop\scoreboard\package-loc
+k.json
+
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+Error: Can't resolve 
+'tailwindcss-animate' in 'C:\
+Users\Raja\OneDrive\Desktop\s
+coreboard\apps\web\src\app'
+    [2m[at 
+finishWithoutResolve (C:\User
+s\Raja\OneDrive\Desktop\score
+board\node_modules\enhanced-r
+esolve\lib\Resolver.js:586:18
+)][0m
+    [2m[at C:\Users\Raja\One
+Drive\Desktop\scoreboard\node
+_modules\enhanced-resolve\lib
+\Resolver.js:678:14][0m
+    [2m[at C:\Users\Raja\One
+Drive\Desktop\scoreboard\node
+_modules\enhanced-resolve\lib
+\Resolver.js:739:5][0m
+    [2m[at eval (eval at 
+create (C:\Users\Raja\OneDriv
+e\Desktop\scoreboard\node_mod
+ules\tapable\lib\HookCodeFact
+ory.js:31:10), 
+<anonymous>:15:1)][0m
+    [2m[at C:\Users\Raja\One
+Drive\Desktop\scoreboard\node
+_modules\enhanced-resolve\lib
+\Resolver.js:739:5][0m
+    [2m[at eval (eval at 
+create (C:\Users\Raja\OneDriv
+e\Desktop\scoreboard\node_mod
+ules\tapable\lib\HookCodeFact
+ory.js:31:10), 
+<anonymous>:27:1)][0m
+    [2m[at C:\Users\Raja\One
+Drive\Desktop\scoreboard\node
+_modules\enhanced-resolve\lib
+\DescriptionFilePlugin.js:89:
+43][0m
+    [2m[at C:\Users\Raja\One
+Drive\Desktop\scoreboard\node
+_modules\enhanced-resolve\lib
+\Resolver.js:739:5][0m
+    [2m[at eval (eval at 
+create (C:\Users\Raja\OneDriv
+e\Desktop\scoreboard\node_mod
+ules\tapable\lib\HookCodeFact
+ory.js:31:10), 
+<anonymous>:15:1)][0m
+    [2m[at C:\Users\Raja\One
+Drive\Desktop\scoreboard\node
+_modules\enhanced-resolve\lib
+\Resolver.js:739:5][0m {
+  details: "resolve 
+'tailwindcss-animate' in 'C:\
+\Users\\Raja\\OneDrive\\Deskt
+op\\scoreboard\\apps\\web\\sr
+c\\app'\n" +
+    '  Parsed request is a 
+module\n' +
+    '  using description 
+file: C:\\Users\\Raja\\OneDri
+ve\\Desktop\\scoreboard\\apps
+\\web\\package.json 
+(relative path: 
+./src/app)\n' +
+    '    resolve as 
+module\n' +
+    "      C:\\Users\\Raja\\O
+neDrive\\Desktop\\scoreboard\
+\apps\\web\\src\\app\\node_mo
+dules doesn't exist or is 
+not a directory\n" +
+    "      C:\\Users\\Raja\\O
+neDrive\\Desktop\\scoreboard\
+\apps\\web\\src\\node_modules
+ doesn't exist or is not a 
+directory\n" +
+    '      looking for 
+modules in C:\\Users\\Raja\\O
+neDrive\\Desktop\\scoreboard\
+\apps\\web\\node_modules\n' +
+    '        single file 
+module\n' +
+    '          using 
+description file: C:\\Users\\
+Raja\\OneDrive\\Desktop\\scor
+eboard\\apps\\web\\package.js
+on (relative path: ./node_mod
+ules/tailwindcss-animate)\n' 
++
+    '            no 
+extension\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\apps\\web\\node_modu
+les\\tailwindcss-animate 
+doesn't exist\n" +
+    '            .js\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\apps\\web\\node_modu
+les\\tailwindcss-animate.js 
+doesn't exist\n" +
+    '            .json\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\apps\\web\\node_modu
+les\\tailwindcss-animate.json
+ doesn't exist\n" +
+    '            .node\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\apps\\web\\node_modu
+les\\tailwindcss-animate.node
+ doesn't exist\n" +
+    '            .ts\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\apps\\web\\node_modu
+les\\tailwindcss-animate.ts 
+doesn't exist\n" +
+    "        C:\\Users\\Raja\
+\OneDrive\\Desktop\\scoreboar
+d\\apps\\web\\node_modules\\t
+ailwindcss-animate doesn't 
+exist\n" +
+    "      C:\\Users\\Raja\\O
+neDrive\\Desktop\\scoreboard\
+\apps\\node_modules doesn't 
+exist or is not a 
+directory\n" +
+    '      looking for 
+modules in C:\\Users\\Raja\\O
+neDrive\\Desktop\\scoreboard\
+\node_modules\n' +
+    '        single file 
+module\n' +
+    '          using 
+description file: C:\\Users\\
+Raja\\OneDrive\\Desktop\\scor
+eboard\\package.json 
+(relative path: ./node_module
+s/tailwindcss-animate)\n' +
+    '            no 
+extension\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\node_modules\\tailwi
+ndcss-animate doesn't 
+exist\n" +
+    '            .js\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\node_modules\\tailwi
+ndcss-animate.js doesn't 
+exist\n" +
+    '            .json\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\node_modules\\tailwi
+ndcss-animate.json doesn't 
+exist\n" +
+    '            .node\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\node_modules\\tailwi
+ndcss-animate.node doesn't 
+exist\n" +
+    '            .ts\n' +
+    "              C:\\Users\
+\Raja\\OneDrive\\Desktop\\sco
+reboard\\node_modules\\tailwi
+ndcss-animate.ts doesn't 
+exist\n" +
+    "        C:\\Users\\Raja\
+\OneDrive\\Desktop\\scoreboar
+d\\node_modules\\tailwindcss-
+animate doesn't exist\n" +
+    "      C:\\Users\\Raja\\O
+neDrive\\Desktop\\node_module
+s doesn't exist or is not a 
+directory\n" +
+    "      C:\\Users\\Raja\\O
+neDrive\\node_modules 
+doesn't exist or is not a 
+directory\n" +
+    '      looking for 
+modules in C:\\Users\\Raja\\n
+ode_modules\n' +
+    '        single file 
+module\n' +
+    '          using 
+description file: C:\\Users\\
+Raja\\package.json (relative 
+path: ./node_modules/tailwind
+css-animate)\n' +
+    '            no 
+extension\n' +
+    "              C:\\Users\
+\Raja\\node_modules\\tailwind
+css-animate doesn't exist\n" 
++
+    '            .js\n' +
+    "              C:\\Users\
+\Raja\\node_modules\\tailwind
+css-animate.js doesn't 
+exist\n" +
+    '            .json\n' +
+    "              C:\\Users\
+\Raja\\node_modules\\tailwind
+css-animate.json doesn't 
+exist\n" +
+    '            .node\n' +
+    "              C:\\Users\
+\Raja\\node_modules\\tailwind
+css-animate.node doesn't 
+exist\n" +
+    '            .ts\n' +
+    "              C:\\Users\
+\Raja\\node_modules\\tailwind
+css-animate.ts doesn't 
+exist\n" +
+    "        C:\\Users\\Raja\
+\node_modules\\tailwindcss-an
+imate doesn't exist\n" +
+    "      
+C:\\Users\\node_modules 
+doesn't exist or is not a 
+directory\n" +
+    "      C:\\node_modules 
+doesn't exist or is not a 
+directory"
+}
+
+> Build error occurred
+Error: Turbopack build 
+failed with 1 errors:
+./OneDrive/Desktop/scoreboard
+/apps/web/src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: 
+C:\Users\Raja\OneDrive\Deskto
+p\scoreboard\apps\web\src\app
+\globals.css:1:1: Can't 
+resolve 
+'tailwindcss-animate' in 'C:\
+Users\Raja\OneDrive\Desktop\s
+coreboard\apps\web\src\app'
+    at Input.error (OneDrive/
+Desktop/scoreboard/node_modul
+es/postcss/lib/input.js:135:1
+6) [C:\Users\Raja\OneDrive\De
+sktop\scoreboard\apps\web\.ne
+xt\build\chunks\c8b2a_35b23a4
+b._.js:4651:22]
+    at Root.error (OneDrive/D
+esktop/scoreboard/node_module
+s/postcss/lib/node.js:146:32)
+ [C:\Users\Raja\OneDrive\Desk
+top\scoreboard\apps\web\.next
+\build\chunks\c8b2a_35b23a4b.
+_.js:928:38]
+    [at Object.Once (C:\Users
+\Raja\OneDrive\Desktop\scoreb
+oard\node_modules\@tailwindcs
+s\postcss\dist\index.js:10:69
+13)]
+    at async 
+LazyResult.runAsync (OneDrive
+/Desktop/scoreboard/node_modu
+les/postcss/lib/lazy-result.j
+s:293:11) [C:\Users\Raja\OneD
+rive\Desktop\scoreboard\apps\
+web\.next\build\chunks\c8b2a_
+35b23a4b._.js:6206:21]
+    at async transform (turbo
+pack:///[turbopack-node]/tran
+sforms/postcss.ts:70:34) [C:\
+Users\Raja\OneDrive\Desktop\s
+coreboard\apps\web\.next\buil
+d\chunks\[root-of-the-server]
+__f6fe780e._.js:146:36]
+    at async run (turbopack:/
+//[turbopack-node]/ipc/evalua
+te.ts:92:23) [C:\Users\Raja\O
+neDrive\Desktop\scoreboard\ap
+ps\web\.next\build\chunks\[ro
+ot-of-the-server]__51bed22a._
+.js:443:31]
+
+Import trace:
+  Client Component Browser:
+    ./OneDrive/Desktop/scoreb
+oard/apps/web/src/app/globals
+.css [Client Component 
+Browser]
+    ./OneDrive/Desktop/scoreb
+oard/apps/web/src/app/layout.
+tsx [Server Component]
+
+
+    at async transform (turbo
+pack:///[turbopack-node]/tran
+sforms/postcss.ts:70:34) [C:\
+Users\Raja\OneDrive\Desktop\s
+coreboard\apps\web\.next\buil
+d\chunks\[root-of-the-server]
+__f6fe780e._.js:146:36])
+    at async run (turbopack:/
+//[turbopack-node]/ipc/evalua
+te.ts:92:23) [C:\Users\Raja\O
+neDrive\Desktop\scoreboard\ap
+ps\web\.next\build\chunks\[ro
+ot-of-the-server]__51bed22a._
+.js:443:31])

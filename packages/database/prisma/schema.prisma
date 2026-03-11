@@ -1,0 +1,230 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./zapsters.db"
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  role          String   @default("STUDENT")
+  xp            Int      @default(0)
+  level         Int      @default(1)
+  mmr           Int      @default(1000) // Matchmaking Rating for 1v1 / Battle
+  teamId        String?
+  team          Team?    @relation(fields: [teamId], references: [id])
+  submissions   Submission[]
+  createdAt     DateTime @default(now())
+
+  // Phase 2 Relations
+  clientProjects   Project[] @relation("ClientProjects")
+  assignedProjects Project[] @relation("AssignedProjects")
+  bids             Bid[]
+  paymentsMade     Payment[] @relation("PaymentsMade")
+  paymentsReceived Payment[] @relation("PaymentsReceived")
+  cheatLogs        CheatLog[]
+  matchParticipations MatchParticipant[]
+  matchesWon       BattleMatch[] @relation("MatchesWon")
+}
+
+model Team {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  members   User[]
+  score     Int      @default(0)
+  mmr       Int      @default(1000) // Matchmaking Rating for groups
+  createdAt DateTime @default(now())
+}
+
+model Contest {
+  id          String   @id @default(uuid())
+  title       String
+  domain      String
+  startTime   DateTime
+  endTime     DateTime
+  isLive      Boolean  @default(false)
+  challenges  Challenge[]
+}
+
+model Challenge {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  maxScore    Int
+  contestId   String
+  contest     Contest  @relation(fields: [contestId], references: [id])
+  submissions Submission[]
+  matches     BattleMatch[]
+  flags       CtfFlag[]
+}
+
+model Submission {
+  id           String   @id @default(uuid())
+  userId       String
+  challengeId  String
+  score        Int
+  fileUrl      String?
+  createdAt    DateTime @default(now())
+
+  user         User      @relation(fields: [userId], references: [id])
+  challenge    Challenge @relation(fields: [challengeId], references: [id])
+}
+
+// ==========================================
+// PHASE 2: ADVANCED SYSTEMS
+// ==========================================
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  budget      Float
+  status      String   @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED
+  clientId    String
+  assignedTo  String?
+  createdAt   DateTime @default(now())
+
+  client      User     @relation("ClientProjects", fields: [clientId], references: [id])
+  assignee    User?    @relation("AssignedProjects", fields: [assignedTo], references: [id])
+  bids        Bid[]
+  payments    Payment[]
+}
+
+model Bid {
+  id          String   @id @default(uuid())
+  projectId   String
+  userId      String
+  amount      Float
+  proposal    String
+  status      String   @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  createdAt   DateTime @default(now())
+
+  project     Project  @relation(fields: [projectId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Payment {
+  id          String   @id @default(uuid())
+  projectId   String
+  payerId     String
+  payeeId     String
+  amount      Float
+  status      String   @default("PENDING") // PENDING, COMPLETED, FAILED
+  stripeId    String?
+  createdAt   DateTime @default(now())
+
+  project     Project  @relation(fields: [projectId], references: [id])
+  payer       User     @relation("PaymentsMade", fields: [payerId], references: [id])
+  payee       User     @relation("PaymentsReceived", fields: [payeeId], references: [id])
+}
+
+model CheatLog {
+  id          String   @id @default(uuid())
+  userId      String
+  contestId   String?
+  challengeId String?
+  action      String   // TAB_SWITCH, COPY_PASTE, MULTIPLE_IPS
+  details     String?
+  severity    String   @default("LOW") // LOW, MEDIUM, HIGH
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model BattleMatch {
+  id          String   @id @default(uuid())
+  challengeId String
+  status      String   @default("WAITING") // WAITING, IN_PROGRESS, FINISHED
+  winnerId    String?
+  createdAt   DateTime @default(now())
+
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  participants MatchParticipant[]
+  winner       User?    @relation("MatchesWon", fields: [winnerId], references: [id])
+}
+
+model MatchParticipant {
+  id          String   @id @default(uuid())
+  matchId     String
+  userId      String
+  health      Int      @default(100)
+  score       Int      @default(0)
+  status      String   @default("ALIVE") // ALIVE, ELIMINATED
+
+  match       BattleMatch @relation(fields: [matchId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
+}
+
+// ==========================================
+// PHASE 3: OPEN SOURCE INSPIRED SUPER-STRUCTURE
+// (Judge0, CTFd, Matchmaking, Tournament Brackets)
+// ==========================================
+
+model TournamentBracket {
+  id            String   @id @default(uuid())
+  tournamentId  String
+  round         Int      // e.g., Quarter-Finals = 3
+  matchNumber   Int
+  participant1Id String?
+  participant2Id String?
+  winnerId      String?
+  status        String   @default("PENDING") // PENDING, LIVE, COMPLETED
+  scheduledTime DateTime?
+  createdAt     DateTime @default(now())
+
+  // Relations mapped via generic ID strings due to dynamic team vs user matches
+}
+
+model CodeExecutionLog {
+  id           String   @id @default(uuid())
+  submissionId String
+  userId       String
+  languageId   Int      // Judge0 Language ID
+  sourceCode   String
+  stdin        String?
+  expectedOut  String?
+  stdout       String?
+  stderr       String?
+  compileOut   String?
+  status       String   @default("QUEUED") // e.g., PENDING, ACCEPTED, WRONG_ANSWER (from Judge0)
+  time         Float?   // Execution time
+  memory       Int?     // Memory used
+  createdAt    DateTime @default(now())
+}
+
+model CtfFlag {
+  id          String   @id @default(uuid())
+  challengeId String
+  flag        String   // The actual flag string (e.g., zapsters{h4ckth3pl4n3t})
+  points      Int
+  isDynamic   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  captures    FlagCapture[]
+}
+
+model FlagCapture {
+  id          String   @id @default(uuid())
+  flagId      String
+  userId      String
+  teamId      String?
+  capturedAt  DateTime @default(now())
+
+  flag        CtfFlag  @relation(fields: [flagId], references: [id])
+}
+
+model MatchmakingQueue {
+  id          String   @id @default(uuid())
+  userId      String
+  teamId      String?
+  mmr         Int      // Matchmaking rating
+  gameMode    String   // BATTLE_ROYALE, 1V1, TEAM_DEATHMATCH
+  queuedAt    DateTime @default(now())
+  status      String   @default("SEARCHING") // SEARCHING, MATCHED
+}

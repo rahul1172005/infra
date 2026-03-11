@@ -1,0 +1,174 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@custom-variant dark (&:is(.dark *));
+
+/* ── Adieu Local Font ─────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Adieu';
+  src: url('/adieu-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Design System Tokens (Dark Industrial) ───────────────────────────── */
+@theme {
+  --color-background: #000000;
+  --color-foreground: #FFFFFF;
+  --color-card: #000000;
+  --color-card-foreground: #FFFFFF;
+  --color-popover: #000000;
+  --color-popover-foreground: #FFFFFF;
+  --color-primary: #E81414;
+  --color-primary-foreground: #000000;
+  --color-secondary: #FFFFFF;
+  --color-secondary-foreground: #000000;
+  --color-muted: #111111;
+  --color-muted-foreground: #AAAAAA;
+  --color-accent: #E81414;
+  --color-accent-foreground: #000000;
+  --color-destructive: #E81414;
+  --color-destructive-foreground: #FFFFFF;
+  --color-border: #FFFFFF;
+  --color-input: #000000;
+  --color-ring: #FFFFFF;
+
+  --radius-lg: 1rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+
+  --font-sans: 'Adieu', ui-sans-serif, system-ui, sans-serif;
+  --font-title: 'Adieu', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Adieu', ui-monospace, monospace;
+
+  /* Scaled-down typography to reduce font size across the entire site */
+  --text-xs: 0.65rem;
+  --text-sm: 0.75rem;
+  --text-base: 0.875rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.25rem;
+  --text-3xl: 1.5rem;
+  --text-4xl: 1.875rem;
+  --text-5xl: 2.25rem;
+  --text-6xl: 3rem;
+  --text-7xl: 3.75rem;
+  --text-8xl: 4.5rem;
+  --text-9xl: 6rem;
+}
+
+/* ── Global Resets & Base ─────────────────────────────────────────────── */
+@layer base {
+
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  html {
+    background-color: #000000;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: var(--font-title);
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    font-family: var(--font-title);
+  }
+}
+
+/* ── Utility Classes (Minimalist Industrial) ──────────────────────────── */
+@layer utilities {
+  .dot-grid {
+    background-image: radial-gradient(circle, #FFFFFF 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    opacity: 0.1;
+  }
+
+  .scanlines {
+    background: repeating-linear-gradient(0deg,
+        transparent,
+        transparent 1px,
+        rgba(255, 255, 255, 0.02) 1px,
+        rgba(255, 255, 255, 0.02) 2px);
+  }
+
+  .tech-border {
+    border: 2px solid #FFFFFF;
+  }
+
+  .stripe-bg {
+    background: repeating-linear-gradient(-45deg,
+        #FFFFFF,
+        #FFFFFF 1px,
+        transparent 1px,
+        transparent 6px);
+  }
+
+  /* Animations for subtle interaction */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-track {
+    animation: marquee 40s linear infinite;
+  }
+
+  /* Ensure normal font rendering without feature overrides */
+  body,
+  .tabular-nums,
+  .font-black,
+  .font-bold {
+    font-feature-settings: normal !important;
+    font-variant-numeric: normal !important;
+  }
+
+  /* Utility to hide scrollbars */
+  .no-scrollbar::-webkit-scrollbar,
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar,
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Hide global scrollbar on mobile for a cleaner look */
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+}
