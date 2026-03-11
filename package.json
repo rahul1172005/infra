@@ -7,7 +7,7 @@
         "infrastructure/*"
     ],
     "scripts": {
-        "build": "npm run build --workspaces --if-present",
+        "build": "npm run build -w @zapsters/database && npm run build --workspaces --if-present",
         "dev": "concurrently \"npm run dev -w @zapsters/api\" \"npm run dev -w web\"",
         "lint": "npm run lint --workspaces --if-present",
         "test": "npm run test --workspaces --if-present"
