@@ -141,6 +141,15 @@
     animation: marquee 40s linear infinite;
   }
 
+  @keyframes slide-up {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 10s linear infinite;
+  }
+
   /* Ensure normal font rendering without feature overrides */
   body,
   .tabular-nums,
