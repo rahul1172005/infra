@@ -71,7 +71,7 @@ function buildTeams(teamsProp: any[]): Team[] {
 export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const propRef = useRef(teamsProp);
-  const teamsRef = useRef<any[]>([]);
+  const teamsRef = useRef<Team[]>([]);
 
   useEffect(() => {
     propRef.current = teamsProp;
@@ -211,11 +211,11 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
         const sl = s.slashes[i]; sl.life -= sl.decay;
         if (sl.life <= 0) { s.slashes.splice(i, 1); continue; }
         ctx.save(); ctx.globalAlpha = sl.life * 0.72;
-        ctx.strokeStyle = `rgba(255,255,255,${s.life * 0.9})`; ctx.lineWidth = s.life * 1.8;
-        ctx.shadowBlur = s.life * 22; ctx.shadowColor = "rgba(255,255,255,0.85)"; ctx.lineCap = "round";
+        ctx.strokeStyle = `rgba(255,255,255,${sl.life * 0.9})`; ctx.lineWidth = sl.life * 1.8;
+        ctx.shadowBlur = sl.life * 22; ctx.shadowColor = "rgba(255,255,255,0.85)"; ctx.lineCap = "round";
         ctx.beginPath();
-        ctx.moveTo(s.x - Math.cos(s.angle) * s.len * 0.4, s.y - Math.sin(s.angle) * s.len * 0.4);
-        ctx.lineTo(s.x + Math.cos(s.angle) * s.len * 0.6, s.y + Math.sin(s.angle) * s.len * 0.6);
+        ctx.moveTo(sl.x - Math.cos(sl.angle) * sl.len * 0.4, sl.y - Math.sin(sl.angle) * sl.len * 0.4);
+        ctx.lineTo(sl.x + Math.cos(sl.angle) * sl.len * 0.6, sl.y + Math.sin(sl.angle) * sl.len * 0.6);
         ctx.stroke(); ctx.restore();
       }
     }
@@ -513,7 +513,7 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
         const py = CY + Math.sin(team.angle) * R * team.strength;
         const br = team.active ? 1.0 : 0.4 + 0.5 * (team.score / 98420);
 
-        team.trail.forEach((pt, pi) => {
+        team.trail.forEach((pt: TrailDot, pi: number) => {
           pt.life -= pt.decay;
           if (pt.life <= 0) {
             pt.life = 0.15 + Math.random() * 0.85;
