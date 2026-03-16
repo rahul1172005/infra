@@ -1,28 +1,32 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import * as THREE from 'three';
 
-// ─── Data ────────────────────────────────────────────────────────────────────
-const TEAMS = [
-    { name: 'ALPHA CLAN', pts: 4500, col: [1.0, 0.08, 0.08] as [number, number, number] },
-    { name: 'SIGMA SHADOW', pts: 3800, col: [0.4, 0.7, 1.0] as [number, number, number] },
-    { name: 'DELTA RONIN', pts: 3200, col: [0.4, 1.0, 0.6] as [number, number, number] },
-    { name: 'OMEGA BLADE', pts: 2900, col: [1.0, 0.8, 0.2] as [number, number, number] },
-    { name: 'ZETA SPIRIT', pts: 2100, col: [0.7, 0.4, 1.0] as [number, number, number] },
-];
-const MAXP = Math.max(...TEAMS.map(t => t.pts));
+// ─── Constants ─────────────────────────────────────────────────────────────
 const MAX_H = 26;
-const LAYOUT_X = [0, 7, -7, 14, -14];
+const LAYOUT_X = [0, 7, -7, 14, -14, 21, -21];
+const TEAM_COLORS: [number, number, number][] = [
+    [1.0, 0.08, 0.08],
+    [0.4, 0.7, 1.0],
+    [0.4, 1.0, 0.6],
+    [1.0, 0.8, 0.2],
+    [0.7, 0.4, 1.0],
+    [1.0, 0.4, 0.7],
+    [0.4, 1.0, 1.0],
+];
 
 // ─── HUD Component ────────────────────────────────────────────────────────────
 function HUD({
     tipEls,
     vis,
+    teams,
 }: {
     tipEls: React.ReactNode;
     vis: boolean;
+    teams: any[];
 }) {
+    const maxP = Math.max(1, ...teams.map(t => t.pts));
     const [time, setTime] = useState('--:--:--');
 
     useEffect(() => {
@@ -125,10 +129,10 @@ function HUD({
                     <div style={{ fontSize: '6.5px', letterSpacing: '.2em', color: 'rgba(255,255,255,.18)', textTransform: 'uppercase' }}>
                         Participants
                     </div>
-                    {TEAMS.map((t, i) => {
+                    {teams.map((t, i) => {
                         const isL = i === 0;
-                        const pct = Math.round((t.pts / MAXP) * 100);
-                        const rgb = t.col.map(v => (v * 255) | 0);
+                        const pct = Math.round((t.pts / maxP) * 100);
+                        const rgb = t.col.map((v: number) => (v * 255) | 0);
                         const clr = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
                         return (
                             <div
@@ -160,7 +164,7 @@ function HUD({
                                         textOverflow: 'ellipsis',
                                     }}
                                 >
-                                    {t.name}
+                                    {t.name.replace(/_/g, ' ')}
                                 </span>
                                 <span className="pts-text" style={{ fontSize: '8px', color: isL ? 'rgba(232,20,20,.72)' : 'rgba(255,255,255,.32)' }}>
                                     {t.pts.toLocaleString()}
@@ -224,11 +228,11 @@ function HUD({
                         Leader Score
                     </div>
                     <div className="score-val" style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '30px', fontWeight: 700, color: '#ff2828', lineHeight: 1 }}>
-                        4,500
+                        {teams[0]?.pts.toLocaleString() || '0'}
                     </div>
                     <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,.05)' }} />
                     {[
-                        ['Total Clans', '5'],
+                        ['Total Clans', `${teams.length}`],
                         ['Active Players', '2,841'],
                         ['Matches Played', '14,203'],
                         ['Season End', '14d 07h'],
@@ -252,10 +256,10 @@ function HUD({
                     <div style={{ fontSize: '7.5px', letterSpacing: '.2em', color: 'rgba(255,255,255,.18)', textTransform: 'uppercase' }}>
                         Gap Analysis
                     </div>
-                    {TEAMS.slice(1).map(t => (
+                    {teams.slice(1).map(t => (
                         <div key={t.name} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '7.5px' }}>
-                            <span style={{ color: 'rgba(255,255,255,.2)', fontSize: '7.5px' }}>{t.name}</span>
-                            <span style={{ color: 'rgba(255,90,90,.55)', fontSize: '7.5px' }}>-{(TEAMS[0].pts - t.pts).toLocaleString()}</span>
+                             <span style={{ color: 'rgba(255,255,255,.2)', fontSize: '7.5px' }}>{t.name.replace(/_/g, ' ')}</span>
+                            <span style={{ color: 'rgba(255,90,90,.55)', fontSize: '7.5px' }}>-{(teams[0].pts - t.pts).toLocaleString()}</span>
                         </div>
                     ))}
                 </div>
@@ -277,9 +281,9 @@ function HUD({
                     }}
                 >
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-                        {TEAMS.map((t, i) => {
+                        {teams.map((t, i) => {
                             const isL = i === 0;
-                            const rgb = t.col.map(v => (v * 255) | 0);
+                            const rgb = t.col.map((v: number) => (v * 255) | 0);
                             const clr = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
                             return (
                                 <div
@@ -311,7 +315,7 @@ function HUD({
                                             textOverflow: 'ellipsis',
                                         }}
                                     >
-                                        {t.name}
+                                        {t.name.replace(/_/g, ' ')}
                                     </div>
                                     <div className="bb-val" style={{ fontSize: '6.5px', color: isL ? 'rgba(232,20,20,.5)' : 'rgba(255,255,255,.18)' }}>
                                         {t.pts.toLocaleString()}
@@ -345,12 +349,33 @@ function HUD({
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export default function ClanTerrainLeaderboard() {
+export default function ClanTerrainLeaderboard({ teams: rawTeams = [] }: { teams?: any[] }) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    const teams = useMemo(() => {
+        if (rawTeams.length > 0) {
+            return rawTeams.map((t, i) => ({
+                name: (t.name || t.team || "UNKNOWN").replace(/_/g, ' '),
+                pts: t.score || t.points || 0,
+                col: TEAM_COLORS[i % TEAM_COLORS.length]
+            })).slice(0, 7);
+        }
+        // Fallback: Show floor-level placeholder towers when no data exists
+        return LAYOUT_X.map((_, i) => ({
+            name: "INITIALIZING",
+            pts: 0,
+            col: TEAM_COLORS[i % TEAM_COLORS.length]
+        }));
+    }, [rawTeams]);
+
+    const maxP = Math.max(1, ...teams.map(t => t.pts));
     const [tipElements, setTipElements] = useState<React.ReactNode[]>([]);
     const [vis, setVis] = useState<boolean>(true);
     const tipRefs = useRef<{ el: HTMLDivElement; cx: number; tipY: number }[]>([]);
     const tipContainerRef = useRef<HTMLDivElement>(null);
+
+    // Re-initialize scene when teams change significantly
+    const teamsKey = teams.map(t => `${t.name}-${t.pts}`).join('|');
 
     useEffect(() => {
         if (!canvasRef.current) return;
@@ -451,11 +476,11 @@ export default function ClanTerrainLeaderboard() {
         }
 
         // ── Build Palace ──
-        const tipPositions: { cx: number; tipY: number; team: typeof TEAMS[0]; ti: number }[] = [];
+        const tipPositions: { cx: number; tipY: number; team: any; ti: number }[] = [];
 
-        TEAMS.forEach((team, ti) => {
+        teams.forEach((team, ti) => {
             const c = team.col;
-            const sr = team.pts / MAXP;
+            const sr = team.pts / maxP;
             const TH = sr * MAX_H;
             const cx = LAYOUT_X[ti];
             const cz = 0;
@@ -535,11 +560,11 @@ export default function ClanTerrainLeaderboard() {
             const tipY = spireBase + spireH;
             driftCloud(cx, cz, 0.5, TH * 0.5, tipY, c, 500, ti);
 
-            if (ti < TEAMS.length - 1) {
+            if (ti < teams.length - 1) {
                 const nx2 = LAYOUT_X[ti + 1];
                 const wLen = Math.abs(nx2 - cx) - bw * 1.1;
                 const wCx = (cx + nx2) / 2;
-                const nsr = TEAMS[ti + 1].pts / MAXP;
+                const nsr = teams[ti + 1].pts / maxP;
                 const wH = Math.min(sr, nsr) * MAX_H * 0.18;
                 wall(wCx, cz, wLen, 0.65, wH, 0, [c[0] * 0.55, c[1] * 0.55, c[2] * 0.55], 0.7, ti);
                 const nc = Math.max(2, Math.floor(wLen / 1.1));
@@ -843,7 +868,7 @@ export default function ClanTerrainLeaderboard() {
             phaseArr[i] = PPH[i];
             vyArr[i] = PVY[i];
             const ti = PTI[i];
-            rangeArr[i] = (ti >= 0) ? (TEAMS[ti].pts / MAXP) * MAX_H * 0.42 : 0.4 + Math.random() * 0.6;
+            rangeArr[i] = (ti >= 0 && teams[ti]) ? (teams[ti].pts / maxP) * MAX_H * 0.42 : 0.4 + Math.random() * 0.6;
             driftArr[i] = Math.random() * rangeArr[i];
         }
 
@@ -896,8 +921,8 @@ void main(){
 
         // ── Tip labels (positioned via CSS, updated in loop) ──
         // Stagger vertical offset per index so labels never overlap
-        const STAGGER = [0, 8, 16, 24, 32]; // small px stagger so adjacent labels don't collide
-        const labData: { cx: number; tipY: number; team: typeof TEAMS[0]; stagger: number }[] = tipPositions.map(({ cx, tipY, team, ti }) => ({
+        const STAGGER = [0, 8, 16, 24, 32, 40, 48]; // small px stagger so adjacent labels don't collide
+        const labData: { cx: number; tipY: number; team: any; stagger: number }[] = tipPositions.map(({ cx, tipY, team, ti }) => ({
             cx, tipY, team, stagger: STAGGER[ti % STAGGER.length],
         }));
 
@@ -938,7 +963,7 @@ void main(){
                             background: 'rgba(0,0,0,.65)',
                         }}
                     >
-                        {team.name}
+                        {team.name.replace(/_/g, ' ')}
                     </div>
                     <div
                         style={{
@@ -1055,7 +1080,7 @@ void main(){
             geo.dispose();
             mat.dispose();
         };
-    }, []);
+    }, [teamsKey]);
 
     return (
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -1115,6 +1140,7 @@ void main(){
             <HUD
                 tipEls={tipElements}
                 vis={vis}
+                teams={teams}
             />
         </div>
     );

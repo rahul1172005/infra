@@ -1,8 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /* ── Decorative Components ─────────────────────────────────────────── */
 const DotGrid = () => (
@@ -10,11 +9,67 @@ const DotGrid = () => (
 );
 
 export default function TeamsPage() {
-    const [mockGroups, setMockGroups] = useState([
-        { id: 1, name: 'ALPHA CLAN', teams: 12, lead: 'SHOGUN', points: 45000 },
-        { id: 2, name: 'SIGMA SHADOW', teams: 8, lead: 'DAIMYO', points: 38200 },
-        { id: 3, name: 'RONIN SQUAD', teams: 15, lead: 'SENSEI', points: 31000 },
-    ]);
+    const [groups, setGroups] = useState<any[]>([]);
+    const [newName, setNewName] = useState('');
+    const [loading, setLoading] = useState(true);
+
+    const fetchTeams = async () => {
+        try {
+            const res = await fetch('http://localhost:5000/teams');
+            if (res.ok) {
+                const data = await res.json();
+                setGroups(data);
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchTeams();
+    }, []);
+
+    const handleCreate = async () => {
+        if (!newName.trim()) return;
+        try {
+            await fetch('http://localhost:5000/teams', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: newName })
+            });
+            setNewName('');
+            fetchTeams();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const handleDelete = async (id: string, e: any) => {
+        e.stopPropagation();
+        if(!confirm('Delete this clan?')) return;
+        try {
+            await fetch(`http://localhost:5000/teams/${id}`, { method: 'DELETE' });
+            fetchTeams();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const handlePoints = async (id: string, amount: number, e: any) => {
+        e.stopPropagation();
+        try {
+            await fetch(`http://localhost:5000/teams/${id}/points`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ points: amount })
+            });
+            fetchTeams();
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <div className="w-full space-y-8 md:space-y-14 lg:space-y-20 pb-16 relative overflow-hidden">
@@ -22,24 +77,17 @@ export default function TeamsPage() {
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center border-b border-white/10 pb-8 md:pb-12 gap-6 relative z-10">
                 <div className="space-y-6">
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter uppercase leading-[0.8] text-white">
-                        幕府<br /><span className="text-white">CLANS.</span>
+                        幕府<br /><span className="text-white">CLANS</span>
                     </h1>
                 </div>
 
                 <div className="w-full xl:w-auto flex items-center gap-6 bg-[#0A0A0A] border border-white/10 p-5 md:p-10 rounded-2xl md:rounded-[2.5rem] group hover:border-[#E81414]/30 transition-all">
                     <div className="flex flex-col items-start gap-3">
-                        <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/20">ACTIVE CLANS</span>
+                        <span className="text-[9px] tracking-[0.3em] uppercase font-black text-white/20">INTEGRITY VERIFIED GCM</span>
                         <div className="flex items-center gap-6">
-                            <span className="text-5xl font-black uppercase tracking-widest text-white leading-none">0{mockGroups.length}</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.4em]">SYNCING WITH GLOBAL LEDGER</span>
                         </div>
                     </div>
-                    <div className="h-14 w-[1px] bg-white/10" />
-                    <button className="flex flex-col gap-3 group/btn items-end">
-                        <span className="text-[9px] tracking-[0.4em] font-black uppercase text-white/20 group-hover/btn:text-[#E81414] transition-colors">INITIATE NEW CLAN</span>
-                        <div className="w-10 h-10 bg-[#E81414] rounded-xl flex items-center justify-center group-hover/btn:scale-110 transition-transform">
-                            <img src="/suriken.png" alt="icon" className="w-5 h-5 white object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                        </div>
-                    </button>
                 </div>
             </div>
 
@@ -60,27 +108,38 @@ export default function TeamsPage() {
                         </div>
 
                         <div className="divide-y divide-white/5">
-                            {mockGroups.map((group) => (
-                                <div key={group.id} className="p-3 md:p-8 flex items-center justify-between hover:bg-[#E81414] transition-all duration-300 group cursor-pointer text-white hover:text-black gap-3">
-                                    <div className="flex items-center gap-4 md:gap-10 min-w-0">
-                                        <div className="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center group-hover:bg-black group-hover:border-black transition-all rounded-xl md:rounded-2xl group-hover:text-white shrink-0">
-                                            <span className="text-base md:text-lg font-black">{group.id}</span>
+                            {loading && <div className="p-8 text-center text-white/40 font-black tracking-widest">LOADING DATABASE</div>}
+                            {!loading && groups.length === 0 && <div className="p-8 text-center text-white/40 font-black tracking-widest">NO CLANS IDENTIFIED</div>}
+                            {!loading && groups.map((group, idx) => (
+                                <div key={group.id} className="p-3 md:p-8 flex items-center justify-between hover:bg-[#E81414]/10 transition-all duration-300 group cursor-pointer text-white gap-3 relative">
+                                    <div className="flex items-center gap-4 md:gap-8 min-w-0">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center group-hover:bg-[#E81414] group-hover:border-[#E81414] transition-all rounded-xl md:rounded-2xl shrink-0">
+                                            <span className="text-base md:text-lg font-black">{idx + 1}</span>
                                         </div>
                                         <div className="space-y-1">
                                             <h4 className="text-base md:text-2xl font-black tracking-tighter uppercase">{group.name}</h4>
                                             <div className="flex items-center gap-4">
                                                 <div className="flex items-center gap-2">
-                                                    <img src="/suriken.png" alt="icon" className="w-4 h-4 [#E81414] group-hover:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                                    <span className="text-[8px] tracking-[0.3em] font-black uppercase text-white/40 group-hover:text-black/60 transition-colors">{group.teams} FAMILIES ASSIGNED</span>
+                                                    <img src="/suriken.png" alt="icon" className="w-4 h-4 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                                    <span className="text-[8px] tracking-[0.3em] font-black uppercase text-white/40">{group._count?.members || 0} OPERATIVES</span>
                                                 </div>
-                                                <div className="w-1 h-1 bg-white/10 group-hover:bg-black/20 rounded-full transition-colors" />
-                                                <span className="text-[8px] tracking-[0.3em] font-black uppercase text-white/40 group-hover:text-black/60 transition-colors">LEAD: {group.lead}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col items-end gap-2">
-                                        <span className="text-base md:text-2xl font-black">{group.points.toLocaleString()}</span>
-                                        <div className="hidden sm:block px-3 md:px-4 py-1 md:py-1.5 border border-white/10 text-[7px] md:text-[8px] font-black tracking-widest text-white/40 group-hover:text-white group-hover:bg-black group-hover:border-black transition-all uppercase rounded-full">VIEW DETAILS</div>
+                                    
+                                    <div className="flex flex-row items-center gap-6">
+                                        <div className="flex flex-col items-center gap-2">
+                                            <span className="text-2xl md:text-3xl font-black text-[#E81414] leading-none">{group.score.toLocaleString()}</span>
+                                            <span className="text-[8px] tracking-[0.3em] font-black uppercase text-white/40">POINTS</span>
+                                        </div>
+
+                                        <div className="flex flex-col gap-2">
+                                            <div className="flex gap-2">
+                                                <button onClick={(e) => handlePoints(group.id, 100, e)} className="px-3 py-1 bg-white/5 hover:bg-white hover:text-black border border-white/10 rounded text-[10px] font-black transition-colors">+100</button>
+                                                <button onClick={(e) => handlePoints(group.id, -100, e)} className="px-3 py-1 bg-white/5 hover:bg-white hover:text-black border border-white/10 rounded text-[10px] font-black transition-colors">-100</button>
+                                            </div>
+                                            <button onClick={(e) => handleDelete(group.id, e)} className="px-3 py-1 bg-[#E81414]/20 hover:bg-[#E81414] text-[#E81414] hover:text-white border border-[#E81414]/30 rounded text-[10px] font-black tracking-widest uppercase transition-colors text-center">DELETE</button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -94,7 +153,7 @@ export default function TeamsPage() {
                         <div className="absolute inset-0 scanlines opacity-5 pointer-events-none" />
                         <div className="flex items-center gap-6 border-b border-white/10 pb-6 relative z-10">
                             <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                            <span className="text-[12px] tracking-[0.6em] font-black uppercase text-white/60">QUICK_SETUP_v1</span>
+                            <span className="text-[12px] tracking-[0.6em] font-black uppercase text-white/60">QUICK SETUP</span>
                         </div>
 
                         <div className="space-y-8 relative z-10">
@@ -102,24 +161,14 @@ export default function TeamsPage() {
                                 <label className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30">CLAN IDENTIFIER</label>
                                 <input
                                     type="text"
-                                    placeholder="ENTER NAME..."
+                                    value={newName}
+                                    onChange={(e) => setNewName(e.target.value)}
+                                    placeholder="ENTER NAME"
                                     className="w-full bg-white/5 border border-white/10 p-5 text-[11px] font-black tracking-[0.2em] outline-none focus:border-[#E81414]/50 transition-all text-white uppercase rounded-xl"
                                 />
                             </div>
 
-                            <div className="space-y-3">
-                                <label className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30">FAMILY ASSIGNMENT BATCH</label>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {[1, 2, 3, 4].map(i => (
-                                        <div key={i} className="border border-white/5 bg-white/[0.02] p-4 flex items-center justify-between text-white/40 hover:bg-white/5 hover:text-white transition-all group/item rounded-xl">
-                                            <span className="text-[10px] font-black">FAMILY_0{i}</span>
-                                            <div className="w-2.5 h-2.5 bg-white/5 border border-white/10 rounded-sm" />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <button className="w-full py-6 bg-white text-black text-[11px] font-black tracking-[0.6em] uppercase hover:bg-[#E81414] hover:text-white transition-all relative overflow-hidden group/submit rounded-full mt-4">
+                            <button onClick={handleCreate} className="w-full py-6 bg-white text-black text-[11px] font-black tracking-[0.6em] uppercase hover:bg-[#E81414] hover:text-white transition-all relative overflow-hidden group/submit rounded-full mt-4">
                                 <span className="relative z-10">DEPLOY CLAN</span>
                                 <div className="absolute inset-x-0 bottom-0 h-1 bg-[#E81414] translate-y-full group-hover/submit:translate-y-0 transition-transform duration-300" />
                             </button>

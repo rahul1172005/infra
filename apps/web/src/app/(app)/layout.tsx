@@ -4,6 +4,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
+// Google Icon SVG
+const GoogleIcon = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M47.532 24.552c0-1.636-.147-3.2-.42-4.704H24.48v9.02h12.972c-.564 2.964-2.244 5.48-4.764 7.164v5.952h7.704c4.512-4.152 7.14-10.272 7.14-17.432z" fill="#4285F4"/>
+    <path d="M24.48 48c6.48 0 11.916-2.148 15.888-5.82l-7.704-5.952c-2.148 1.44-4.896 2.292-8.184 2.292-6.3 0-11.628-4.248-13.536-9.96H3.012v6.156C6.972 42.876 15.144 48 24.48 48z" fill="#34A853"/>
+    <path d="M10.944 28.56A14.4 14.4 0 0 1 10.2 24c0-1.584.276-3.12.744-4.56v-6.156H3.012A23.952 23.952 0 0 0 .48 24c0 3.852.924 7.5 2.532 10.716l7.932-6.156z" fill="#FBBC05"/>
+    <path d="M24.48 9.492c3.54 0 6.72 1.212 9.216 3.6l6.888-6.888C36.384 2.34 30.96 0 24.48 0 15.144 0 6.972 5.124 3.012 13.284l7.932 6.156c1.908-5.712 7.236-9.948 13.536-9.948z" fill="#EA4335"/>
+  </svg>
+);
+
 // Japanese character translations for nav sections
 const JAPANESE = {
     COMMAND: '幕府',
@@ -40,25 +50,25 @@ const NAV_GROUPS = [
     {
         group: 'COMMAND',
         items: [
-            { href: '/dashboard', label: 'Dashboard' },
-            { href: '/workspace', label: 'Workspace' },
-            { href: '/analytics', label: 'Analytics' },
+            { href: '/dashboard', label: 'DASHBOARD' },
+            { href: '/workspace', label: 'WORKSPACE' },
+            { href: '/analytics', label: 'ANALYTICS' },
         ]
     },
     {
         group: 'OPERATIONS',
         items: [
-            { href: '/teams', label: 'Groups & Teams' },
-            { href: '/domains', label: 'Domains' },
-            { href: '/challenges', label: 'Challenge Lab' },
-            { href: '/leaderboard', label: 'Leaderboard' },
+            { href: '/teams', label: 'CLANS' },
+            { href: '/domains', label: 'DOMAINS' },
+            { href: '/challenges', label: 'CHALLENGE LAB' },
+            { href: '/leaderboard', label: 'LEADERBOARD' },
         ]
     },
     {
         group: 'SYSTEM',
         items: [
-            { href: '/settings', label: 'Settings' },
-            { href: '/profile', label: 'Profile' },
+            { href: '/settings', label: 'SETTINGS' },
+            { href: '/profile', label: 'PROFILE' },
         ]
     }
 ];
@@ -111,7 +121,6 @@ function NavContent({ pathname, onClose }: { pathname: string; onClose?: () => v
                                                 : 'text-white/40 hover:text-white hover:bg-white/5'
                                             }`}
                                     >
-                                        <span className="text-[12px] font-black opacity-50">/</span>
                                         <span className="flex-1 truncate">{label}</span>
                                     </Link>
                                 );
@@ -125,16 +134,24 @@ function NavContent({ pathname, onClose }: { pathname: string; onClose?: () => v
             <JapaneseSeal className="bottom-32 left-1/2 -translate-x-1/2 z-0" />
 
             {/* User Footer */}
-            <div className="p-6 relative z-10">
-                <div className="bg-[#0A0A0A] border border-white/10 p-5 flex items-center gap-4 group cursor-pointer hover:border-[#E81414]/50 transition-all rounded-[2.5rem]">
-                    <div className="w-12 h-12 bg-white flex items-center justify-center shrink-0 rounded-full text-black font-black">
+            <div className="p-4 md:p-6 relative z-10 space-y-3">
+                {/* Google Sign In button */}
+                <Link
+                    href="/auth/login"
+                    onClick={onClose}
+                    className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-white/10 rounded-[2rem] hover:border-white/30 transition-all group"
+                >
+                    <GoogleIcon size={15} />
+                    <span className="text-[10px] tracking-[0.3em] font-black uppercase text-white/50 group-hover:text-white transition-colors">SIGN IN WITH GOOGLE</span>
+                </Link>
+                <div className="bg-[#0A0A0A] border border-white/10 p-4 flex items-center gap-4 group cursor-pointer hover:border-[#E81414]/50 transition-all rounded-[2.5rem]">
+                    <div className="w-10 h-10 bg-white flex items-center justify-center shrink-0 rounded-full text-black font-black text-xs">
                         RS
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-white text-[12px] tracking-[0.05em] font-black uppercase truncate">RAJA CLAN</p>
-                        <p className="text-[#E81414] text-[10px] tracking-[0.2em] font-black uppercase mt-0.5">SHOGUN</p>
+                        <p className="text-white text-[11px] tracking-[0.05em] font-black uppercase truncate">RAJA CLAN</p>
+                        <p className="text-[#E81414] text-[9px] tracking-[0.2em] font-black uppercase mt-0.5">SHOGUN</p>
                     </div>
-                    <div className="text-white/20 group-hover:text-[#E81414] transition-colors font-black text-sm"></div>
                 </div>
             </div>
         </div>
@@ -237,7 +254,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                                             href={item.href}
                                                             className={`px-4 py-3 text-[10px] tracking-[0.2em] font-black uppercase transition-all rounded-full flex items-center gap-3 ${active ? 'bg-white text-black' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
                                                         >
-                                                            <span className="text-[12px] font-black opacity-50">/</span>
                                                             <span>{item.label}</span>
                                                         </Link>
                                                     );
@@ -250,7 +266,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </nav>
                     </div>
 
-                    <div className="flex items-center gap-4 xl:gap-6 shrink-0 pl-4">
+                    <div className="flex items-center gap-3 xl:gap-5 shrink-0 pl-4">
+                        {/* Google Sign In button — desktop */}
+                        <Link
+                            href="/auth/login"
+                            className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/15 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-white/50 hover:text-white hover:border-white/40 transition-all whitespace-nowrap"
+                        >
+                            <GoogleIcon size={14} />
+                            <span className="hidden lg:inline">SIGN IN</span>
+                        </Link>
                         <div className="hidden sm:flex items-center border-l border-white/10 pl-4 xl:pl-6 h-10 gap-4 cursor-pointer group hover:text-white text-white/40 transition-colors">
                             <div className="w-9 h-9 bg-white flex items-center justify-center shrink-0 rounded-full group-hover:bg-[#E81414] transition-colors shadow-none group-hover:shadow-[0_0_15px_#E81414] text-black group-hover:text-white font-black text-xs">
                                 RS
@@ -281,7 +305,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <span className="font-black text-white text-[50px] leading-none">魂</span>
                     </div>
 
-                    <div className="relative z-10 p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20 max-w-[1800px] mx-auto">
+                    <div className="relative z-10 p-3 sm:p-4 md:p-10 lg:p-14 xl:p-20 max-w-[1800px] mx-auto">
                         {children}
                     </div>
                 </main>

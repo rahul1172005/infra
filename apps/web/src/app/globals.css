@@ -78,6 +78,8 @@
     color: #FFFFFF;
     font-family: var(--font-title);
     -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-y;
     letter-spacing: -0.02em;
     text-transform: uppercase;
     font-size: 0.875rem;
@@ -178,6 +180,25 @@
     * {
       -ms-overflow-style: none;
       scrollbar-width: none;
+    }
+    /* Ensure touch targets are big enough */
+    button, a {
+      min-height: 40px;
+    }
+    /* Prevent font size inflation on iOS */
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+  }
+
+  /* Safe area insets for notched devices */
+  @supports (padding: env(safe-area-inset-bottom)) {
+    .pb-safe {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .pt-safe {
+      padding-top: env(safe-area-inset-top);
     }
   }
 }

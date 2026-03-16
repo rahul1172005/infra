@@ -22,7 +22,7 @@ export default function CommunityPage() {
                         <div className="w-8 h-8 bg-black flex items-center justify-center">
                             <img src="/suriken.png" alt="icon" className="w-5 h-5 white object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         </div>
-                        <span className="text-[11px] tracking-[0.4em] font-black uppercase text-[#AAAAAA]">Open_Source_Nexus</span>
+                        <span className="text-[11px] tracking-[0.4em] font-black uppercase text-[#AAAAAA]">OPEN SOURCE NEXUS</span>
                     </div>
                     <h1 className="text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.8]">
                         DEV<br /><span className="text-[#E81414]">COMMUNITY.</span>
@@ -45,7 +45,7 @@ export default function CommunityPage() {
                 <DotGrid />
 
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-black text-black/[0.01] uppercase select-none pointer-events-none whitespace-nowrap">
-                    DDoS_MITIGATION
+                    DDOS MITIGATION
                 </div>
 
                 <div className="relative z-10 space-y-12 max-w-3xl px-8">

@@ -31,7 +31,7 @@ export default function AchievementsPage() {
                                 style={{ transform: "scale(2.5) translate(0px, 0px)" }}
                             />
                         </div>
-                        <span className="text-[11px] tracking-[0.8em] font-black uppercase text-white/30">Operational_Commendations_v4 // Clear_Record</span>
+                        <span className="text-[11px] tracking-[0.8em] font-black uppercase text-white/30">OPERATIONAL COMMENDATIONS</span>
                     </div>
                     <h1 className="text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.8] text-white">
                         TROPHY<br /><span className="text-[#E81414]">CABINET.</span>
@@ -60,9 +60,9 @@ export default function AchievementsPage() {
                             <div className="w-12 h-12 border-2 border-[#E81414] flex items-center justify-center group-hover/title:bg-[#E81414] transition-all">
                                 <img src="/suriken.png" alt="icon" className="w-6 h-6 white transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             </div>
-                            <h2 className="text-4xl font-black uppercase tracking-tighter text-white">Acquired_Badges_v9</h2>
+                            <h2 className="text-4xl font-black uppercase tracking-tighter text-white">ACQUIRED BADGES</h2>
                         </div>
-                        <div className="px-6 py-2 border-2 border-white/10 bg-white/5 text-[11px] tracking-[0.6em] font-black uppercase text-white/30">Tier: Operative_L1 // Beta_Clear</div>
+                        <div className="px-6 py-2 border-2 border-white/10 bg-white/5 text-[11px] tracking-[0.6em] font-black uppercase text-white/30">TIER: OPERATIVE L1</div>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-16">
@@ -110,7 +110,7 @@ export default function AchievementsPage() {
                                 <div className="text-center space-y-4">
                                     <h4 className="text-[14px] font-black tracking-[0.4em] uppercase text-white/10">ENCRYPTED</h4>
                                     <div className="h-px w-8 bg-white/5 mx-auto" />
-                                    <p className="text-[10px] tracking-[0.3em] uppercase text-white/5 font-black">UNIDENTIFIED_SIGNAL_v9</p>
+                                    <p className="text-[10px] tracking-[0.3em] uppercase text-white/5 font-black">UNIDENTIFIED SIGNAL</p>
                                 </div>
                             </div>
                         ))}
@@ -124,7 +124,7 @@ export default function AchievementsPage() {
                     <div className="absolute top-0 right-0 w-64 h-64 bg-[#E81414]/5 blur-3xl opacity-0 group-hover/insight:opacity-100 transition-opacity" />
                     <div className="flex items-center gap-8 border-b border-white/5 pb-8 relative z-10">
                         <img src="/suriken.png" alt="icon" className="w-10 h-10 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                        <h3 className="text-4xl font-black uppercase tracking-tighter text-white">Global_Rank: #4,204</h3>
+                        <h3 className="text-4xl font-black uppercase tracking-tighter text-white">GLOBAL RANK: #4,204</h3>
                     </div>
                     <div className="space-y-6 relative z-10">
                         <p className="text-[15px] tracking-[0.3em] uppercase text-white/30 font-black leading-loose group-hover:text-white/60 transition-colors">
@@ -140,7 +140,7 @@ export default function AchievementsPage() {
                 <div className="p-16 bg-white flex flex-col justify-center items-center text-center space-y-12 relative overflow-hidden group/progress">
                     <div className="absolute inset-0 scanlines opacity-5 invert pointer-events-none group-hover:opacity-10 transition-opacity" />
                     <div className="space-y-4 relative z-10">
-                        <span className="text-[12px] tracking-[0.8em] font-black uppercase text-black/30 group-hover:text-black transition-colors">COLLECTION_PROGRESS_v9</span>
+                        <span className="text-[12px] tracking-[0.8em] font-black uppercase text-black/30 group-hover:text-black transition-colors">COLLECTION PROGRESS</span>
                         <div className="w-full h-1 bg-black/5" />
                     </div>
                     <div className="w-full max-w-md h-12 bg-black/5 border-4 border-black p-1.5 shadow-inner relative z-10 group-hover:bg-white transition-colors duration-500 overflow-hidden">
@@ -150,7 +150,7 @@ export default function AchievementsPage() {
                     </div>
                     <div className="space-y-2 relative z-10">
                         <span className="text-6xl font-bold tracking-tighter uppercase text-black">04.82%</span>
-                        <div className="text-[11px] font-black tracking-[0.6em] text-black/20 uppercase group-hover:text-[#E81414] transition-colors">SYNC COMPLETION RATE // NOMINAL</div>
+                        <div className="text-[11px] font-black tracking-[0.6em] text-black/20 uppercase group-hover:text-[#E81414] transition-colors">SYNC COMPLETION RATE</div>
                     </div>
                 </div>
             </div>

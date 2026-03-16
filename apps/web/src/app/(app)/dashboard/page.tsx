@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 import ClanLead3DGraph from '@/components/dashboard/ClanLead3DGraph';
@@ -10,6 +11,28 @@ const DotGrid = () => (
 );
 
 export default function DashboardPage() {
+    const [teams, setTeams] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                const res = await fetch('http://localhost:5000/teams');
+                const data = await res.json();
+                if (Array.isArray(data)) {
+                    setTeams(data);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTeams();
+    }, []);
+
+    const topTeam = teams[0] || null;
+
     return (
         <div className="w-full space-y-8 md:space-y-14 lg:space-y-20 pb-16">
 
@@ -17,9 +40,9 @@ export default function DashboardPage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-8 md:pb-12 gap-6 md:gap-10">
                 <div className="space-y-2 md:space-y-6">
                     <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-[0.02em] uppercase leading-[0.85] text-white">
-                        幕府<br /><span className="text-white">SHOGUNATE.</span>
+                        幕府<br /><span className="text-white">SHOGUNATE</span>
                     </h1>
-                    <p className="text-white/15 text-[9px] md:text-[11px] tracking-[0.5em] font-black uppercase">核心作戦システム — 侍闘技場</p>
+                    <p className="text-white/15 text-[9px] md:text-[11px] tracking-[0.5em] font-black uppercase">核心作戦系統 — 侍闘技場</p>
                 </div>
 
                 {/* Status card — full width on mobile, auto on desktop */}
@@ -43,7 +66,7 @@ export default function DashboardPage() {
                     className="lg:col-span-2 border border-white/10 bg-[#000000] relative overflow-hidden rounded-2xl md:rounded-3xl"
                     style={{ height: 'clamp(380px, 65vw, 540px)' }}
                 >
-                    <ClanLead3DGraph />
+                    <ClanLead3DGraph teams={teams} />
                 </div>
 
                 {/* Stat cards — side by side on mobile, stacked on lg */}
@@ -52,12 +75,14 @@ export default function DashboardPage() {
                     <div className="p-5 md:p-10 bg-[#E81414] text-white flex flex-col justify-between relative overflow-hidden group cursor-pointer rounded-2xl md:rounded-[2.5rem] transition-transform hover:scale-[1.02] active:scale-95 min-h-[160px] md:min-h-[230px]">
                         <div className="space-y-1 md:space-y-4 relative z-10">
                             <span className="text-[8px] md:text-[10px] tracking-[0.2em] font-black uppercase opacity-60">Shogunate Dominance</span>
-                            <h4 className="text-xl md:text-4xl font-black tracking-tight uppercase leading-[1.1]">ALPHA CLAN<br />IN LEAD.</h4>
+                            <h4 className="text-xl md:text-4xl font-black tracking-tight uppercase leading-[1.1]">
+                                {topTeam ? `${topTeam.name} IN LEAD` : 'INITIATING SCAN...'}
+                            </h4>
                         </div>
                         <div className="flex justify-between items-end relative z-10 mt-3 md:mt-0">
-                            <div className="text-2xl md:text-5xl font-bold">4,500</div>
+                            <div className="text-2xl md:text-5xl font-bold">{topTeam ? topTeam.score.toLocaleString() : '---'}</div>
                             <div className="p-2 md:p-4 bg-white/10 rounded-xl md:rounded-2xl backdrop-blur-md">
-                                <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-8 md:h-8 white object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-8 md:h-8 brightness-0 invert object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             </div>
                         </div>
                     </div>
@@ -67,11 +92,11 @@ export default function DashboardPage() {
                         <DotGrid />
                         <div className="space-y-1 md:space-y-4 relative z-10">
                             <span className="text-[8px] md:text-[10px] tracking-[0.2em] font-black uppercase text-white/20">Bushido Pulse</span>
-                            <h4 className="text-xl md:text-4xl font-bold tracking-tight uppercase leading-[1.1] text-white">84% KATANA<br />SYNC RATE.</h4>
+                            <h4 className="text-xl md:text-4xl font-bold tracking-tight uppercase leading-[1.1] text-white">84% KATANA<br />SYNC RATE</h4>
                         </div>
                         <div className="flex items-center gap-3 md:gap-5 relative z-10 mt-3 md:mt-0">
                             <div className="p-2 md:p-3 bg-white/5 rounded-lg md:rounded-xl shrink-0">
-                                <img src="/suriken.png" alt="icon" className="w-4 h-4 md:w-5 md:h-5 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-4 h-4 md:w-5 md:h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)", "filter": "invert(13%) sepia(94%) saturate(7403%) hue-rotate(359deg) brightness(95%) contrast(114%)" }} />
                             </div>
                             <div className="flex-1 h-2 md:h-3 bg-white/5 relative rounded-full overflow-hidden">
                                 <div className="absolute inset-y-0 left-0 w-4/5 bg-white rounded-full" />
@@ -142,7 +167,7 @@ export default function DashboardPage() {
                             <div className="flex items-center gap-3 md:gap-10 shrink-0">
                                 <span className="text-sm md:text-lg font-black tracking-[0.1em] tabular-nums group-hover/log:text-black transition-colors">{log.points}</span>
                                 <div className="hidden md:flex w-10 h-10 border border-white/10 group-hover/log:border-black rounded-xl items-center justify-center translate-x-2 opacity-0 group-hover/log:translate-x-0 group-hover/log:opacity-100 transition-all">
-                                    <img src="/suriken.png" alt="icon" className="w-5 h-5 white group-hover/log:text-black object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                    <img src="/suriken.png" alt="icon" className="w-5 h-5 brightness-0 invert group-hover/log:brightness-0 group-hover/log:invert-0 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                 </div>
                             </div>
                         </div>

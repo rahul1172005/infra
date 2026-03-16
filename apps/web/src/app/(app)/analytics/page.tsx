@@ -13,17 +13,7 @@ import SamuraiRadar from '../../SamuraiRadar';
 const SECTORS = ['GLOBAL', 'NORTH', 'SOUTH', 'EAST', 'WEST', 'CENTRAL'];
 const CLAN_NAMES = ['DRAGON', 'TIGER', 'CRANE', 'SNAKE', 'MONKEY', 'PHOENIX', 'WOLF', 'BEAR', 'SHARK', 'EAGLE'];
 
-const GENERATED_TEAMS_BASE = Array.from({ length: 400 }, (_, i) => ({
-    id: `0x${(i + 1000).toString(16).toUpperCase()}`,
-    team: `${CLAN_NAMES[i % CLAN_NAMES.length]} ${Math.floor(i / 10 + 1).toString().padStart(2, '0')}`,
-    value: 75,
-    points: 25000,
-    velocity: 50,
-    stability: 80,
-    sync: 85,
-    sector: SECTORS[(i % (SECTORS.length - 1)) + 1],
-    status: 'SECURE' as 'SECURE' | 'AT RISK',
-}));
+
 
 const POWER_DATA = [
     { subject: 'STRENGTH', A: 120, B: 110 },
@@ -170,7 +160,7 @@ const Sparkline = ({ color = '#E81414', height = 40 }: { color?: string; height?
 
 // ── MAIN PAGE ────────────────────────────────────────────────────────── */
 export default function AnalyticsPage() {
-    const [teams, setTeams] = useState(GENERATED_TEAMS_BASE);
+    const [teams, setTeams] = useState<any[]>([]);
     const [chartMode, setChartMode] = useState<'bar' | 'area'>('area');
     const [activeSector, setActiveSector] = useState('GLOBAL');
     const [searchQuery, setSearchQuery] = useState('');
@@ -186,16 +176,29 @@ export default function AnalyticsPage() {
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
         setMounted(true);
-        // Randomize initial client-side data to look dynamic
-        setTeams(prev => prev.map(t => ({
-            ...t,
-            value: Math.floor(Math.random() * 60 + 40),
-            points: Math.floor(Math.random() * 50000 + 10000),
-            velocity: Math.floor(Math.random() * 100),
-            stability: Math.floor(Math.random() * 40 + 60),
-            sync: Math.floor(Math.random() * 100),
-            status: Math.random() > 0.9 ? 'AT RISK' : 'SECURE'
-        })));
+        // Fetch real team data
+        const fetchTeams = async () => {
+            try {
+                const res = await fetch('http://localhost:5000/teams');
+                const data = await res.json();
+                if (Array.isArray(data)) {
+                    setTeams(data.map((t: any, i: number) => ({
+                        id: t.id,
+                        team: t.name,
+                        value: Math.min(100, Math.floor((t.score || 0) / 100)), // Scale XP to %
+                        points: t.score || 0,
+                        velocity: Math.floor(Math.random() * 40 + 30),
+                        stability: Math.floor(Math.random() * 40 + 60),
+                        sync: Math.floor(Math.random() * 20 + 75),
+                        status: Math.random() > 0.9 ? 'AT RISK' : 'SECURE',
+                        sector: SECTORS[(i % (SECTORS.length - 1)) + 1],
+                    })));
+                }
+            } catch (err) {
+                console.error("Failed to fetch teams", err);
+            }
+        };
+        fetchTeams();
         setMetrics({
             stability: Math.floor(90 + Math.random() * 10),
             battleReady: Math.floor(70 + Math.random() * 20),
@@ -285,7 +288,7 @@ export default function AnalyticsPage() {
                             {/* Search */}
                             <input
                                 type="text"
-                                placeholder="SEARCH CLAN ID / NAME..."
+                                placeholder="SEARCH CLAN ID NAME"
                                 value={searchQuery}
                                 onChange={e => setSearchQuery(e.target.value)}
                                 className="w-full md:w-[380px] bg-white/[0.03] border border-white/5 px-5 py-3 rounded-xl text-[9px] font-black tracking-widest text-[#E81414] placeholder:text-white/10 focus:outline-none focus:border-[#E81414]/30 transition-colors"
@@ -340,12 +343,12 @@ export default function AnalyticsPage() {
                             <div className="lg:col-span-4 space-y-6">
 
                                 {/* Radar web chart */}
-                                <HUDFrame title="FORCE RADAR" subtitle="戰力雷達 // BUSHIDO TACTICAL">
+                                <HUDFrame title="FORCE RADAR" subtitle="戰力雷達 BUSHIDO TACTICAL">
                                     <SamuraiRadar teams={filteredData.slice(0, 5)} />
                                 </HUDFrame>
 
                                 {/* Province sync bars */}
-                                <HUDFrame title="PROVINCE LOAD" subtitle="橫向指標 // SECTOR DENSITY" isLive={true}>
+                                <HUDFrame title="PROVINCE LOAD" subtitle="橫向指標 SECTOR DENSITY" isLive={true}>
                                     <div className="space-y-5 py-2">
                                         {chartData.slice(0, 5).map((clan, i) => (
                                             <StatBar key={i} label={clan.team} value={clan.sync} color={i === 0 ? '#E81414' : 'rgba(255,255,255,0.25)'} />
@@ -369,7 +372,7 @@ export default function AnalyticsPage() {
 
                             {/* ── RIGHT COLUMN ───── */}
                             <div className="lg:col-span-8 space-y-6">
-                                <HUDFrame title="TACTICAL DATAPLANE" subtitle="戰術數據層 // PERFORMANCE MONITOR" isLive={true}>
+                                <HUDFrame title="TACTICAL DATAPLANE" subtitle="戰術數據層 PERFORMANCE MONITOR" isLive={true}>
                                     {/* Chart mode toggle */}
                                     <div className="flex gap-2 mb-5">
                                         <button
@@ -394,7 +397,7 @@ export default function AnalyticsPage() {
                                                         <XAxis dataKey="team" stroke="transparent" tick={{ fill: 'rgba(255,255,255,0.2)', fontSize: 8, fontFamily: 'monospace', fontWeight: 900 }} axisLine={false} tickLine={false} angle={-40} textAnchor="end" />
                                                         <YAxis stroke="transparent" tick={{ fill: 'rgba(255,255,255,0.15)', fontSize: 8, fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
                                                         <Tooltip
-                                                            formatter={(value: number) => [`${Math.floor(value)}%`, '']}
+                                                            formatter={((value: number) => [`${Math.floor(value)}%`, '']) as any}
                                                             contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(232,20,20,0.3)', fontSize: 9, fontWeight: 900, fontFamily: 'monospace', borderRadius: 8 }}
                                                             itemStyle={{ color: '#E81414' }}
                                                             labelStyle={{ color: 'rgba(255,255,255,0.4)' }}
@@ -437,7 +440,7 @@ export default function AnalyticsPage() {
                                                         />
                                                         <Tooltip
                                                             cursor={{ stroke: '#E81414', strokeWidth: 1, strokeDasharray: '4 4' }}
-                                                            formatter={(value: number) => [`${Math.floor(value)}%`, '']}
+                                                            formatter={((value: number) => [`${Math.floor(value)}%`, '']) as any}
                                                             contentStyle={{ 
                                                                 backgroundColor: 'rgba(10,10,10,0.95)', 
                                                                 border: '1px solid #E81414', 
@@ -541,7 +544,7 @@ export default function AnalyticsPage() {
                             transition={{ duration: 0.25 }}
                             className="space-y-6"
                         >
-                            <HUDFrame title="COMMAND ROSTER 400" subtitle="全體隊伍監控 // GRID ARRAY" isLive={true}>
+                            <HUDFrame title="COMMAND ROSTER 400" subtitle="全體隊伍監控 GRID ARRAY" isLive={true}>
                                 {/* Summary row */}
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-6">
                                     {[

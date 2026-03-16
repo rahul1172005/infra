@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PrismaService } from './prisma/prisma.service';
 import { AuthService } from './auth/auth.service';
 import { TeamService } from './team/team.service';
+import { TeamController } from './team/team.controller';
 import { LeaderboardService } from './leaderboard/leaderboard.service';
 import { ScoreGateway } from './socket/score.gateway';
 import { SubmissionService } from './submission/submission.service';
@@ -25,7 +26,7 @@ import { CtfService } from './ctf/ctf.service';
             signOptions: { expiresIn: '1d' },
         }),
     ],
-    controllers: [],
+    controllers: [TeamController],
     providers: [
         PrismaService,
         AuthService,

@@ -140,7 +140,7 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
             ctx.textBaseline = 'top';
             ctx.fillStyle = isActive ? 'rgba(255,255,255,0.75)' : 'rgba(180,180,200,0.42)';
             const nameY = ly + kanjiSize * 0.52;
-            ctx.fillText(team.team?.split('_')[0] || team.name, lx, nameY);
+            ctx.fillText(team.team?.replace(/_/g, ' ') || team.name?.replace(/_/g, ' '), lx, nameY);
 
             const rankSize = Math.max(8, W * 0.015);
             ctx.font = `300 ${rankSize}px "Noto Serif JP", serif`;
@@ -368,7 +368,7 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
                     />
                     <div className="space-y-1">
                         <p className="text-[11px] font-black tracking-[0.3em] text-white uppercase leading-none font-mono">SAMURAI RADAR</p>
-                        <p className="text-[8px] font-black tracking-[0.4em] text-white/20 uppercase leading-none font-mono">戰力雷達 // BUSHIDO TACTICAL</p>
+                        <p className="text-[8px] font-black tracking-[0.4em] text-white/20 uppercase leading-none font-mono">戰力雷達 BUSHIDO TACTICAL</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 text-[8px] font-black tracking-[0.2em] text-white/10 uppercase font-mono">
@@ -383,13 +383,13 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
             {/* Legend */}
             <div className="relative z-10 flex gap-5 pt-6 border-t border-white/5 mt-6 flex-wrap">
                 <div className="flex items-center gap-2 text-[8px] font-black tracking-widest text-white/30 font-mono uppercase">
-                    <div className="w-2 h-2 rounded-full bg-white/80" /> ACTIVE_BLIP
+                    <div className="w-2 h-2 rounded-full bg-white/80" /> ACTIVE BLIP
                 </div>
                 <div className="flex items-center gap-2 text-[8px] font-black tracking-widest text-white/30 font-mono uppercase">
-                    <div className="w-6 h-[1px] bg-white/30" /> INK_TRAIL
+                    <div className="w-6 h-[1px] bg-white/30" /> INK TRAIL
                 </div>
                 <div className="flex items-center gap-2 text-[8px] font-black tracking-widest text-white/30 font-mono uppercase">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/10" /> MINOR_SIG
+                    <div className="w-1.5 h-1.5 rounded-full bg-white/10" /> MINOR SIG
                 </div>
             </div>
         </div>

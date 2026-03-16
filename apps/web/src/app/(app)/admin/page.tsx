@@ -20,7 +20,7 @@ export default function AdminPage() {
                         <div className="w-14 h-14 bg-[#E81414] flex items-center justify-center shadow-[8px_8px_0px_#FFF]">
                             <img src="/suriken.png" alt="icon" className="w-8 h-8 white object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         </div>
-                        <span className="text-[12px] tracking-[1em] font-black uppercase text-white/30">OVERSIGHT_KERNEL // v1.0.4</span>
+                        <span className="text-[12px] tracking-[1em] font-black uppercase text-white/30">OVERSIGHT KERNEL</span>
                     </div>
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[10rem] font-black tracking-tighter uppercase leading-[0.75] text-white">
                         SYSTEM<br /><span className="text-white">CONTROL.</span>
@@ -95,7 +95,7 @@ export default function AdminPage() {
                     <div className="flex gap-5 md:gap-10 group/log cursor-pointer border-l-[8px] md:border-l-[12px] border-l-[#E81414] pl-5 md:pl-10 bg-[#E81414]/5 py-4 md:py-6 overflow-hidden">
                         <span className="text-[#E81414]">09:24:01</span>
                         <span className="border-4 border-[#E81414] px-6 py-1 leading-none h-fit text-[#E81414]">CRITICAL</span>
-                        <span className="text-[#E81414] font-black">MEMORY SPIKE US EAST 01 // AUTO SCALING TRIGGERED</span>
+                        <span className="text-[#E81414] font-black">MEMORY SPIKE US EAST 01 AUTO SCALING TRIGGERED</span>
                     </div>
                     <div className="flex gap-5 md:gap-10 group/log cursor-pointer border-b border-white/5 pb-4 overflow-hidden">
                         <span className="text-white/20 group-hover:text-white transition-colors">09:28:30</span>
@@ -122,7 +122,7 @@ export default function AdminPage() {
                         <div className="w-4 h-4 bg-[#E81414] group-hover:scale-150 transition-transform" />
                         <span className="text-2xl tracking-[1em] font-black uppercase">CORE LIVE</span>
                     </div>
-                    <div className="text-[12px] tracking-[0.4em] font-black uppercase opacity-40">BUILD_0x9422_SYNERGY</div>
+                    <div className="text-[12px] tracking-[0.4em] font-black uppercase opacity-40">BUILD 0x9422 SYNERGY</div>
                 </div>
                 <button className="w-full md:w-auto px-10 md:px-16 py-6 md:py-8 bg-black text-white text-[12px] md:text-[16px] tracking-[0.6em] md:tracking-[1em] font-black uppercase hover:bg-[#E81414] transition-all flex items-center justify-center gap-8 group/btn-footer">
                     MANAGE SYSTEMS <img src="/suriken.png" alt="icon" className="w-6 h-6 md:w-8 md:h-8 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />

@@ -41,7 +41,7 @@ export default function LeaguesPage() {
                         <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/30">HIERARCHY // GLOBAL LADDER</span>
                     </div>
                     <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.8] text-white">
-                        SKILL<br /><span className="text-[#E81414]">LEAGUES.</span>
+                        SKILL<br /><span className="text-[#E81414]">LEAGUES</span>
                     </h1>
                 </div>
 
@@ -101,7 +101,7 @@ export default function LeaguesPage() {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-5">
                                 <img src="/suriken.png" alt="icon" className="w-4 h-4 [#E81414] transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                <span className="text-[10px] tracking-[0.4em] font-black uppercase text-white/40 group-hover:text-white transition-colors">Sync: CONTINUOUS</span>
+                                <span className="text-[10px] tracking-[0.4em] font-black uppercase text-white/40 group-hover:text-white transition-colors">SYNC CONTINUOUS</span>
                             </div>
                             <img src="/suriken.png" alt="icon" className="w-4 h-4 white/10 group-hover:text-white transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         </div>
@@ -115,7 +115,7 @@ export default function LeaguesPage() {
                     <h3 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-6 text-white">
                         <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> TIER HIERARCHY
                     </h3>
-                    <div className="px-6 py-2 border border-white/10 bg-white/5 text-[10px] tracking-[0.4em] font-black uppercase text-white/30 rounded-full">Ladder_Depth: 12.4K</div>
+                    <div className="px-6 py-2 border border-white/10 bg-white/5 text-[10px] tracking-[0.4em] font-black uppercase text-white/30 rounded-full">LADDER DEPTH 12.4K</div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">

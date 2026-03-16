@@ -19,7 +19,7 @@ export default function CodeReviewPage() {
                         <div className="w-8 h-8 bg-black flex items-center justify-center">
                             <img src="/suriken.png" alt="icon" className="w-5 h-5 white object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         </div>
-                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-[#AAAAAA]">Static_Analysis_Engine</span>
+                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-[#AAAAAA]">STATIC ANALYSIS ENGINE</span>
                     </div>
                     <h1 className="text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.8]">
                         CODE<br /><span className="text-[#E81414]">REVIEW.</span>
@@ -31,7 +31,7 @@ export default function CodeReviewPage() {
                         <span className="text-[9px] tracking-[0.4em] font-black uppercase text-[#999999]">ANALYSIS LOAD</span>
                         <div className="flex items-center gap-4">
                             <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                            <span className="text-3xl font-black uppercase tracking-widest text-black">0%_IDLE</span>
+                            <span className="text-3xl font-black uppercase tracking-widest text-black">0% IDLE</span>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@ export default function CodeReviewPage() {
 
                     <div className="w-full max-w-md space-y-4">
                         <div className="flex justify-between text-[9px] tracking-[0.5em] uppercase font-black text-[#AAAAAA]">
-                            <span>Sync_Progress</span>
+                            <span>SYNC PROGRESS</span>
                             <span>ETA: REMOTE SIGNAL LOST</span>
                         </div>
                         <div className="h-3 w-full bg-black/5 border-2 border-black p-[2px]">

@@ -5,6 +5,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, ArrowRight, Activity, Server, Database, ShieldAlert, Globe, Lock, Cpu, ChevronRight, Target, Users, Layers, Trophy } from 'lucide-react';
 import Link from 'next/link';
 
+// Google Icon SVG
+const GoogleIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M47.532 24.552c0-1.636-.147-3.2-.42-4.704H24.48v9.02h12.972c-.564 2.964-2.244 5.48-4.764 7.164v5.952h7.704c4.512-4.152 7.14-10.272 7.14-17.432z" fill="#4285F4"/>
+    <path d="M24.48 48c6.48 0 11.916-2.148 15.888-5.82l-7.704-5.952c-2.148 1.44-4.896 2.292-8.184 2.292-6.3 0-11.628-4.248-13.536-9.96H3.012v6.156C6.972 42.876 15.144 48 24.48 48z" fill="#34A853"/>
+    <path d="M10.944 28.56A14.4 14.4 0 0 1 10.2 24c0-1.584.276-3.12.744-4.56v-6.156H3.012A23.952 23.952 0 0 0 .48 24c0 3.852.924 7.5 2.532 10.716l7.932-6.156z" fill="#FBBC05"/>
+    <path d="M24.48 9.492c3.54 0 6.72 1.212 9.216 3.6l6.888-6.888C36.384 2.34 30.96 0 24.48 0 15.144 0 6.972 5.124 3.012 13.284l7.932 6.156c1.908-5.712 7.236-9.948 13.536-9.948z" fill="#EA4335"/>
+  </svg>
+);
+
 /* ── Decorative Elements ─────────────────────────────────────────────── */
 const DotGrid = () => (
   <div className="absolute inset-0 dot-grid pointer-events-none opacity-[0.05]" />
@@ -330,28 +340,39 @@ export default function Home() {
             </div>
 
             {/* ── MOBILE CONTENT: stacked top ── */}
-            <div className="relative z-[60] flex flex-col md:hidden h-full p-6 pt-10">
+            <div className="relative z-[60] flex flex-col md:hidden h-full p-5 pt-8">
               {/* Brand */}
-              <h1 className="text-[11vw] leading-none font-black uppercase tracking-[0.04em] text-black drop-shadow-sm">
+              <h1 className="text-[10vw] leading-none font-black uppercase tracking-[0.04em] text-black drop-shadow-sm">
                 ZAPSTERS
               </h1>
 
               {/* Quote */}
-              <p className="mt-3 text-[5vw] font-black uppercase leading-[1.15] tracking-[0.02em] text-black max-w-[260px]">
+              <p className="mt-2 text-[4.5vw] font-black uppercase leading-[1.15] tracking-[0.02em] text-black max-w-[240px]">
                 MY LOYAL KATANA.<br />AND CHAMPION<br />OF THE SHOGUNATE.
               </p>
 
-              {/* Solid CTA button — no glass */}
-              <button
-                onClick={handleEnter}
-                className="mt-8 self-start px-8 py-4 bg-white !text-black text-[14px] font-black uppercase tracking-[0.4em] flex items-center gap-4 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-transform active:scale-95"
-              >
-                <span className="!text-black">ENTER THE DOJO</span>
-                <ArrowRight className="w-5 h-5 !text-black" strokeWidth={4} />
-              </button>
+              {/* Buttons stack */}
+              <div className="mt-6 flex flex-col gap-3 self-start">
+                {/* Main CTA */}
+                <button
+                  onClick={handleEnter}
+                  className="px-5 py-2.5 bg-white !text-black text-[10px] font-black uppercase tracking-[0.35em] flex items-center gap-3 rounded-full shadow-[0_0_24px_rgba(255,255,255,0.25)] transition-transform active:scale-95"
+                >
+                  <span className="!text-black">ENTER THE DOJO</span>
+                  <ArrowRight className="w-3.5 h-3.5 !text-black" strokeWidth={4} />
+                </button>
+                {/* Google Sign In */}
+                <Link
+                  href="/auth/login"
+                  className="px-5 py-2.5 bg-white/90 !text-black text-[10px] font-black uppercase tracking-[0.35em] flex items-center gap-3 rounded-full border border-black/10 shadow-sm transition-transform active:scale-95"
+                >
+                  <GoogleIcon />
+                  <span className="!text-black">SIGN IN WITH GOOGLE</span>
+                </Link>
+              </div>
 
               {/* Fine print */}
-              <p className="mt-5 text-[7px] font-black uppercase tracking-[0.4em] text-black leading-[1.8] max-w-[260px]">
+              <p className="mt-4 text-[7px] font-black uppercase tracking-[0.4em] text-black leading-[1.8] max-w-[240px]">
                 ZAPSTERS IS A COLOSSAL ARENA FOR ELITE ENGINEERS TO MASTER THE ARTS OF CODE.
               </p>
             </div>
@@ -382,13 +403,22 @@ export default function Home() {
                 <p className="text-[11px] text-left font-black uppercase tracking-[0.5em] text-black max-w-sm leading-[1.8]">
                   ZAPSTERS IS A COLOSSAL ARENA FOR ELITE ENGINEERS TO MASTER THE ARTS OF CODE. ENTER THE REALM WHERE YOUR LEGACIES ARE FORGED.
                 </p>
-                <button
-                  onClick={handleEnter}
-                  className="group shrink-0 px-10 py-5 bg-white !text-black text-[14px] font-black uppercase tracking-[0.4em] hover:bg-[#E81414] hover:text-white transition-all flex items-center gap-5 rounded-full shadow-2xl active:scale-95"
-                >
-                  <span className="!text-black group-hover:text-white">ENTER THE DOJO</span>
-                  <ArrowRight className="w-6 h-6 !text-black group-hover:text-white" strokeWidth={4} />
-                </button>
+                <div className="flex flex-col gap-3 items-end shrink-0">
+                  <button
+                    onClick={handleEnter}
+                    className="group px-6 py-3.5 bg-white !text-black text-[11px] font-black uppercase tracking-[0.35em] hover:bg-[#E81414] hover:text-white transition-all flex items-center gap-4 rounded-full shadow-2xl active:scale-95"
+                  >
+                    <span className="!text-black group-hover:text-white">ENTER THE DOJO</span>
+                    <ArrowRight className="w-5 h-5 !text-black group-hover:text-white" strokeWidth={4} />
+                  </button>
+                  <Link
+                    href="/auth/login"
+                    className="group px-6 py-3.5 bg-white/90 !text-black text-[11px] font-black uppercase tracking-[0.35em] hover:bg-white transition-all flex items-center gap-4 rounded-full border border-black/10 shadow-lg active:scale-95"
+                  >
+                    <GoogleIcon />
+                    <span className="!text-black">SIGN IN WITH GOOGLE</span>
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -410,9 +440,9 @@ export default function Home() {
 
         {/* ── Navigation ── */}
         <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm border-b border-white/5">
-          <div className="max-w-[1440px] mx-auto px-4 md:px-12 h-20 flex items-center justify-between">
+          <div className="max-w-[1440px] mx-auto px-4 md:px-12 h-16 md:h-20 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2 md:gap-4 group shrink-0">
-              <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition-transform">
+              <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center transition-transform">
                 <img
                   src="/logo.png"
                   alt="Zapsters Logo"
@@ -421,31 +451,40 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-black text-lg md:text-2xl tracking-tighter uppercase text-white leading-none">ZAPSTERS</span>
-                <span className="text-white/20 text-[7px] md:text-[8px] tracking-[0.3em] font-black leading-none mt-0.5">闘技場</span>
+                <span className="font-black text-base md:text-xl tracking-tighter uppercase text-white leading-none">ZAPSTERS</span>
+                <span className="text-white/20 text-[7px] tracking-[0.3em] font-black leading-none mt-0.5">闘技場</span>
               </div>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/40">
+            <div className="hidden lg:flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.4em] text-white/40">
               <Link href="#sectors" className="hover:text-white transition-colors">SECTORS</Link>
               <Link href="#protocols" className="hover:text-white transition-colors">PROTOCOLS</Link>
             </div>
 
-            <div className="flex items-center gap-3 md:gap-6">
-              <Link href="/dashboard" className="px-5 md:px-8 py-2 md:py-3 bg-white text-black text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] hover:bg-[#E81414] hover:text-white transition-all rounded-full whitespace-nowrap">
-                ENTER OPERATIONS
+            <div className="flex items-center gap-2 md:gap-4">
+              <Link
+                href="/auth/login"
+                className="hidden sm:flex items-center gap-2 px-4 py-2 border border-white/20 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] hover:border-white transition-all rounded-full whitespace-nowrap"
+              >
+                <GoogleIcon />
+                <span className="hidden md:inline">SIGN IN</span>
+                <span className="md:hidden">LOGIN</span>
+              </Link>
+              <Link href="/dashboard" className="px-4 md:px-6 py-2 bg-white text-black text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.25em] hover:bg-[#E81414] hover:text-white transition-all rounded-full whitespace-nowrap">
+                <span className="hidden sm:inline">ENTER OPERATIONS</span>
+                <span className="sm:hidden">ENTER</span>
               </Link>
             </div>
           </div>
         </nav>
 
         {/* Spacer for fixed nav */}
-        <div className="h-20" />
+        <div className="h-16 md:h-20" />
 
         <main className="w-full">
 
           {/* ══ HERO SECTION ═══════════════════════════════════════════════ */}
-          <section className="relative min-h-[90vh] flex flex-col items-center justify-center py-20 overflow-hidden px-8">
+          <section className="relative min-h-[85vh] md:min-h-[90vh] flex flex-col items-center justify-center py-12 md:py-20 overflow-hidden px-5 md:px-8">
             <DotGrid />
 
             {/* Japanese corner ghost characters */}
@@ -469,48 +508,54 @@ export default function Home() {
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] tracking-[0.02em] uppercase leading-[0.85] font-black"
+                  className="text-4xl sm:text-5xl md:text-7xl lg:text-[9rem] tracking-[0.02em] uppercase leading-[0.85] font-black text-center"
                 >
                   DOMINATE<br />
                   <span className="text-[#E81414]">THE KATANA</span>
                 </motion.h1>
                 {/* Japanese title translation */}
-                <p className="text-white/10 text-[10px] tracking-[0.6em] font-black uppercase">コードを征服せよ · 侍の道</p>
+                <p className="text-white/10 text-[10px] tracking-[0.6em] font-black uppercase">コードを征服せよ 侍の道</p>
               </div>
 
-              <div className="flex flex-col lg:flex-row items-center justify-center gap-8 max-w-6xl mx-auto border-t border-white/10 pt-10">
-                <div className="flex-1 space-y-6 text-center lg:text-left">
-                  <p className="text-white/40 text-base md:text-xl tracking-[0.2em] uppercase font-black leading-[1.8] max-w-2xl">
-                    THE PREMIER DOJO FOR <span className="text-white">ELITE CLANS</span>. MANAGE FAMILIES, CONQUER PROVINCES, AND SECURE SHOGUNATE SUPREMACY.
+              <div className="flex flex-col lg:flex-row items-center justify-center gap-8 max-w-6xl mx-auto border-t border-white/10 pt-8 md:pt-10">
+                <div className="flex-1 space-y-4 md:space-y-6 text-center lg:text-left">
+                  <p className="text-white/40 text-sm md:text-base lg:text-xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-black leading-[1.8] max-w-2xl">
+                    THE PREMIER DOJO FOR <span className="text-white">ELITE CLANS</span>. MANAGE FAMILIES, CONQUER PROVINCES, AND SECURE SHOGUNATE SUPREMACY
                   </p>
-                  <div className="flex justify-center lg:justify-start gap-8">
-                    <div className="text-left py-4 border-l border-[#E81414] pl-6">
-                      <div className="text-3xl font-bold">1.2K+</div>
-                      <div className="text-[9px] tracking-[0.3em] text-white/20 uppercase font-black">ACTIVE CLANS</div>
+                  <div className="flex justify-center lg:justify-start gap-6 md:gap-8">
+                    <div className="text-left py-3 md:py-4 border-l border-[#E81414] pl-4 md:pl-6">
+                      <div className="text-2xl md:text-3xl font-bold">1.2K+</div>
+                      <div className="text-[8px] md:text-[9px] tracking-[0.3em] text-white/20 uppercase font-black">ACTIVE CLANS</div>
                     </div>
-                    <div className="text-left py-4 border-l border-white/20 pl-6">
-                      <div className="text-3xl font-bold">42</div>
-                      <div className="text-[9px] tracking-[0.3em] text-white/20 uppercase font-black">CONQUERED PROVINCES</div>
+                    <div className="text-left py-3 md:py-4 border-l border-white/20 pl-4 md:pl-6">
+                      <div className="text-2xl md:text-3xl font-bold">42</div>
+                      <div className="text-[8px] md:text-[9px] tracking-[0.3em] text-white/20 uppercase font-black">CONQUERED PROVINCES</div>
                     </div>
                   </div>
                 </div>
 
-                <Link href="/dashboard" className="group relative w-full lg:w-auto px-10 py-6 bg-white text-black text-[11px] font-black uppercase tracking-[0.4em] hover:bg-[#E81414] hover:text-white transition-all flex items-center justify-center gap-6 overflow-hidden rounded-full shadow-2xl">
-                  <span className="relative z-10">INITIALIZE SESSION</span>
-                  <ArrowRight className="w-5 h-5 relative z-10 transition-transform group-hover:translate-x-1" />
-                </Link>
+                <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full lg:w-auto">
+                  <Link href="/dashboard" className="group relative flex-1 lg:flex-none px-7 py-3.5 bg-white text-black text-[10px] font-black uppercase tracking-[0.35em] hover:bg-[#E81414] hover:text-white transition-all flex items-center justify-center gap-4 overflow-hidden rounded-full shadow-2xl">
+                    <span className="relative z-10">INITIALIZE SESSION</span>
+                    <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                  <Link href="/auth/login" className="group relative flex-1 lg:flex-none px-7 py-3.5 bg-white/10 border border-white/20 text-white text-[10px] font-black uppercase tracking-[0.35em] hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3 rounded-full">
+                    <GoogleIcon />
+                    <span>SIGN IN WITH GOOGLE</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </section>
 
           {/* ══ SECTORS ════════════════════════════════════════════════════ */}
-          <section id="sectors" className="w-full bg-black text-white py-32 border-b border-white/5">
-            <div className="max-w-[1440px] mx-auto px-8">
+          <section id="sectors" className="w-full bg-black text-white py-16 md:py-32 border-b border-white/5">
+            <div className="max-w-[1440px] mx-auto px-5 md:px-8">
               <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-16">
                 <div className="space-y-4">
                   <span className="text-[11px] tracking-[0.6em] text-[#E81414] font-black uppercase"></span>
-                  <h2 className="text-4xl md:text-[5rem] lg:text-[6rem] font-black tracking-[0.05em] uppercase leading-[0.85]">
-                    CORE<br />PROVINCES.
+                  <h2 className="text-3xl md:text-[4rem] lg:text-[6rem] font-black tracking-[0.05em] uppercase leading-[0.85]">
+                    CORE<br />PROVINCES
                   </h2>
                 </div>
                 <p className="max-w-md text-white/40 text-[13px] tracking-wide uppercase font-black leading-loose border-l-2 border-white/10 pl-8">
@@ -518,7 +563,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <SectorCard
                   title="BUSHIDO"
                   desc="Katana-level research."
@@ -548,11 +593,11 @@ export default function Home() {
           </section>
 
           {/* ══ PROTOCOLS ═══════════════════════════════════════════════════ */}
-          <section id="protocols" className="w-full bg-black py-32 overflow-hidden relative border-b border-white/5">
-            <div className="max-w-[1400px] mx-auto px-8 relative z-10">
+          <section id="protocols" className="w-full bg-black py-16 md:py-32 overflow-hidden relative border-b border-white/5">
+            <div className="max-w-[1400px] mx-auto px-5 md:px-8 relative z-10">
               <div className="mb-24 space-y-8 flex flex-col md:flex-row items-end justify-between">
-                <h2 className="text-4xl sm:text-6xl md:text-[8rem] font-black text-white tracking-[0.05em] uppercase leading-[0.8]">
-                  GLOBAL<br /><span className="text-[#E81414]">RANKINGS.</span>
+                <h2 className="text-3xl sm:text-5xl md:text-[7rem] font-black text-white tracking-[0.05em] uppercase leading-[0.8]">
+                  GLOBAL<br /><span className="text-[#E81414]">RANKINGS</span>
                 </h2>
 
               </div>
@@ -593,14 +638,14 @@ export default function Home() {
             </div>
 
             <Link href="/dashboard" className="relative z-10 flex flex-col items-center gap-6 px-4">
-              <span className="text-[11px] tracking-[0.8em] font-black uppercase opacity-60">Ready to Honor?</span>
-              <h3 className="text-4xl sm:text-6xl md:text-9xl font-black tracking-[0.02em] uppercase transition-transform group-hover:scale-105 duration-500">JOIN THE CLAN</h3>
+              <span className="text-[11px] tracking-[0.8em] font-black uppercase opacity-60">READY TO HONOR?</span>
+              <h3 className="text-3xl sm:text-5xl md:text-9xl font-black tracking-[0.02em] uppercase transition-transform group-hover:scale-105 duration-500">JOIN THE CLAN</h3>
             </Link>
           </section>
         </main>
 
-        <footer className="bg-black py-32 px-8 border-t border-white/10 relative overflow-hidden">
-          <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-start gap-16">
+        <footer className="bg-black py-16 md:py-32 px-5 md:px-8 border-t border-white/10 relative overflow-hidden">
+          <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-start gap-10 md:gap-16">
             <div className="space-y-8 max-w-lg">
               <div className="text-3xl font-black uppercase tracking-tighter flex items-center gap-6">
                 <div className="w-16 h-16 flex items-center justify-center">

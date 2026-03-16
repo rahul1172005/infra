@@ -25,10 +25,10 @@ export default function InternshipsPage() {
                                 style={{ transform: "scale(2.5) translate(0px, 0px)" }}
                             />
                         </div>
-                        <span className="text-[12px] tracking-[1em] font-black uppercase text-white/30">RECRUITMENT_PORTAL // v1.0.4</span>
+                        <span className="text-[12px] tracking-[1em] font-black uppercase text-white/30">RECRUITMENT PORTAL</span>
                     </div>
                     <h1 className="text-8xl md:text-[10rem] font-black tracking-tighter uppercase leading-[0.75] text-white">
-                        CAREER<br /><span className="text-white">DYNAMICS.</span>
+                        CAREER<br /><span className="text-white">DYNAMICS</span>
                     </h1>
                 </div>
 
@@ -61,7 +61,7 @@ export default function InternshipsPage() {
 
                     <div className="space-y-12 w-full">
                         <h2 className="text-7xl md:text-[9rem] font-black uppercase text-white tracking-tighter leading-none border-b-[20px] border-white pb-10 inline-block">
-                            BOARD LOCK.
+                            BOARD LOCK
                         </h2>
 
                         <div className="bg-white p-20 border-8 border-black flex flex-col items-center gap-12 max-w-4xl mx-auto shadow-[20px_20px_0px_#E81414] relative overflow-hidden group/notice">

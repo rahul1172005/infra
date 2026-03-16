@@ -33,10 +33,10 @@ export default function AiMentorPage() {
 
             {/* ══ PAGE HEADER ═══════════════════════════════════════════════ */}
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end border-b-2 border-white/10 pb-16 gap-12 relative z-10">
-                <TechDossierHeader title="NEURAL LOGIC" subtitle="Tactical_Interface_v3.0_Omega" />
+                <TechDossierHeader title="NEURAL LOGIC" subtitle="TACTICAL INTERFACE V3.0 OMEGA" />
                 <div className="flex items-center gap-10 bg-white/[0.02] border-2 border-white/10 p-10 hover:border-white/20 transition-all group">
                     <div className="flex flex-col gap-4">
-                        <span className="text-[10px] tracking-[0.6em] uppercase font-black text-white/20 group-hover:text-white/40 transition-colors">Node_Instance</span>
+                        <span className="text-[10px] tracking-[0.6em] uppercase font-black text-white/20 group-hover:text-white/40 transition-colors">NODE INSTANCE</span>
                         <div className="flex items-center gap-6">
                             <span className="text-4xl font-black tracking-widest text-white">NM-901</span>
                             
@@ -64,16 +64,16 @@ export default function AiMentorPage() {
                                 <img src="/suriken.png" alt="icon" className="w-6 h-6 black object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             </div>
                             <div className="space-y-1">
-                                <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">Neural_Feed</span>
+                                <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">NEURAL FEED</span>
                                 <div className="flex items-center gap-3">
                                     
-                                    <span className="text-[9px] tracking-[0.4em] text-green-500/60 uppercase font-black">Link_Stable</span>
+                                    <span className="text-[9px] tracking-[0.4em] text-green-500/60 uppercase font-black">LINK STABLE</span>
                                 </div>
                             </div>
                         </div>
                         <div className="flex items-center gap-8">
                             <div className="hidden md:flex flex-col items-end gap-1">
-                                <span className="text-[9px] tracking-[0.4em] font-black uppercase text-white/20">Data_Sectors: 24/24</span>
+                                <span className="text-[9px] tracking-[0.4em] font-black uppercase text-white/20">DATA SECTORS 24 24</span>
                                 <div className="w-32 h-1 bg-white/5 overflow-hidden">
                                     <div className="w-full h-full bg-white opacity-20" />
                                 </div>
@@ -106,7 +106,7 @@ export default function AiMentorPage() {
                                     </p>
                                 </div>
                                 <div className="flex flex-wrap gap-6">
-                                    {['System_Hardening', 'Decryption_Logic', 'Architecture_Audit', 'Sector_Intel'].map(tag => (
+                                    {['System Hardening', 'Decryption Logic', 'Architecture Audit', 'Sector Intel'].map(tag => (
                                         <button key={tag} className="px-6 py-3 border-2 border-white/10 text-[10px] tracking-[0.6em] uppercase font-black text-white/40 bg-black hover:border-[#E81414] hover:text-[#E81414] hover:bg-[#E81414]/5 transition-all">
                                             {tag}
                                         </button>
@@ -166,7 +166,7 @@ export default function AiMentorPage() {
                         <div className="flex items-center justify-between border-b border-white/10 pb-10">
                             <div className="flex items-center gap-6">
                                 <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">Neural_Status</span>
+                                <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">NEURAL STATUS</span>
                             </div>
                             <img src="/suriken.png" alt="icon" className="w-5 h-5 white/10 hover:text-white cursor-pointer transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         </div>
@@ -213,7 +213,7 @@ export default function AiMentorPage() {
                         <div className="relative z-10 space-y-8">
                             <div className="flex items-center gap-6 border-b-2 border-black/5 pb-6">
                                 <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] animate-pulse object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                <span className="text-[12px] tracking-[0.8em] uppercase font-black">System_Directive_001</span>
+                                <span className="text-[12px] tracking-[0.8em] uppercase font-black">SYSTEM DIRECTIVE 001</span>
                             </div>
                             <p className="text-[11px] tracking-[0.3em] uppercase leading-loose text-black/40 font-black group-hover:text-black transition-colors">
                                 All neural transmissions are strictly encrypted and stored in local deep-archives.

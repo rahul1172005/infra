@@ -22,7 +22,7 @@ export default function ChallengesPage() {
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center border-b border-white/10 pb-8 md:pb-12 gap-6 md:gap-10 relative z-10">
                 <div className="space-y-3 md:space-y-6">
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter uppercase leading-[0.8] text-white">
-                        侍の<br /><span className="text-white">DOJO.</span>
+                        侍の<br /><span className="text-white">DOJO</span>
                     </h1>
                 </div>
 
@@ -53,7 +53,7 @@ export default function ChallengesPage() {
                                 <label className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30">DOJO IDENTIFIER</label>
                                 <input
                                     type="text"
-                                    placeholder="IDENTIFIER..."
+                                    placeholder="IDENTIFIER"
                                     className="w-full bg-white/5 border border-white/10 px-8 py-5 text-[11px] font-black tracking-[0.2em] outline-none focus:border-[#E81414]/50 transition-all text-white uppercase rounded-full"
                                 />
                             </div>
@@ -138,7 +138,7 @@ export default function ChallengesPage() {
                         <div className="p-10 bg-white/[0.01] border-t border-white/5 flex items-center justify-between group/footer">
                             <div className="flex items-center gap-6 text-white/20 group-hover/footer:text-white/40 transition-colors">
                                 <img src="/suriken.png" alt="icon" className="w-5 h-5 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                <span className="text-[10px] font-black uppercase tracking-[0.4em]">SYNCING WITH GLOBAL LEDGER...</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.4em]">SYNCING WITH GLOBAL LEDGER</span>
                             </div>
                             <button className="flex items-center gap-5 text-[10px] font-black tracking-[0.6em] uppercase text-white/30 hover:text-white transition-all">
                                 ACCESS FULL LIST <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />

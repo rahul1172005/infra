@@ -22,25 +22,14 @@ interface Mote {
 }
 
 // ── Static team data ──────────────────────────────────────────────────
-const TEAM_DATA = [
-  { name: "DRAGON", kanji: "龍", rank: "壱", score: 98420 },
-  { name: "TIGER", kanji: "虎", rank: "弐", score: 91880 },
-  { name: "PHOENIX", kanji: "鳳", rank: "参", score: 87650 },
-  { name: "WOLF", kanji: "狼", rank: "四", score: 82300 },
-  { name: "CRANE", kanji: "鶴", rank: "五", score: 76900 },
-  { name: "SERPENT", kanji: "蛇", rank: "六", score: 71200 },
-  { name: "EAGLE", kanji: "鷹", rank: "七", score: 67800 },
-  { name: "BEAR", kanji: "熊", rank: "八", score: 61500 },
-  { name: "SHARK", kanji: "鮫", rank: "九", score: 55400 },
-  { name: "MONKEY", kanji: "猿", rank: "十", score: 48200 },
-];
+
 
 // ── Constants ─────────────────────────────────────────────────────────
 const KANJI_LIST = ["龍", "虎", "鳳", "狼", "鶴", "蛇", "鷹", "熊", "鮫", "猿"];
 const RANK_LIST = ["壱", "弐", "參", "四", "五", "六", "七", "八", "九", "十"];
 
 function buildTeams(teamsProp: any[]): Team[] {
-  const data = teamsProp.length > 0 ? teamsProp : TEAM_DATA.slice(0, 5);
+  const data = teamsProp;
 
   return data.map((t, i) => {
     const angle = (i / data.length) * Math.PI * 2 - Math.PI / 2;
@@ -75,6 +64,21 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
 
   useEffect(() => {
     propRef.current = teamsProp;
+    if (stateRef.current.initialized) {
+      // Partially rebuild only necessary parts to avoid jumpy animation
+      const newTeams = buildTeams(teamsProp);
+      teamsRef.current.forEach((t, i) => {
+        if (newTeams[i]) {
+          t.score = newTeams[i].score;
+          t.strength = newTeams[i].strength;
+          t.name = newTeams[i].name;
+        }
+      });
+      // If team count changed, rebuild entirely
+      if (newTeams.length !== teamsRef.current.length) {
+        teamsRef.current = newTeams;
+      }
+    }
   }, [teamsProp]);
 
   const stateRef = useRef({
@@ -316,7 +320,7 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
       ctx.shadowColor = "rgba(255,255,255,0.5)";
       ctx.fillStyle = isActive ? "rgba(255,255,255,0.75)" : "rgba(180,180,200,0.42)";
       const nameY = ly + kanjiSize * 0.52;
-      ctx.fillText(team.name, lx, nameY);
+      ctx.fillText(team.name?.replace(/_/g, ' '), lx, nameY);
 
       // Rank kanji — small, above
       const rankSize = Math.max(7, W * 0.0075);

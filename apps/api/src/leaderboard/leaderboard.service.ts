@@ -3,7 +3,7 @@ import { Redis } from 'ioredis';
 
 @Injectable()
 export class LeaderboardService implements OnModuleInit, OnModuleDestroy {
-    public redis!: Redis;
+    public redis: Redis | undefined;
     private isInitialized = false;
 
     onModuleInit() {

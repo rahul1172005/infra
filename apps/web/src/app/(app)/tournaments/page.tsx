@@ -27,7 +27,7 @@ export default function TournamentsPage() {
                                 style={{ transform: "scale(2.2) translate(0px, 0px)" }}
                             />
                         </div>
-                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/30">SHOGUNATE_CMD // v4.2</span>
+                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/30">SHOGUNATE CMD</span>
                     </div>
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter uppercase leading-[0.8] text-white">
                         THE<br /><span className="text-white">ARENA.</span>
