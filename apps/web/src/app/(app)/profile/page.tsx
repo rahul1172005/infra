@@ -135,8 +135,6 @@ export default function ProfilePage() {
                         <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center font-black text-black text-3xl md:text-4xl border-4 border-white/20">
                             RS
                         </div>
-                        <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center border-2 border-black">
-                        </div>
                     </div>
 
                     {/* Identity info */}

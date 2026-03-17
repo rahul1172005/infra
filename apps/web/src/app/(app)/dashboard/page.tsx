@@ -96,7 +96,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex items-center gap-3 md:gap-5 relative z-10 mt-3 md:mt-0">
                             <div className="p-2 md:p-3 bg-white/5 rounded-lg md:rounded-xl shrink-0">
-                                <img src="/suriken.png" alt="icon" className="w-4 h-4 md:w-5 md:h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)", "filter": "invert(13%) sepia(94%) saturate(7403%) hue-rotate(359deg) brightness(95%) contrast(114%)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-4 h-4 md:w-5 md:h-5 brightness-0 invert object-contain" style={{ transform: "scale(2.2) translate(0px, 0px)" }} />
                             </div>
                             <div className="flex-1 h-2 md:h-3 bg-white/5 relative rounded-full overflow-hidden">
                                 <div className="absolute inset-y-0 left-0 w-4/5 bg-white rounded-full" />
