@@ -7,14 +7,8 @@ export class LeaderboardService implements OnModuleInit, OnModuleDestroy {
     private isInitialized = false;
 
     onModuleInit() {
-        const redisUrl = process.env.REDIS_URL;
-        if (!redisUrl) {
-            console.error('[LeaderboardService] REDIS_URL is not set. Redis will be disabled.');
-            this.isInitialized = false;
-            return;
-        }
         try {
-            this.redis = new Redis(redisUrl, {
+            this.redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
                 retryStrategy: (times) => {
                     if (times > 3) return null;
                     return Math.min(times * 50, 2000);
