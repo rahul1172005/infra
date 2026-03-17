@@ -346,7 +346,7 @@ export default function Home() {
                 <h1 className="text-[10vw] leading-none font-black uppercase tracking-[0.04em] text-black drop-shadow-sm">
                   ZAPSTERS
                 </h1>
-                <p className="mt-2 text-[4.5vw] font-black uppercase leading-[1.15] tracking-[0.02em] text-black max-w-[240px]">
+                <p className="mt-2 text-[4.5vw] sm:text-[4vw] font-black uppercase leading-[1.15] tracking-[0.02em] text-black w-full">
                   MY LOYAL KATANA.<br />AND CHAMPION<br />OF THE SHOGUNATE.
                 </p>
               </div>
