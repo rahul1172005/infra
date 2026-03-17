@@ -1,6 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from '@/components/ui/Button';
+import { Power, Terminal, XCircle } from 'lucide-react';
 
 import { useState } from 'react';
 
@@ -58,14 +60,16 @@ export default function ArenaPage() {
                         </p>
                     </div>
 
-                    <button
+                    <Button
+                        variant="primary"
+                        size="xl"
+                        fullWidth
+                        className="h-20 md:h-24"
                         onClick={() => setIsMatching(true)}
-                        className="w-full bg-[#E81414] text-white py-8 rounded-[2rem] text-[12px] font-black tracking-[0.8em] uppercase hover:bg-white hover:text-black transition-all flex items-center justify-center gap-8 group/btn relative overflow-hidden"
+                        icon={() => <img src="/suriken.png" alt="icon" className="w-6 h-6 relative z-10 group-hover:translate-x-4 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
                     >
-                        <span className="relative z-10 uppercase">START SYNC</span>
-                        <img src="/suriken.png" alt="icon" className="w-6 h-6 relative z-10 group-hover/btn:translate-x-4 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                        <div className="absolute inset-0 scanlines opacity-10 pointer-events-none" />
-                    </button>
+                        START SYNC
+                    </Button>
                 </div>
 
                 {/* Right: Technical Sidebar */}
@@ -87,9 +91,15 @@ export default function ArenaPage() {
                             </p>
                         </div>
 
-                        <button className="w-full border border-white/20 py-6 rounded-[1.5rem] text-[10px] font-black tracking-[0.6em] uppercase hover:bg-black hover:text-white transition-all group/trainbtn relative overflow-hidden group-hover/train:border-black group-hover/train:bg-black group-hover/train:text-white">
-                            <span className="relative z-10">LAUNCH SIM</span>
-                        </button>
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            fullWidth
+                            className="mt-auto"
+                            icon={Terminal}
+                        >
+                            LAUNCH SIM
+                        </Button>
                     </div>
 
                     <div className="bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-10 space-y-8 group/stats hover:bg-[#E81414] hover:text-black transition-all text-white cursor-default">
@@ -139,12 +149,15 @@ export default function ArenaPage() {
                                 <p>AWAITING OPPONENT CONFIRMATION</p>
                             </div>
 
-                            <button
+                            <Button
+                                variant="outline"
+                                size="md"
                                 onClick={() => setIsMatching(false)}
-                                className="px-10 py-4 border border-white/20 rounded-full text-[9px] tracking-[0.4em] uppercase font-black text-white/50 hover:bg-white hover:text-black transition-all"
+                                icon={XCircle}
+                                className="border-white/20 text-white/50 hover:bg-white hover:text-black"
                             >
                                 ABORT SEQUENCE
-                            </button>
+                            </Button>
                         </div>
                     </motion.div>
                 )}

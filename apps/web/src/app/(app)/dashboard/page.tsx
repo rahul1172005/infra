@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-
 import ClanLead3DGraph from '@/components/dashboard/ClanLead3DGraph';
-
-/* ── Decorative Components ─────────────────────────────────────────── */
-const DotGrid = () => (
-    <div className="absolute inset-0 dot-grid pointer-events-none opacity-[0.05]" />
-);
+import { DotGrid } from '@/components/ui/Decorative';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Suriken } from '@/components/ui/Suriken';
+import { HUDFrame } from '@/components/ui/HUDFrame';
+import { Button } from '@/components/ui/Button';
+import { ArrowRight, Trophy, Zap, Shield, Target } from 'lucide-react';
+import Link from 'next/link';
 
 export default function DashboardPage() {
     const [teams, setTeams] = useState<any[]>([]);
@@ -34,177 +35,125 @@ export default function DashboardPage() {
     const topTeam = teams[0] || null;
 
     return (
-        <div className="w-full space-y-8 md:space-y-14 lg:space-y-20 pb-16">
-
-            {/* ══ HEADER MODULE ══════════════════════════════════════════════ */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-8 md:pb-12 gap-6 md:gap-10">
-                <div className="space-y-2 md:space-y-6">
-                    <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-[0.02em] uppercase leading-[0.85] text-white">
-                        幕府<br /><span className="text-white">SHOGUNATE</span>
-                    </h1>
-                    <p className="text-white/15 text-[9px] md:text-[11px] tracking-[0.5em] font-black uppercase">核心作戦系統 — 侍闘技場</p>
-                </div>
-
-                {/* Status card — full width on mobile, auto on desktop */}
-                <div className="w-full md:w-auto flex items-center gap-4">
-                    <div className="hidden md:flex flex-col items-center gap-0.5 opacity-20 pointer-events-none select-none">
-                        {'将軍様'.split('').map((c, i) => (
-                            <span key={i} className="text-white font-black text-[13px] leading-tight">{c}</span>
-                        ))}
-                    </div>
-                    <div className="flex-1 md:flex-none flex flex-col items-start md:items-end gap-3 p-5 md:p-8 border border-white/10 bg-[#0A0A0A] rounded-2xl md:rounded-[2.5rem]">
-                        <span className="text-[9px] md:text-[10px] tracking-[0.1em] font-black uppercase text-white/20">Operational Status · 稼働状況</span>
-                        <span className="text-xl md:text-3xl font-black uppercase tracking-[0.02em] text-white leading-none">SHOGUN SYNC</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* ══ LEADERBOARD GRAPH ══════════════════════════════════════════════ */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
-                {/* Graph — shorter on mobile */}
-                <div
-                    className="lg:col-span-2 border border-white/10 bg-[#000000] relative overflow-hidden rounded-2xl md:rounded-3xl"
-                    style={{ height: 'clamp(380px, 65vw, 540px)' }}
-                >
-                    <ClanLead3DGraph teams={teams} />
-                </div>
-
-                {/* Stat cards — side by side on mobile, stacked on lg */}
-                <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6 lg:gap-10">
-                    {/* Alpha Clan card */}
-                    <div className="p-5 md:p-10 bg-[#E81414] text-white flex flex-col justify-between relative overflow-hidden group cursor-pointer rounded-2xl md:rounded-[2.5rem] transition-transform hover:scale-[1.02] active:scale-95 min-h-[160px] md:min-h-[230px]">
-                        <div className="space-y-1 md:space-y-4 relative z-10">
-                            <span className="text-[8px] md:text-[10px] tracking-[0.2em] font-black uppercase opacity-60">Shogunate Dominance</span>
-                            <h4 className="text-xl md:text-4xl font-black tracking-tight uppercase leading-[1.1]">
-                                {topTeam ? `${topTeam.name} IN LEAD` : 'INITIATING SCAN...'}
-                            </h4>
-                        </div>
-                        <div className="flex justify-between items-end relative z-10 mt-3 md:mt-0">
-                            <div className="text-2xl md:text-5xl font-bold">{topTeam ? topTeam.score.toLocaleString() : '---'}</div>
-                            <div className="p-2 md:p-4 bg-white/10 rounded-xl md:rounded-2xl backdrop-blur-md">
-                                <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-8 md:h-8 brightness-0 invert object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Sync card */}
-                    <div className="p-5 md:p-10 border border-white/10 bg-[#0A0A0A] flex flex-col justify-between relative overflow-hidden group cursor-pointer hover:border-[#E81414]/30 transition-all rounded-2xl md:rounded-[2.5rem] min-h-[160px] md:min-h-[230px]">
-                        <DotGrid />
-                        <div className="space-y-1 md:space-y-4 relative z-10">
-                            <span className="text-[8px] md:text-[10px] tracking-[0.2em] font-black uppercase text-white/20">Bushido Pulse</span>
-                            <h4 className="text-xl md:text-4xl font-bold tracking-tight uppercase leading-[1.1] text-white">84% KATANA<br />SYNC RATE</h4>
-                        </div>
-                        <div className="flex items-center gap-3 md:gap-5 relative z-10 mt-3 md:mt-0">
-                            <div className="p-2 md:p-3 bg-white/5 rounded-lg md:rounded-xl shrink-0">
-                                <img src="/suriken.png" alt="icon" className="w-4 h-4 md:w-5 md:h-5 brightness-0 invert object-contain" style={{ transform: "scale(2.2) translate(0px, 0px)" }} />
-                            </div>
-                            <div className="flex-1 h-2 md:h-3 bg-white/5 relative rounded-full overflow-hidden">
-                                <div className="absolute inset-y-0 left-0 w-4/5 bg-white rounded-full" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* ══ ACTION MODULES ═══════════════════════════════════════════════ */}
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-                <ModuleCard
-                    title="CLAN MANAGEMENT"
-                    val="CREATE CLANS"
-                    icon={<img src="/suriken.png" alt="icon" className="w-full h-full object-contain" style={{ "transform": "scale(1.3) translate(0px, 1px)" }} />}
-                    sub="Organize multiple families"
-                    href="/teams"
-                />
-                <ModuleCard
-                    title="PROVINCE CONTROL"
-                    val="SELECT PROVINCE"
-                    icon={<img src="/suriken.png" alt="icon" className="w-full h-full object-contain" style={{ "transform": "scale(1.3) translate(0px, 1px)" }} />}
-                    sub="Configure competitive fields"
-                    href="/domains"
-                />
-                <ModuleCard
-                    title="DOJO LAB"
-                    val="NEW CHALLENGES"
-                    icon={<img src="/suriken.png" alt="icon" className="w-full h-full object-contain" style={{ "transform": "scale(1.3) translate(0px, 1px)" }} />}
-                    sub="Build technical hurdles"
-                    href="/challenges"
-                />
-                <ModuleCard
-                    title="HONOR SYSTEM"
-                    val="ADD POINTS"
-                    icon={<img src="/suriken.png" alt="icon" className="w-full h-full object-contain" style={{ "transform": "scale(1.3) translate(0px, 1px)" }} />}
-                    sub="Reward completed missions"
-                    href="/challenges"
-                    accent
-                />
-            </div>
-
-            {/* ══ RECENT SYSTEM LOGS ═══════════════════════════════════════════ */}
-            <div className="border border-white/10 bg-[#0A0A0A] overflow-hidden relative rounded-2xl md:rounded-[2.5rem]">
-                {/* Log header */}
-                <div className="p-5 md:p-10 border-b border-white/10 flex justify-between items-center bg-[#0F0F0F]">
-                    <h3 className="text-[14px] md:text-[18px] tracking-[0.02em] font-black uppercase">SHOGUNATE RECORDS</h3>
-                    <div className="px-4 md:px-6 py-1.5 md:py-2 bg-white/5 border border-white/10 text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em] rounded-full text-white/30">幕府稼働中</div>
-                </div>
-
-                {/* Log rows */}
-                <div className="divide-y divide-white/5 bg-black">
-                    {[
-                        { time: '14:20', event: 'ALPHA CLAN: SECURED KATANA REPAIR', points: '+450XP', status: 'VERIFIED' },
-                        { time: '13:44', event: 'DOJO CREATED: KERNEL OVERFLOW EXPLOIT', points: 'SCORE 0', status: 'SYNCED' },
-                        { time: '12:01', event: 'PROVINCE UPDATE: CASTLE INFRASTRUCTURE', points: 'SCORE 0', status: 'ACTIVE' },
-                        { time: '09:30', event: 'SIGMA SHADOW: COMPLETED DNS RECON', points: '+320XP', status: 'VERIFIED' },
-                    ].map((log, i) => (
-                        <div key={i} className="p-4 md:p-10 flex items-start md:items-center justify-between hover:bg-[#E81414] transition-all duration-300 group/log cursor-pointer text-white hover:text-black gap-3 md:gap-10">
-                            <div className="flex items-start md:items-center gap-4 md:gap-10 min-w-0">
-                                {/* Time — hidden on very small, visible from sm */}
-                                <span className="hidden sm:block text-[10px] md:text-[11px] font-black tracking-tighter text-white/40 group-hover/log:text-black/60 transition-colors shrink-0">{log.time}</span>
-                                <div className="space-y-0.5 md:space-y-1 min-w-0">
-                                    <span className="block text-[11px] md:text-[16px] font-black tracking-tight uppercase group-hover/log:text-black transition-colors leading-[1.3] break-words">{log.event}</span>
-                                    <p className="text-[8px] md:text-[10px] tracking-[0.02em] font-black uppercase text-white/30 group-hover/log:text-black/60 transition-colors">{log.status}</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-3 md:gap-10 shrink-0">
-                                <span className="text-sm md:text-lg font-black tracking-[0.1em] tabular-nums group-hover/log:text-black transition-colors">{log.points}</span>
-                                <div className="hidden md:flex w-10 h-10 border border-white/10 group-hover/log:border-black rounded-xl items-center justify-center translate-x-2 opacity-0 group-hover/log:translate-x-0 group-hover/log:opacity-100 transition-all">
-                                    <img src="/suriken.png" alt="icon" className="w-5 h-5 brightness-0 invert group-hover/log:brightness-0 group-hover/log:invert-0 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function ModuleCard({ title, val, icon, sub, href, accent }: any) {
-    return (
-        <div
-            onClick={() => window.location.href = href}
-            className={`cursor-pointer group relative overflow-hidden h-[180px] md:h-[220px] lg:h-[260px] p-5 md:p-8 flex flex-col justify-between border transition-all duration-500 rounded-2xl md:rounded-[2.5rem]
- ${accent ? 'bg-white border-white text-black' : 'bg-[#0A0A0A] border-white/10 hover:bg-[#E81414] hover:border-[#E81414] text-white'}`}
-        >
+        <div className="w-full space-y-8 md:space-y-12 pb-16">
             <DotGrid />
-            <div className="flex justify-between items-start relative z-10">
-                <div className={`w-9 h-9 md:w-12 md:h-12 border flex items-center justify-center transition-all duration-500 rounded-xl md:rounded-2xl
- ${accent ? 'border-black bg-black text-white' : 'border-white/10 bg-white/5 group-hover:bg-black group-hover:border-black group-hover:text-white'}`}>
-                    {icon}
+
+            {/* ══ HEADER ══════════════════════════════════════════════ */}
+            <PageHeader
+                title={<>幕府<br /><span className="text-[#E81414]">SHOGUNATE</span></>}
+                stats={{
+                    label: "OPERATIONAL STATUS",
+                    value: "SYNCED",
+                    subValue: "核心作戰系統 — 侍闘技場"
+                }}
+                action={
+                    <div className="flex gap-4">
+                        <Link href="/challenges">
+                            <Button variant="primary" icon={Zap} className="px-8 rounded-full">NEW MISSION</Button>
+                        </Link>
+                    </div>
+                }
+            />
+
+            {/* ══ LEADERBOARD GRAPH & TOP STATS ═══════════════════════ */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+                {/* 3D Visualizer */}
+                <div className="lg:col-span-8 bg-[#050505] border border-white/10 rounded-[2.5rem] md:rounded-[3rem] relative overflow-hidden group">
+                    <div 
+                        className="w-full relative" 
+                        style={{ height: 'clamp(400px, 70vh, 600px)' }}
+                    >
+                        <ClanLead3DGraph teams={teams} />
+                        
+                        {/* Overlay HUD elements */}
+                        <div className="absolute top-8 left-8 p-4 bg-black/40 backdrop-blur-md border border-white/5 rounded-2xl pointer-events-none">
+                            <p className="text-[10px] tracking-[0.4em] font-black uppercase text-white/30 mb-1">LIVE DATAFEED</p>
+                            <p className="text-sm font-black text-white italic">0x_NEURAL_MESH_ACTIVE</p>
+                        </div>
+                    </div>
                 </div>
-                <div className={`w-7 h-7 md:w-8 md:h-8 border border-black/5 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 ${accent ? 'text-black' : 'text-black shadow-xl bg-black/10'}`}>
-                    <img src="/suriken.png" alt="icon" className="w-3 h-3 md:w-4 md:h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+
+                {/* Side Stats */}
+                <div className="lg:col-span-4 space-y-6">
+                    {/* Alpha Clan Highlight */}
+                    <div className="bg-[#E81414] p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between min-h-[250px] group cursor-pointer relative overflow-hidden transition-all hover:scale-[1.02] active:scale-95">
+                        <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12 group-hover:rotate-45 transition-transform duration-700">
+                            <Trophy size={120} />
+                        </div>
+                        <div className="relative z-10 space-y-4">
+                            <span className="text-[10px] tracking-[0.3em] font-black uppercase text-white/60">DOMINANT CLAN</span>
+                            <h2 className="text-3xl md:text-4xl font-black tracking-tighter uppercase leading-tight">
+                                {topTeam ? topTeam.name : 'SCANNING...'}
+                            </h2>
+                        </div>
+                        <div className="relative z-10 flex items-end justify-between">
+                            <div className="space-y-1">
+                                <p className="text-[10px] tracking-[0.2em] font-black uppercase text-white/60">XP ACCUMULATED</p>
+                                <p className="text-4xl font-black tabular-nums">{topTeam ? topTeam.score.toLocaleString() : '---'}</p>
+                            </div>
+                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md">
+                                <Suriken size="md" color="white" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Quick Stats Grid */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <HUDFrame title="STABILITY" className="!p-6">
+                            <div className="text-center py-2">
+                                <p className="text-3xl font-black text-white">99.4%</p>
+                                <p className="text-[8px] font-black tracking-widest text-white/20 mt-1 uppercase">UPTIME</p>
+                            </div>
+                        </HUDFrame>
+                        <HUDFrame title="ACTIVE" className="!p-6">
+                            <div className="text-center py-2">
+                                <p className="text-3xl font-black text-white">4.2k</p>
+                                <p className="text-[8px] font-black tracking-widest text-[#E81414] mt-1 uppercase">PLAYERS</p>
+                            </div>
+                        </HUDFrame>
+                    </div>
+
+                    {/* Recent Activity */}
+                    <HUDFrame title="SYSTEM ALERT" subtitle="SECURITY_LOGS" isLive={true}>
+                        <div className="space-y-4 py-2">
+                            {[
+                                { msg: "NEW CLAN 'SHINOBI' ENLISTED", time: "2M AGO" },
+                                { msg: "SECTOR 7 INTEGRITY CHECK", time: "5M AGO" },
+                                { msg: "ARENA PHASE II DEPLOYED", time: "12M AGO" },
+                            ].map((alert, i) => (
+                                <div key={i} className="flex justify-between items-center group/item hover:bg-white/5 p-2 rounded-xl transition-colors">
+                                    <p className="text-[9px] font-black tracking-wider text-white/60 uppercase">{alert.msg}</p>
+                                    <span className="text-[8px] font-black text-white/20">{alert.time}</span>
+                                </div>
+                            ))}
+                        </div>
+                        <Link href="/analytics" className="block mt-6">
+                            <Button variant="ghost" fullWidth className="rounded-full border border-white/5 hover:border-[#E81414]/30 text-[9px]">
+                                FULL TELEMETRY <ArrowRight className="ml-2 w-3 h-3" />
+                            </Button>
+                        </Link>
+                    </HUDFrame>
                 </div>
             </div>
 
-            <div className="space-y-2 md:space-y-4 relative z-10">
-                <div className="space-y-0.5 md:space-y-1">
-                    <p className={`text-[8px] md:text-[10px] tracking-[0.05em] font-black uppercase opacity-40 transition-colors ${accent ? 'text-black' : 'text-white group-hover:text-black'}`}>{title}</p>
-                    <p className={`text-base md:text-2xl font-black uppercase tracking-tight leading-none transition-colors ${accent ? 'text-black' : 'text-white group-hover:text-black'}`}>{val}</p>
-                </div>
-                <div className="flex items-center gap-2 md:gap-3">
-                    <div className={`h-[2px] w-4 md:w-5 rounded-full transition-colors ${accent ? 'bg-black' : 'bg-[#E81414] group-hover:bg-black'}`} />
-                    <p className={`text-[7px] md:text-[8px] tracking-[0.1em] font-black uppercase opacity-50 transition-colors ${accent ? 'text-black' : 'text-white group-hover:text-black'}`}>{sub}</p>
-                </div>
+            {/* ══ FEATURE TILES ════════════════════════════════════════ */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+                {[
+                    { title: "BATTLE ARENA", icon: Target, href: "/arena", desc: "MATCHMAKING SYSTEM" },
+                    { title: "KATA TRIALS", icon: Zap, href: "/challenges", desc: "SKILL VALIDATION" },
+                    { title: "CLAN HUB", icon: Shield, href: "/teams", desc: "FORCE MANAGEMENT" },
+                    { title: "MASTERY", icon: Trophy, href: "/profile", desc: "IDENTITY REGISTRY" },
+                ].map((item) => (
+                    <Link key={item.title} href={item.href}>
+                        <div className="bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 group hover:border-[#E81414]/50 transition-all hover:-translate-y-1">
+                            <div className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-[#E81414] group-hover:border-[#E81414] transition-all">
+                                <item.icon className="w-5 h-5 text-white/40 group-hover:text-white" />
+                            </div>
+                            <h3 className="text-xl font-black text-white mb-2 uppercase tracking-tighter">{item.title}</h3>
+                            <p className="text-[9px] font-black tracking-[0.3em] text-white/20 uppercase">{item.desc}</p>
+                        </div>
+                    </Link>
+                ))}
             </div>
         </div>
     );

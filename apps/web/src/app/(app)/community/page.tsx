@@ -1,6 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Button from '@/components/ui/Button';
+import { Activity, RefreshCcw } from 'lucide-react';
 
 const MessageCircle = (props: any) => <span {...props}>[M]</span>;
 const Heart = (props: any) => <span {...props}>[H]</span>;
@@ -68,13 +70,24 @@ export default function CommunityPage() {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-6">
-                        <div className="px-10 py-5 bg-black text-white text-[11px] tracking-[0.6em] font-black uppercase flex items-center gap-4">
-                            VIEW STATUS PAGE <img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                        </div>
-                        <div className="px-10 py-5 border-2 border-black bg-white text-black text-[11px] tracking-[0.6em] font-black uppercase hover:bg-[#F9F9F9] transition-all flex items-center gap-4">
-                            RETRY CONNECTION <img src="/suriken.png" alt="icon" className="w-4 h-4 [#AAAAAA] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                        </div>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 w-full">
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            fullWidth
+                            icon={Activity}
+                        >
+                            VIEW STATUS PAGE
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            fullWidth
+                            className="bg-white text-black hover:bg-[#F9F9F9]"
+                            icon={RefreshCcw}
+                        >
+                            RETRY CONNECTION
+                        </Button>
                     </div>
                 </div>
             </div>

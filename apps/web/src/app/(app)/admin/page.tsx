@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Button from '@/components/ui/Button';
 
 
 /* ── Decorative Elements ─────────────────────────────────────────────── */
@@ -124,9 +125,14 @@ export default function AdminPage() {
                     </div>
                     <div className="text-[12px] tracking-[0.4em] font-black uppercase opacity-40">BUILD 0x9422 SYNERGY</div>
                 </div>
-                <button className="w-full md:w-auto px-10 md:px-16 py-6 md:py-8 bg-black text-white text-[12px] md:text-[16px] tracking-[0.6em] md:tracking-[1em] font-black uppercase hover:bg-[#E81414] transition-all flex items-center justify-center gap-8 group/btn-footer">
-                    MANAGE SYSTEMS <img src="/suriken.png" alt="icon" className="w-6 h-6 md:w-8 md:h-8 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                </button>
+                <Button
+                    variant="primary"
+                    size="xl"
+                    className="w-full md:w-auto bg-black text-white hover:bg-[#E81414] border-black hover:border-[#E81414]"
+                    icon={() => <img src="/suriken.png" alt="icon" className="w-6 h-6 md:w-8 md:h-8 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
+                >
+                    MANAGE SYSTEMS
+                </Button>
             </div>
         </div>
     );

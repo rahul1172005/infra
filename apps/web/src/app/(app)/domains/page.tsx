@@ -1,6 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/Button';
+import { MapPin } from 'lucide-react';
 
 import { useState } from 'react';
 
@@ -64,10 +66,14 @@ export default function DomainsPage() {
                                 </div>
                             </div>
 
-                            <button className="w-full py-4 bg-white/5 border border-white/20 text-white group-hover:text-white group-hover:bg-black group-hover:border-black text-[9px] font-black tracking-[0.6em] uppercase transition-all flex items-center justify-center gap-6 relative overflow-hidden rounded-full mt-4">
-                                <span className="tracking-[0.4em]">SELECT PROVINCE</span>
-                                <img src="/suriken.png" alt="icon" className="w-4 h-4 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                            </button>
+                            <Button
+                                variant="outline"
+                                size="md"
+                                className="w-full mt-4 group-hover:bg-black group-hover:text-white group-hover:border-black"
+                                icon={() => <img src="/suriken.png" alt="icon" className="w-4 h-4 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
+                            >
+                                SELECT PROVINCE
+                            </Button>
                         </div>
                     </div>
                 ))}

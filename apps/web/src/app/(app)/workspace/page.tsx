@@ -1,8 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-
 import { useState } from 'react';
+import { DotGrid } from '@/components/ui/Decorative';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Suriken } from '@/components/ui/Suriken';
+import { Button } from '@/components/ui/Button';
+import { Zap, Shield, Target, Trophy, Clock, Cpu } from 'lucide-react';
 
 const CHALLENGES = [
     {
@@ -55,16 +59,12 @@ const CHALLENGES = [
     }
 ];
 
-const DotGrid = () => (
-    <div className="absolute inset-0 dot-grid opacity-[0.05] pointer-events-none" />
-);
-
 function FlipCard({ challenge }: { challenge: typeof CHALLENGES[0] }) {
     const [isFlipped, setIsFlipped] = useState(false);
 
     return (
         <div
-            className="w-full h-[380px] relative cursor-pointer group/card"
+            className="w-full h-[420px] relative cursor-pointer group/card"
             style={{ perspective: '2000px' }}
             onClick={() => setIsFlipped(!isFlipped)}
         >
@@ -83,33 +83,36 @@ function FlipCard({ challenge }: { challenge: typeof CHALLENGES[0] }) {
                     <div className="absolute inset-0 dot-grid opacity-[0.05] pointer-events-none" />
 
                     <div className="relative z-10 flex justify-between items-start">
-                        <div className="flex items-center gap-4">
-                            <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover/card:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <div className="flex items-center gap-3">
+                            <Suriken size="sm" color="white" className="group-hover/card:brightness-0" />
                             <span className="text-[10px] tracking-[0.5em] font-black uppercase text-white/30 group-hover/card:text-black/50 transition-colors">
                                 {challenge.id}
                             </span>
                         </div>
-                        <span className="px-4 py-2 border border-white/10 rounded-full text-[9px] tracking-[0.4em] font-black group-hover/card:border-black/20 group-hover/card:bg-black group-hover/card:text-white transition-colors">
+                        <span className="px-5 py-2 border border-white/10 rounded-full text-[9px] tracking-[0.3em] font-black group-hover/card:border-black/20 group-hover/card:bg-black group-hover/card:text-white transition-colors">
                             {challenge.difficulty}
                         </span>
                     </div>
 
                     <div className="relative z-10 space-y-4">
-                        <h3 className="text-3xl font-black tracking-tighter uppercase leading-[0.9]">
+                        <h3 className="text-3xl md:text-4xl font-black tracking-tighter uppercase leading-[0.9]">
                             {challenge.name}
                         </h3>
-                        <p className="text-[11px] tracking-[0.3em] font-black uppercase text-[#E81414] group-hover/card:text-black/80 transition-colors">
-                            {challenge.domain}
-                        </p>
+                        <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 bg-[#E81414] rounded-full group-hover/card:bg-black transition-colors" />
+                            <p className="text-[11px] tracking-[0.2em] font-black uppercase text-white/40 group-hover/card:text-black/70 transition-colors">
+                                {challenge.domain}
+                            </p>
+                        </div>
                     </div>
 
                     <div className="relative z-10 flex justify-between items-end border-t border-white/10 group-hover/card:border-black/20 pt-8 transition-colors">
                         <div className="flex flex-col">
-                            <span className="text-[9px] tracking-[0.4em] font-black uppercase text-white/40 group-hover/card:text-black/50 transition-colors mb-2">REWARD POOL</span>
-                            <span className="text-2xl font-bold tracking-widest">{challenge.points} XP</span>
+                            <span className="text-[9px] tracking-[0.4em] font-black uppercase text-white/40 group-hover/card:text-black/50 transition-colors mb-2">XP POTENTIAL</span>
+                            <span className="text-3xl font-black tracking-tight">{challenge.points.toLocaleString()}</span>
                         </div>
-                        <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover/card:bg-black group-hover/card:border-black group-hover/card:text-white transition-all transform">
-                            <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <div className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center group-hover/card:bg-black group-hover/card:border-black transition-all">
+                            <Suriken size="md" color="current" />
                         </div>
                     </div>
                 </div>
@@ -121,26 +124,29 @@ function FlipCard({ challenge }: { challenge: typeof CHALLENGES[0] }) {
                 >
                     <div className="flex justify-between items-center border-b border-black/10 pb-6 mb-6 shrink-0">
                         <div className="flex items-center gap-4">
-                            <img src="/suriken.png" alt="icon" className="w-6 h-6 black object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <div className="w-10 h-10 bg-black flex items-center justify-center rounded-full">
+                                <Shield className="w-5 h-5 text-[#E81414]" />
+                            </div>
                             <h3 className="text-xl font-black tracking-widest uppercase">ENGAGEMENT RULES</h3>
-                        </div>
-                        <div className="p-2 border border-black/10 rounded-full hover:bg-black hover:text-[#E81414] transition-colors cursor-pointer">
-                            <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto pr-4 space-y-5 custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto pr-4 space-y-6 custom-scrollbar">
                         {challenge.rules.map((rule, idx) => (
-                            <div key={idx} className="flex items-start gap-4">
-                                <span className="text-[10px] font-black text-black/50 tracking-widest mt-1">0{idx + 1}</span>
-                                <p className="text-[12px] font-black uppercase tracking-[0.1em] leading-relaxed opacity-90">{rule}</p>
+                            <div key={idx} className="flex items-start gap-4 group/rule">
+                                <span className="text-[10px] font-black text-black/40 tracking-widest mt-1">/0{idx + 1}</span>
+                                <p className="text-[12px] font-black uppercase tracking-[0.05em] leading-relaxed opacity-90">{rule}</p>
                             </div>
                         ))}
                     </div>
 
-                    <button className="w-full mt-8 py-5 bg-black text-white text-[11px] font-black tracking-[0.6em] uppercase hover:bg-white hover:text-black transition-all flex items-center justify-center gap-4 shrink-0 rounded-[1.5rem]">
-                        ACCEPT CHALLENGE <img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                    </button>
+                    <Button 
+                        variant="primary" 
+                        fullWidth 
+                        className="mt-8 rounded-full !bg-black !text-white hover:!bg-white hover:!text-black !py-6 text-[11px] tracking-[0.4em]"
+                    >
+                        INITIALIZE MISSION
+                    </Button>
                 </div>
             </motion.div>
         </div>
@@ -149,25 +155,24 @@ function FlipCard({ challenge }: { challenge: typeof CHALLENGES[0] }) {
 
 export default function WorkspacePage() {
     return (
-        <div className="w-full pb-24 space-y-12 relative overflow-hidden">
+        <div className="w-full pb-24 space-y-12">
             <DotGrid />
 
             {/* ══ HEADER ═══════════════════════════════════════════════ */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/10 pb-12 gap-8 relative z-10">
-                <div className="space-y-6">
-                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] text-white">
-                        ACTIVE<br /><span className="text-[#E81414]">MISSIONS</span>
-                    </h1>
-                </div>
-
-                <div className="p-8 border border-white/10 rounded-[2rem] bg-[#0A0A0A] flex flex-col items-end gap-3 min-w-[280px]">
-                    <span className="text-[9px] tracking-[0.6em] uppercase font-black text-white/30">SYSTEM STATUS</span>
-                    <div className="flex items-center gap-4">
-                        <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                        <span className="text-2xl font-black uppercase tracking-widest">SECURE</span>
+            <PageHeader
+                title={<>ACTIVE<br /><span className="text-[#E81414]">MISSIONS</span></>}
+                stats={{
+                    label: "WORKSPACE INTEGRITY",
+                    value: "98.2%",
+                    subValue: "SAMURAI_PROTOCOLS_ENGAGED"
+                }}
+                action={
+                    <div className="flex gap-4">
+                        <Button variant="ghost" icon={Cpu} className="rounded-full px-6">DEBUG_MODE</Button>
+                        <Button variant="primary" icon={Target} className="rounded-full px-8">DEPLOY_PROBE</Button>
                     </div>
-                </div>
-            </div>
+                }
+            />
 
             {/* ══ GRID ══════════════════════════════════════════════════ */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">

@@ -1,6 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from '@/components/ui/Button';
+import { Send, Zap, Code2, Database, Shield, Search } from 'lucide-react';
 
 import { useState, useEffect } from 'react';
 
@@ -106,10 +108,21 @@ export default function AiMentorPage() {
                                     </p>
                                 </div>
                                 <div className="flex flex-wrap gap-6">
-                                    {['System Hardening', 'Decryption Logic', 'Architecture Audit', 'Sector Intel'].map(tag => (
-                                        <button key={tag} className="px-6 py-3 border-2 border-white/10 text-[10px] tracking-[0.6em] uppercase font-black text-white/40 bg-black hover:border-[#E81414] hover:text-[#E81414] hover:bg-[#E81414]/5 transition-all">
-                                            {tag}
-                                        </button>
+                                    {[
+                                        { label: 'System Hardening', icon: Shield },
+                                        { label: 'Decryption Logic', icon: Zap },
+                                        { label: 'Architecture Audit', icon: Search },
+                                        { label: 'Sector Intel', icon: Database }
+                                    ].map(tag => (
+                                        <Button
+                                            key={tag.label}
+                                            variant="outline"
+                                            size="sm"
+                                            icon={tag.icon}
+                                            className="bg-black/40 hover:bg-[#E81414]/10"
+                                        >
+                                            {tag.label}
+                                        </Button>
                                     ))}
                                 </div>
                             </div>
@@ -150,9 +163,13 @@ export default function AiMentorPage() {
                                         <img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> SHIFT ENTER TO EXECUTE
                                     </span>
                                 </div>
-                                <button className="w-20 h-20 bg-white text-black flex items-center justify-center hover:bg-[#E81414] hover:text-white transition-all transform hover:-translate-y-2">
-                                    <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover/input:translate-x-2 group-hover/input:-translate-y-2 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                </button>
+                                <Button
+                                    variant="primary"
+                                    size="lg"
+                                    className="w-20 h-20 p-0 flex items-center justify-center hover:bg-[#E81414] hover:text-white transition-all transform hover:-translate-y-2"
+                                    icon={() => <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover/input:translate-x-2 group-hover/input:-translate-y-2 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
+                                    onClick={() => {/* handle send */}}
+                                />
                             </div>
                         </div>
                     </div>

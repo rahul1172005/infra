@@ -1,6 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Button from '@/components/ui/Button';
+import { Archive, Rocket } from 'lucide-react';
 
 
 /* ── Decorative Elements ─────────────────────────────────────────────── */
@@ -94,9 +96,14 @@ export default function ContestsPage() {
                         Each mission record contains encrypted architectural kernels.
                     </p>
                 </div>
-                <button className="px-10 md:px-20 py-5 md:py-8 bg-transparent border-4 border-white text-white text-[11px] md:text-[13px] font-black uppercase tracking-[0.6em] md:tracking-[0.8em] hover:bg-white hover:text-black transition-all relative z-10 flex items-center gap-4 md:gap-6 group/btn rounded-full md:rounded-none">
-                    LOAD ARCHIVES <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-6 md:h-6 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                </button>
+                <Button
+                    variant="outline"
+                    size="xl"
+                    className="border-2 border-white text-white hover:bg-white hover:text-black"
+                    icon={() => <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-6 md:h-6 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
+                >
+                    LOAD ARCHIVES
+                </Button>
             </div>
         </div>
     );
@@ -142,9 +149,15 @@ function ContestCard({ title, desc, gains, window, status, variant }: any) {
                         </div>
                     </div>
                 </div>
-                <button className={`w-full py-5 md:py-8 text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] md:tracking-[1em] transition-all flex items-center justify-center gap-5 md:gap-8 group/btn h-16 md:h-24 rounded-xl md:rounded-none ${isAccent ? 'bg-black text-white hover:bg-white hover:text-black' : 'bg-white text-black hover:bg-[#E81414] hover:text-white shadow-[0_0_40px_rgba(255,255,255,0.05)]'}`}>
-                    ENLIST NOW <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-6 md:h-6 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                </button>
+                <Button
+                    variant={isAccent ? "outline" : "primary"}
+                    size="lg"
+                    fullWidth
+                    className={`h-16 md:h-20 ${isAccent ? 'bg-black text-white hover:bg-white hover:text-black border-2' : 'hover:bg-[#E81414] hover:text-white'}`}
+                    icon={() => <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-6 md:h-6 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
+                >
+                    ENLIST NOW
+                </Button>
             </div>
         </div>
     );

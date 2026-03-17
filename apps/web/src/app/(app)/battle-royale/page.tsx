@@ -1,6 +1,8 @@
 'use client';
 
-import { motion } from'framer-motion';
+import { motion } from 'framer-motion';
+import Button from '@/components/ui/Button';
+import { Rocket, Shield } from 'lucide-react';
 
 /* ── Decorative Elements ─────────────────────────────────────────────── */
 const DotGrid = ({ className = ""}: { className?: string }) => (
@@ -55,17 +57,24 @@ export default function BattleRoyalePage() {
  100 elite operatives drop into the grid. Survive tactical compression.
  Victory awarded to the last active node.
  </p>
- </div>
- </div>
-
- <div className="flex flex-wrap justify-center gap-8">
- <button className="px-12 py-5 bg-white text-black text-[11px] tracking-[0.4em] font-black uppercase hover:bg-[#E81414] hover:text-white transition-all transform hover:scale-105 active:scale-95 rounded-full flex items-center gap-4">
- SECURE DEPARTURE <span className="opacity-50">-{'>'}</span>
- </button>
- <button className="px-12 py-5 border border-white/10 text-white text-[11px] tracking-[0.4em] font-black uppercase hover:border-white transition-all transform hover:scale-105 active:scale-95 rounded-full flex items-center gap-4">
- RULES ENGAGEMENT <span className="text-white/20">///</span>
- </button>
- </div>
+                        <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 w-full">
+                            <Button
+                                variant="primary"
+                                size="lg"
+                                fullWidth
+                                icon={Rocket}
+                            >
+                                SECURE DEPARTURE
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                fullWidth
+                                icon={Shield}
+                            >
+                                RULES ENGAGEMENT
+                            </Button>
+                        </div>
  </div>
  </div>
 
