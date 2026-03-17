@@ -371,8 +371,8 @@ export default function Home() {
                 </Link>
 
                 {/* Fine print */}
-                <p className="mt-2 text-[7px] text-center font-black uppercase tracking-[0.4em] text-black/70 leading-[1.8] max-w-[280px] mx-auto">
-                  ZAPSTERS ARENA FOR ELITE ENGINEERS
+                <p className="mt-2 text-[7px] text-center font-black uppercase tracking-[0.4em] text-white/80 leading-[1.8] max-w-[280px] mx-auto">
+                  ZAPSTERS IS A COLOSSAL ARENA FOR ELITE ENGINEERS TO MASTER THE ARTS OF CODE. ENTER THE REALM WHERE YOUR LEGACIES ARE FORGED.
                 </p>
               </div>
             </div>
