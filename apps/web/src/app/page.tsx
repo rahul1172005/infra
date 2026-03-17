@@ -13,32 +13,6 @@ import EnterButtons from '@/components/landing/EnterButtons';
 
 const MistWind = dynamic(() => import('@/components/effects/MistWind'), { ssr: false });
 const FallingParticles = dynamic(() => import('@/components/effects/FallingParticles'), { ssr: false });
-ette
-      drawStreaks(t);
-
-      // Vignette last to bind edges
-      drawVignette();
-
-      animId = requestAnimationFrame(animate);
-    };
-
-    animId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 pointer-events-none"
-      style={{ width: '100%', height: '100%', zIndex: 20 }}
-    />
-  );
-};
-
 
 export default function Home() {
   const [entered, setEntered] = useState(false);
