@@ -340,41 +340,41 @@ export default function Home() {
             </div>
 
             {/* ── MOBILE CONTENT: stacked top ── */}
-            <div className="relative z-[60] flex flex-col md:hidden h-full p-5 pt-8">
-              {/* Brand */}
-              <h1 className="text-[10vw] leading-none font-black uppercase tracking-[0.04em] text-black drop-shadow-sm">
-                ZAPSTERS
-              </h1>
+            <div className="relative z-[60] flex flex-col md:hidden h-full p-5 pt-8 pb-10">
+              {/* Brand and Quote wrapped to group at top */}
+              <div>
+                <h1 className="text-[10vw] leading-none font-black uppercase tracking-[0.04em] text-black drop-shadow-sm">
+                  ZAPSTERS
+                </h1>
+                <p className="mt-2 text-[4.5vw] font-black uppercase leading-[1.15] tracking-[0.02em] text-black max-w-[240px]">
+                  MY LOYAL KATANA.<br />AND CHAMPION<br />OF THE SHOGUNATE.
+                </p>
+              </div>
 
-              {/* Quote */}
-              <p className="mt-2 text-[4.5vw] font-black uppercase leading-[1.15] tracking-[0.02em] text-black max-w-[240px]">
-                MY LOYAL KATANA.<br />AND CHAMPION<br />OF THE SHOGUNATE.
-              </p>
-
-              {/* Buttons stack */}
-              <div className="mt-6 flex flex-col gap-3 self-start">
+              {/* Buttons stack pushed to bottom */}
+              <div className="mt-auto flex flex-col gap-3 w-full">
                 {/* Main CTA */}
                 <button
                   onClick={handleEnter}
-                  className="px-5 py-2.5 bg-white !text-black text-[10px] font-black uppercase tracking-[0.35em] flex items-center gap-3 rounded-full shadow-[0_0_24px_rgba(255,255,255,0.25)] transition-transform active:scale-95"
+                  className="w-full justify-center px-5 py-3.5 bg-white !text-black text-[10px] font-black uppercase tracking-[0.35em] flex items-center gap-3 rounded-full shadow-lg transition-transform active:scale-95"
                 >
                   <span className="!text-black">ENTER THE DOJO</span>
                   <ArrowRight className="w-3.5 h-3.5 !text-black" strokeWidth={4} />
                 </button>
-                {/* Google Sign In */}
+                {/* Google Sign In - Now Solid */}
                 <Link
                   href="/auth/login"
-                  className="px-5 py-2.5 bg-white/90 !text-black text-[10px] font-black uppercase tracking-[0.35em] flex items-center gap-3 rounded-full border border-black/10 shadow-sm transition-transform active:scale-95"
+                  className="w-full justify-center px-5 py-3.5 bg-white !text-black text-[10px] font-black uppercase tracking-[0.35em] flex items-center gap-3 rounded-full shadow-md border-none transition-transform active:scale-95"
                 >
                   <GoogleIcon />
                   <span className="!text-black">SIGN IN WITH GOOGLE</span>
                 </Link>
-              </div>
 
-              {/* Fine print */}
-              <p className="mt-4 text-[7px] font-black uppercase tracking-[0.4em] text-black leading-[1.8] max-w-[240px]">
-                ZAPSTERS IS A COLOSSAL ARENA FOR ELITE ENGINEERS TO MASTER THE ARTS OF CODE.
-              </p>
+                {/* Fine print */}
+                <p className="mt-2 text-[7px] text-center font-black uppercase tracking-[0.4em] text-black/70 leading-[1.8] max-w-[280px] mx-auto">
+                  ZAPSTERS ARENA FOR ELITE ENGINEERS
+                </p>
+              </div>
             </div>
 
             {/* ── DESKTOP CONTENT: original layout ── */}
