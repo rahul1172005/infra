@@ -139,7 +139,7 @@ export default function LearningPage() {
                     {/* Decorative Call to Action */}
                     <div className="bg-black border-2 border-white/10 p-12 min-h-[300px] relative overflow-hidden flex flex-col justify-between group cursor-pointer hover:border-[#E81414] transition-all h-[300px]">
                         <div className="absolute inset-0 bg-[#E81414]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <img src="/suriken.png" alt="icon" className="relative z-10 w-12 h-12 [#E81414] group-hover:scale-125 transition-all duration-500 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="relative z-10 w-12 h-12 group-hover:scale-125 transition-all duration-500 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <div className="space-y-4 relative z-10">
                             <h3 className="text-4xl font-black tracking-tighter uppercase text-white group-hover:text-[#E81414] leading-none transition-colors">
                                 FAST TRACK<br />LEARNING
@@ -155,8 +155,8 @@ export default function LearningPage() {
             <div className="p-16 border-2 border-white/10 bg-[#050505] flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden group/footer">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#E81414]/5 to-transparent opacity-0 group-hover/footer:opacity-100 transition-opacity duration-1000" />
                 <div className="flex items-center gap-8 relative z-10">
-                    <div className="p-4 border-2 border-[#E81414] animate-pulse">
-                        <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                    <div className="p-4 border-2 border-[#E81414]">
+                        <img src="/suriken.png" alt="icon" className="w-8 h-8 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                     </div>
                     <span className="text-[14px] tracking-[0.8em] uppercase text-white font-black group-hover:text-[#E81414] transition-colors">ENCRYPTED SIGNAL STREAM</span>
                 </div>

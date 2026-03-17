@@ -44,7 +44,7 @@ export default function ChallengesPage() {
                     <div className="bg-[#0A0A0A] p-6 md:p-10 space-y-6 md:space-y-10 border border-white/10 relative overflow-hidden group/create transition-all rounded-2xl md:rounded-[2.5rem] h-full">
                         <div className="absolute inset-0 scanlines opacity-5 pointer-events-none" />
                         <div className="flex items-center gap-6 border-b border-white/10 pb-6 relative z-10">
-                            <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             <span className="text-[12px] tracking-[0.6em] font-black uppercase text-white/60">NEW TRAINING</span>
                         </div>
 
@@ -75,7 +75,7 @@ export default function ChallengesPage() {
                                 <label className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30">POINT ATTRIBUTION</label>
                                 <div className="flex items-center gap-4 w-full overflow-hidden">
                                     <div className="w-14 h-14 bg-white/5 border border-white/10 flex items-center justify-center rounded-full shrink-0">
-                                        <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                        <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                     </div>
                                     <input
                                         type="number"
@@ -99,11 +99,11 @@ export default function ChallengesPage() {
                         <DotGrid />
                         <div className="p-5 md:p-10 border-b border-white/10 flex justify-between items-center bg-white/[0.03] text-white">
                             <div className="flex items-center gap-6">
-                                <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                 <h3 className="text-[18px] tracking-[0.4em] font-black uppercase">ACTIVE TRAINING</h3>
                             </div>
                             <div className="flex items-center gap-8">
-                                <img src="/suriken.png" alt="icon" className="w-5 h-5 white/20 animate-spin-slow object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-5 h-5 white/20 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                 <div className="px-5 py-2 border border-white/10 text-[10px] font-black uppercase tracking-[0.4em] rounded-full bg-white/5">LIVE STATUS</div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@ export default function ChallengesPage() {
                                 <div key={ch.id} className="p-3 md:p-8 flex items-center justify-between hover:bg-[#E81414] transition-all duration-300 group cursor-pointer text-white hover:text-black gap-3">
                                     <div className="flex items-center gap-4 md:gap-10 min-w-0">
                                         <div className="w-10 h-10 md:w-14 md:h-14 border border-white/10 flex items-center justify-center transition-all group-hover:bg-black group-hover:border-black rounded-full shrink-0">
-                                            <img src="/suriken.png" alt="icon" className={`w-5 h-5 md:w-6 md:h-6 ${ch.id === 'DOJ-003' ? 'text-[#E81414]' : 'text-white/20'} group-hover:text-white transition-colors object-contain`} style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                            <img src="/suriken.png" alt="icon" className={`w-5 h-5 md:w-6 md:h-6 ${ch.id === 'DOJ-003' ? '' : 'text-white/20'} group-hover:text-white transition-colors object-contain`} style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                         </div>
                                         <div className="space-y-0.5 md:space-y-1 min-w-0">
                                             <div className="flex items-center gap-2 md:gap-4">
@@ -137,7 +137,7 @@ export default function ChallengesPage() {
 
                         <div className="p-10 bg-white/[0.01] border-t border-white/5 flex items-center justify-between group/footer">
                             <div className="flex items-center gap-6 text-white/20 group-hover/footer:text-white/40 transition-colors">
-                                <img src="/suriken.png" alt="icon" className="w-5 h-5 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                 <span className="text-[10px] font-black uppercase tracking-[0.4em]">SYNCING WITH GLOBAL LEDGER</span>
                             </div>
                             <button className="flex items-center gap-5 text-[10px] font-black tracking-[0.6em] uppercase text-white/30 hover:text-white transition-all">
@@ -152,7 +152,7 @@ export default function ChallengesPage() {
             <div className="p-5 md:p-10 border border-white/10 bg-[#0A0A0A] flex flex-col md:flex-row items-start md:items-center justify-between gap-5 md:gap-10 relative overflow-hidden group/logs rounded-2xl md:rounded-[2.5rem]">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.01] to-transparent opacity-0 group-hover/logs:opacity-100 transition-opacity duration-1000" />
                 <div className="flex items-center gap-10 relative z-10">
-                    <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                    <img src="/suriken.png" alt="icon" className="w-8 h-8 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                     <div className="space-y-2">
                         <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/20">COMPLETION TRAFFIC</span>
                         <p className="text-lg font-black tracking-widest uppercase text-white">ALPHA CLAN: +500XP [DOJ-002]</p>

@@ -33,7 +33,7 @@ export default function ArenaPage() {
                         </div>
                     </div>
                     <div className="h-16 w-[1px] bg-white/10 group-hover:bg-black/20 transition-colors mx-2" />
-                    <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] group-hover:text-black animate-pulse transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                    <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                 </div>
             </div>
 
@@ -94,7 +94,7 @@ export default function ArenaPage() {
 
                     <div className="bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-10 space-y-8 group/stats hover:bg-[#E81414] hover:text-black transition-all text-white cursor-default">
                         <div className="flex items-center gap-6 border-b border-white/10 group-hover/stats:border-black/20 pb-6 transition-colors">
-                            <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] group-hover/stats:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img src="/suriken.png" alt="icon" className="w-6 h-6 group-hover/stats:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/30 group-hover/stats:text-black/60 transition-colors">ARENA LOGISTICS</span>
                         </div>
                         <div className="grid grid-cols-2 gap-8 relative z-10">
@@ -125,10 +125,10 @@ export default function ArenaPage() {
                         <div className="relative z-10 w-full max-w-4xl space-y-16 flex flex-col items-center text-center">
 
                             <div className="space-y-12">
-                                <div className="w-32 h-32 border border-white/10 rounded-full border-t-[#E81414] animate-spin flex items-center justify-center mx-auto relative bg-[#0A0A0A]">
-                                    <div className="w-20 h-20 border border-white/10 rounded-full border-b-[#E81414] animate-spin-reverse absolute" />
+                                <div className="w-32 h-32 border border-white/10 rounded-full flex items-center justify-center mx-auto relative bg-[#0A0A0A]">
+                                    <div className="w-20 h-20 border border-white/10 rounded-full absolute" />
                                 </div>
-                                <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-white animate-pulse">
+                                <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-white">
                                     LOCATING<br /><span className="text-[#E81414]">SYNDICATE</span>
                                 </h2>
                             </div>

@@ -1,11 +1,12 @@
 {
     "name": "@zapsters/database",
     "version": "1.0.0",
-    "main": "index.ts",
+    "main": "dist/index.js",
     "scripts": {
-        "build": "prisma generate",
+        "build": "prisma generate && tsc",
         "generate": "prisma generate",
-        "db:push": "prisma db push"
+        "db:push": "prisma db push",
+        "db:migrate": "prisma migrate dev"
     },
     "dependencies": {
         "@prisma/client": "^5.0.0"

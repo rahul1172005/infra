@@ -68,7 +68,7 @@ export default function LeaderboardPage() {
                         </div>
                     </div>
                     <div className="h-10 md:h-16 w-[1px] bg-white/10 ml-auto" />
-                    <img src="/suriken.png" alt="icon" className="w-7 h-7 md:w-10 md:h-10 [#E81414] animate-pulse object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                    <img src="/suriken.png" alt="icon" className="w-7 h-7 md:w-10 md:h-10 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                 </div>
             </div>
 
@@ -135,7 +135,7 @@ export default function LeaderboardPage() {
                                     </td>
                                     <td className="py-4 px-3 md:py-10 md:px-12 hidden sm:table-cell">
                                         <div className="flex items-center gap-2 md:gap-5">
-                                            <img src="/suriken.png" alt="icon" className="w-3 h-3 md:w-4 md:h-4 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                            <img src="/suriken.png" alt="icon" className="w-3 h-3 md:w-4 md:h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                             <span className="text-[9px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white/30 truncate">{team._count?.members || 0} OPERATIVES</span>
                                         </div>
                                     </td>
@@ -160,7 +160,7 @@ export default function LeaderboardPage() {
                 <div className="absolute inset-0 scanlines opacity-5 pointer-events-none" />
                 <div className="flex items-center gap-5 md:gap-10 relative z-10">
                     <div className="w-12 h-12 md:w-16 md:h-16 border border-white/10 flex items-center justify-center bg-white/5 transition-transform duration-700 rounded-xl md:rounded-2xl">
-                        <img src="/suriken.png" alt="icon" className="w-6 h-6 md:w-8 md:h-8 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-6 h-6 md:w-8 md:h-8 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                     </div>
                     <div className="space-y-1.5 md:space-y-3 text-left">
                         <h4 className="text-[10px] md:text-[14px] tracking-[0.3em] md:tracking-[0.6em] font-black uppercase text-white/40">SYNC PROTOCOL LOCKED</h4>

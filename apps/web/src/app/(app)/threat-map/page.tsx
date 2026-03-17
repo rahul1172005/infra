@@ -65,12 +65,12 @@ export default function ThreatMapPage() {
                         <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white" />
                         <div className="absolute top-0 left-1/2 w-[1px] h-full bg-white" />
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] border border-white/20 rounded-full" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border border-white/10 rounded-full animate-spin-slow line-dashed" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border border-white/10 rounded-full line-dashed" />
                     </div>
 
                     <div className="absolute top-12 left-12 flex flex-col gap-6 z-10 bg-black/50 backdrop-blur-md rounded-3xl p-6 border border-white/10">
                         <div className="flex items-center gap-6 group/target cursor-pointer">
-                            <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] transition-transform duration-700 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img src="/suriken.png" alt="icon" className="w-8 h-8 transition-transform duration-700 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             <div className="space-y-1">
                                 <span className="text-[12px] font-black tracking-[0.6em] uppercase text-white">SENSOR CORE V9.4</span>
                                 <div className="flex items-center gap-4">
@@ -91,7 +91,7 @@ export default function ThreatMapPage() {
                                 className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none"
                                 style={{ left: `${p.x}%`, top: `${p.y}%` }}
                             >
-                                <div className={`w-32 h-32 rounded-full ${p.intensity > 0.6 ? 'bg-[#E81414]' : 'bg-white'} opacity-5 animate-ping`} />
+                                <div className={`w-32 h-32 rounded-full ${p.intensity > 0.6 ? 'bg-[#E81414]' : 'bg-white'} opacity-5`} />
                                 <div className={`absolute w-3 h-3 rounded-full ${p.intensity > 0.6 ? 'bg-[#E81414]' : 'bg-white'} border border-black group-hover/map:scale-150 transition-transform`} />
 
                                 <div className="absolute top-12 whitespace-nowrap bg-black text-white px-5 py-2 text-[9px] font-black tracking-[0.4em] uppercase border border-white/20 rounded-full shadow-2xl backdrop-blur-md">
@@ -104,7 +104,7 @@ export default function ThreatMapPage() {
                     </div>
 
                     <div className="absolute bottom-12 right-12 flex items-center gap-6 bg-black/50 backdrop-blur-md rounded-full px-6 py-4 border border-white/10">
-                        <img src="/suriken.png" alt="icon" className="w-5 h-5 animate-pulse object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <span className="text-[9px] tracking-[0.6em] font-black uppercase text-white/40">LIVE PULSE ESTABLISHED</span>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ export default function ThreatMapPage() {
                 <div className="xl:col-span-4 bg-[#0A0A0A] border border-white/10 rounded-[3rem] flex flex-col relative overflow-hidden group/sidebar transition-all">
                     <div className="p-10 border-b border-white/10 bg-white/5 text-white flex justify-between items-center relative overflow-hidden">
                         <div className="flex items-center gap-6 relative z-10">
-                            <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img src="/suriken.png" alt="icon" className="w-8 h-8 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             <span className="text-[14px] font-black tracking-[0.6em] uppercase">THREAT VAULT</span>
                         </div>
                         
@@ -130,7 +130,7 @@ export default function ThreatMapPage() {
                             <div key={i} className="bg-black border border-white/10 rounded-[2rem] p-8 relative group/item hover:bg-[#E81414] hover:border-[#E81414] hover:text-black text-white transition-all cursor-pointer overflow-hidden">
                                 <div className="flex justify-between items-start mb-8">
                                     <div className="flex items-center gap-4">
-                                        <img src="/suriken.png" alt="icon" className="w-4 h-4 [#E81414] group-hover/item:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                        <img src="/suriken.png" alt="icon" className="w-4 h-4 group-hover/item:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                         <span className="text-[10px] font-black tracking-[0.3em] uppercase group-hover/item:text-black/60 text-white/40 transition-colors">{incident.t}</span>
                                     </div>
                                     <span className="text-[9px] px-4 py-1 border border-current rounded-full font-black uppercase tracking-[0.4em] group-hover/item:text-black/80 transition-colors">{incident.s}</span>
@@ -160,7 +160,7 @@ export default function ThreatMapPage() {
             {/* ══ ACTION FOOTER ═══════════════════════════════════════════════ */}
             <div className="p-10 border border-white/10 rounded-[3rem] bg-[#0A0A0A] flex flex-col md:flex-row items-center justify-between group/action cursor-pointer hover:bg-[#E81414] hover:border-[#E81414] transition-all text-white hover:text-black gap-8">
                 <div className="flex items-center gap-8 relative z-10">
-                    <img src="/suriken.png" alt="icon" className="w-10 h-10 [#E81414] group-hover:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                    <img src="/suriken.png" alt="icon" className="w-10 h-10 group-hover:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                     <div className="space-y-2 text-center md:text-left">
                         <p className="text-[10px] tracking-[0.6em] font-black uppercase text-white/30 group-hover:text-black/60 transition-colors">OPERATIONAL SYNC</p>
                         <h4 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white group-hover:text-black transition-colors">DEPLOY GLOBAL SHIELD V4</h4>

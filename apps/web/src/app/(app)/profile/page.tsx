@@ -85,7 +85,7 @@ export default function ProfilePage() {
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end border-b border-white/10 pb-10 md:pb-16 gap-8 relative z-10">
                 <div className="space-y-6 md:space-y-8">
                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-[#E81414] rounded-full flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center shrink-0">
                             <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ transform: "scale(2.2)" }} />
                         </div>
                         <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/30">OPERATIVE ID SECURE CLEARANCE V4</span>
@@ -100,7 +100,7 @@ export default function ProfilePage() {
                     <div className="p-6 md:p-8 border border-white/10 bg-[#0A0A0A] rounded-[2rem] flex flex-col gap-4 min-w-[240px]">
                         <div className="flex items-center justify-between border-b border-white/10 pb-4">
                             <span className="text-[9px] tracking-[0.6em] text-white/30 uppercase font-black">AUTH STATUS</span>
-                            <div className="w-2 h-2 rounded-full bg-[#E81414] animate-pulse" />
+                            <div className="w-2 h-2 rounded-full bg-white/20" />
                         </div>
                         <span className="text-2xl font-black uppercase tracking-widest text-[#E81414]">ACTIVE</span>
                         <div className="flex items-center gap-3">
@@ -132,11 +132,10 @@ export default function ProfilePage() {
                 <div className="relative z-10 p-6 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
                     {/* Avatar */}
                     <div className="relative shrink-0">
-                        <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-[2rem] flex items-center justify-center font-black text-black text-3xl md:text-4xl border-4 border-white/20">
+                        <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center font-black text-black text-3xl md:text-4xl border-4 border-white/20">
                             RS
                         </div>
-                        <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#E81414] rounded-full flex items-center justify-center border-2 border-black">
-                            <Star className="w-4 h-4 text-white" fill="white" />
+                        <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center border-2 border-black">
                         </div>
                     </div>
 
@@ -207,7 +206,7 @@ export default function ProfilePage() {
                         <Badge label="DOMAIN MASTER" icon={<Target className="w-5 h-5 text-[#E81414]" />} earned />
                         <Badge label="KATA ELITE" icon={<Zap className="w-5 h-5 text-[#E81414]" />} earned />
                         <Badge label="IRON SHIELD" icon={<Shield className="w-5 h-5 text-[#E81414]" />} earned />
-                        <Badge label="RONIN" icon={<Star className="w-5 h-5 text-white/20" />} earned={false} />
+                        <Badge label="RONIN" icon={<Shield className="w-5 h-5 text-white/20" />} earned={false} />
                         <Badge label="GRAND MASTER" icon={<Trophy className="w-5 h-5 text-white/20" />} earned={false} />
                         <Badge label="VOID NINJA" icon={<Target className="w-5 h-5 text-white/20" />} earned={false} />
                         <Badge label="GENESIS" icon={<Zap className="w-5 h-5 text-white/20" />} earned={false} />

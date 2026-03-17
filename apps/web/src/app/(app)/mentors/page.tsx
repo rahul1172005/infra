@@ -96,9 +96,9 @@ export default function MentorsPage() {
                 </div>
                 <div className="p-12 space-y-6 group hover:bg-white/[0.02] transition-all cursor-crosshair">
                     <div className="flex items-center gap-6">
-                        <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] group-hover:scale-125 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover:scale-125 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-white transition-colors">ACTIVE MENTORS</span>
-                        <img src="/suriken.png" alt="icon" className="w-4 h-4 [#E81414] animate-pulse ml-auto object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-4 h-4 ml-auto object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                     </div>
                     <p className="text-4xl font-black tracking-widest uppercase text-white">42 NODES</p>
                     <div className="h-1 w-12 bg-[#E81414]/20 transition-all group-hover:w-full group-hover:bg-[#E81414]/40 duration-700" />

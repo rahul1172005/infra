@@ -84,7 +84,7 @@ function FlipCard({ challenge }: { challenge: typeof CHALLENGES[0] }) {
 
                     <div className="relative z-10 flex justify-between items-start">
                         <div className="flex items-center gap-4">
-                            <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] group-hover/card:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover/card:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             <span className="text-[10px] tracking-[0.5em] font-black uppercase text-white/30 group-hover/card:text-black/50 transition-colors">
                                 {challenge.id}
                             </span>
@@ -163,7 +163,7 @@ export default function WorkspacePage() {
                 <div className="p-8 border border-white/10 rounded-[2rem] bg-[#0A0A0A] flex flex-col items-end gap-3 min-w-[280px]">
                     <span className="text-[9px] tracking-[0.6em] uppercase font-black text-white/30">SYSTEM STATUS</span>
                     <div className="flex items-center gap-4">
-                        <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <span className="text-2xl font-black uppercase tracking-widest">SECURE</span>
                     </div>
                 </div>

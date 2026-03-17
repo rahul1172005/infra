@@ -95,7 +95,7 @@ export default function ProjectsPage() {
                 </div>
                 <div className="p-12 space-y-6 group hover:bg-white/[0.02] transition-all cursor-crosshair">
                     <div className="flex items-center gap-6">
-                        <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] group-hover:scale-125 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-6 h-6 group-hover:scale-125 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-white transition-colors">BOUNTY POOL</span>
                     </div>
                     <p className="text-3xl font-black tracking-widest uppercase text-[#E81414]">140,000 ELO</p>
@@ -104,7 +104,7 @@ export default function ProjectsPage() {
                     <div className="flex items-center gap-6">
                         <img src="/suriken.png" alt="icon" className="w-6 h-6 white/20 group-hover:text-white transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-white transition-colors">GITHUB SYNC</span>
-                        <img src="/suriken.png" alt="icon" className="w-4 h-4 [#E81414] animate-pulse ml-auto object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-4 h-4 ml-auto object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                     </div>
                     <p className="text-3xl font-black tracking-widest uppercase text-white/20 flex items-center gap-4 group-hover:text-white">OFFLINE</p>
                 </div>

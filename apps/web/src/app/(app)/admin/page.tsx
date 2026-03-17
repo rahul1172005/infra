@@ -30,7 +30,7 @@ export default function AdminPage() {
                 <div className="w-full xl:w-auto p-6 md:p-12 border-4 border-white bg-black flex flex-col items-start md:items-end gap-4 md:gap-6 group hover:bg-[#E81414] transition-all shadow-[12px_12px_0px_rgba(255,255,255,0.05)]">
                     <span className="text-[11px] tracking-[0.8em] text-white/40 uppercase font-black group-hover:text-black">ACCESS LEVEL: L5</span>
                     <div className="flex items-center gap-4 md:gap-8 group/alert cursor-warning">
-                        <img src="/suriken.png" alt="icon" className="w-6 h-6 md:w-8 md:h-8 [#E81414] group-hover:text-black animate-pulse object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-6 h-6 md:w-8 md:h-8 group-hover:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <span className="text-xl md:text-3xl font-black tracking-widest uppercase text-white group-hover:text-black transition-colors">RESTRICTED AUTH</span>
                     </div>
                 </div>
@@ -75,9 +75,9 @@ export default function AdminPage() {
                     </div>
                     <div className="flex items-center gap-10">
                         <div className="flex items-center gap-2 md:gap-4 text-[10px] md:text-[12px] tracking-[0.2em] md:tracking-[0.6em] font-black uppercase group-hover/stage:text-[#E81414] transition-colors">
-                            <img src="/suriken.png" alt="icon" className="w-4 h-4 md:w-6 md:h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> LIVE SYNC
+                        <img src="/suriken.png" alt="icon" className="w-4 h-4 md:w-6 md:h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> LIVE SYNC
                         </div>
-                        <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-8 md:h-8 [#E81414] animate-pulse object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-5 h-5 md:w-8 md:h-8 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                     </div>
                 </div>
 

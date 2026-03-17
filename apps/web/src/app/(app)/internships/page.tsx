@@ -87,7 +87,7 @@ export default function InternshipsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 border-4 border-white bg-black z-10 relative overflow-hidden divide-y-4 md:divide-y-0 md:divide-x-4 divide-white shadow-[12px_12px_0px_rgba(255,255,255,0.05)]">
                 <div className="p-12 space-y-8 group/item hover:bg-white/[0.04] transition-all cursor-crosshair text-left">
                     <div className="flex items-center gap-8">
-                        <img src="/suriken.png" alt="icon" className="w-10 h-10 [#E81414] group-hover:scale-110 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-10 h-10 group-hover:scale-110 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <span className="text-[12px] tracking-[1em] font-black uppercase text-white/30">ELIGIBILITY STATUS</span>
                     </div>
                     <div className="space-y-2">

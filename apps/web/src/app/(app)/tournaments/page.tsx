@@ -105,7 +105,7 @@ export default function TournamentsPage() {
                     <div className="bg-[#0A0A0A] border border-white/10 flex flex-col group/sidebar rounded-[2.5rem] overflow-hidden">
                         <div className="p-10 border-b border-white/10 bg-white/[0.03] flex items-center justify-between">
                             <h3 className="text-[12px] tracking-[0.6em] uppercase font-black text-white/40">SHOGUNATE RECORDS</h3>
-                            <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         </div>
                         <div className="p-10 space-y-10">
                             {[
@@ -130,7 +130,7 @@ export default function TournamentsPage() {
                     <div className="bg-[#0A0A0A] border border-white/10 p-10 relative overflow-hidden group/req rounded-[2.5rem]">
                         <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
                             <h3 className="text-2xl font-black tracking-widest uppercase text-white/40">ENTRY VECTORS</h3>
-                            <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] animate-pulse object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         </div>
 
                         <div className="space-y-8 relative z-10">
@@ -146,7 +146,7 @@ export default function TournamentsPage() {
  ${req.active ? 'text-white' : 'text-white/20 group-hover/req-item:text-white/40'}`}>
                                         {req.label}
                                     </span>
-                                    {req.active && <img src="/suriken.png" alt="icon" className="w-5 h-5 [#E81414] ml-auto object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
+                                    {req.active && <img src="/suriken.png" alt="icon" className="w-5 h-5 ml-auto object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
                                 </div>
                             ))}
                         </div>

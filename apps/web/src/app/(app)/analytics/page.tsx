@@ -54,7 +54,7 @@ const HUDFrame = ({
                 <div className="space-y-1">
                     <div className="flex items-center gap-2">
                         <p className="text-[11px] font-black tracking-[0.3em] text-white uppercase leading-none font-mono">{title}</p>
-                        {isLive && <span className="text-[6px] font-black text-[#E81414] animate-pulse">LIVE</span>}
+                        {isLive && <span className="text-[6px] font-black text-[#E81414]">LIVE</span>}
                     </div>
                     {subtitle && <p className="text-[8px] font-black tracking-[0.4em] text-white/20 uppercase leading-none font-mono">{subtitle}</p>}
                 </div>

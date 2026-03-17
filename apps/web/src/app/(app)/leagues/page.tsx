@@ -92,7 +92,7 @@ export default function LeaguesPage() {
 
                 <div className="w-full md:w-1/3 bg-white/[0.03] p-12 flex flex-col justify-between relative overflow-hidden group/sidebar border-l border-white/10">
                     <div className="space-y-8 relative z-10">
-                        <img src="/suriken.png" alt="icon" className="w-10 h-10 [#E81414] group-hover:scale-110 transition-transform duration-500 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img src="/suriken.png" alt="icon" className="w-10 h-10 group-hover:scale-110 transition-transform duration-500 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                         <p className="text-[14px] tracking-wide font-black uppercase leading-relaxed text-white/60">
                             Your matchmaking rating determines algorithmic worth. Grind ranked tiers to earn exclusive visual badges and clearances.
                         </p>
@@ -100,7 +100,7 @@ export default function LeaguesPage() {
                     <div className="space-y-5 relative z-10 pt-8 border-t border-white/10">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-5">
-                                <img src="/suriken.png" alt="icon" className="w-4 h-4 [#E81414] transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-4 h-4 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                 <span className="text-[10px] tracking-[0.4em] font-black uppercase text-white/40 group-hover:text-white transition-colors">SYNC CONTINUOUS</span>
                             </div>
                             <img src="/suriken.png" alt="icon" className="w-4 h-4 white/10 group-hover:text-white transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
@@ -113,7 +113,7 @@ export default function LeaguesPage() {
             <div className="space-y-12 pt-16 relative z-10">
                 <div className="flex items-center justify-between border-b border-white/5 pb-8">
                     <h3 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-6 text-white">
-                        <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> TIER HIERARCHY
+                        <img src="/suriken.png" alt="icon" className="w-8 h-8 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> TIER HIERARCHY
                     </h3>
                     <div className="px-6 py-2 border border-white/10 bg-white/5 text-[10px] tracking-[0.4em] font-black uppercase text-white/30 rounded-full">LADDER DEPTH 12.4K</div>
                 </div>

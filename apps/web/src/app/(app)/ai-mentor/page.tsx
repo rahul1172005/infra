@@ -92,7 +92,7 @@ export default function AiMentorPage() {
                             className="flex gap-10 items-start max-w-4xl"
                         >
                             <div className="w-16 h-16 border-2 border-[#E81414] flex items-center justify-center shrink-0 mt-2 bg-[#E81414]/10 group cursor-pointer hover:bg-[#E81414] transition-all">
-                                <img src="/suriken.png" alt="icon" className="w-8 h-8 [#E81414] group-hover:text-white transition-colors fill-current object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover:text-white transition-colors fill-current object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                             </div>
                             <div className="space-y-10">
                                 <div className="bg-white/[0.02] border-2 border-white/10 p-12 relative group/msg hover:border-[#E81414]/30 transition-all">
@@ -165,7 +165,7 @@ export default function AiMentorPage() {
 
                         <div className="flex items-center justify-between border-b border-white/10 pb-10">
                             <div className="flex items-center gap-6">
-                                <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                 <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">NEURAL STATUS</span>
                             </div>
                             <img src="/suriken.png" alt="icon" className="w-5 h-5 white/10 hover:text-white cursor-pointer transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
@@ -202,7 +202,7 @@ export default function AiMentorPage() {
                                 <span className="text-[9px] tracking-[0.6em] uppercase text-white/20 font-black">Region</span>
                                 <div className="flex items-center gap-4 justify-end">
                                     <span className="text-[11px] font-black tracking-[0.2em] uppercase text-white">GLB NODES</span>
-                                    <img src="/suriken.png" alt="icon" className="w-5 h-5 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                    <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                 </div>
                             </div>
                         </div>
@@ -212,7 +212,7 @@ export default function AiMentorPage() {
                         <div className="absolute inset-0 scanlines opacity-5 invert group-hover:opacity-10 transition-opacity" />
                         <div className="relative z-10 space-y-8">
                             <div className="flex items-center gap-6 border-b-2 border-black/5 pb-6">
-                                <img src="/suriken.png" alt="icon" className="w-6 h-6 [#E81414] animate-pulse object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                                 <span className="text-[12px] tracking-[0.8em] uppercase font-black">SYSTEM DIRECTIVE 001</span>
                             </div>
                             <p className="text-[11px] tracking-[0.3em] uppercase leading-loose text-black/40 font-black group-hover:text-black transition-colors">
