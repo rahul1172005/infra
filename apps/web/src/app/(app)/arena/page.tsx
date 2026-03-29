@@ -1,120 +1,130 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import Button from '@/components/ui/Button';
-import { Power, Terminal, XCircle } from 'lucide-react';
-
 import { useState } from 'react';
-
-/* ── Decorative Components ─────────────────────────────────────────── */
-const DotGrid = () => (
-    <div className="absolute inset-0 dot-grid pointer-events-none opacity-[0.05]" />
-);
+import { motion, AnimatePresence } from 'framer-motion';
+import { Terminal, XCircle, Sword, Activity, Zap, Shield, Target } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { SurikenIcon } from '@/components/icons/SurikenIcon';
+import { DotGrid } from '@/components/ui/DotGrid';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { HUDCard } from '@/components/ui/HUDCard';
+import { MetaCard } from '@/components/ui/MetaCard';
 
 export default function ArenaPage() {
     const [isMatching, setIsMatching] = useState(false);
 
     return (
-        <div className="w-full space-y-12 pb-24 relative overflow-hidden">
+        <div className="w-full space-y-8 md:space-y-12 pb-24 relative overflow-hidden">
             <DotGrid />
 
             {/* ══ HEADER ═════════════════════════════════════════════════════ */}
-            <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end border-b border-white/10 pb-12 gap-12 relative z-10">
-                <div className="space-y-6">
-                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85] text-white">
-                        BATTLE<br /><span className="text-white">ARENA</span>
-                    </h1>
-                </div>
-
-                <div className="flex items-center gap-8 bg-[#0A0A0A] border border-white/10 p-10 group hover:bg-[#E81414] hover:border-[#E81414] transition-all rounded-[2.5rem] cursor-pointer text-white hover:text-black">
-                    <div className="flex flex-col items-start gap-4">
-                        <span className="text-[9px] tracking-[0.6em] font-black uppercase text-white/30 group-hover:text-black/60 transition-colors">OPERATIVES REACHED</span>
-                        <div className="flex items-center gap-6">
-                            
-                            <span className="text-4xl font-black uppercase tracking-tighter tabular-nums">1,402</span>
-                        </div>
-                    </div>
-                    <div className="h-16 w-[1px] bg-white/10 group-hover:bg-black/20 transition-colors mx-2" />
-                    <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                </div>
-            </div>
+            <PageHeader 
+                title="THE"
+                accentTitle="PIT"
+                topLabel="THE FIGHTING PIT"
+            />
 
             {/* ══ MAIN ACTION TILES ═══════════════════════════════════════════ */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 relative z-10">
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 md:gap-12 relative z-10">
 
                 {/* Left: Deployment Tile */}
-                <div className="md:col-span-12 xl:col-span-8 bg-[#0A0A0A] border border-white/10 p-10 md:p-14 space-y-12 flex flex-col justify-between relative overflow-hidden group/deploy transition-all rounded-[3rem]">
-                    <div className="absolute top-0 right-0 w-80 h-80 border-l border-b border-white/5 opacity-40 pointer-events-none group-hover/deploy:opacity-100 group-hover/deploy:border-white/10 transition-all rounded-bl-[3rem]" />
-                    <DotGrid />
-
-                    <div className="space-y-10 relative z-10 flex-1">
-                        <div className="px-6 py-2 border border-[#E81414] rounded-full inline-block text-[9px] tracking-[0.8em] font-black uppercase bg-[#E81414]/5 text-[#E81414]">
-                            LIVE ZONE CMD
-                        </div>
-                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85] text-white">
-                            INITIATE<br />DEPLOYMENT.
-                        </h2>
-                        <p className="text-[12px] tracking-[0.2em] font-black uppercase text-white/40 max-w-xl leading-relaxed">
-                            ENGAGE IN REAL-TIME ALGORITHMIC COMBAT THROUGH ENCRYPTED TUNNELS.
-                            VICTORY YIELDS HIGH-TIER XP AND OPERATIONAL PRESTIGE.
-                        </p>
-                    </div>
-
-                    <Button
+                <div className="xl:col-span-8">
+                    <HUDCard 
+                        title="ENTER THE PIT" 
+                        subtitle="START THE BATTLE"
                         variant="primary"
-                        size="xl"
-                        fullWidth
-                        className="h-20 md:h-24"
-                        onClick={() => setIsMatching(true)}
-                        icon={() => <img src="/suriken.png" alt="icon" className="w-6 h-6 relative z-10 group-hover:translate-x-4 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
+                        className="h-full flex flex-col justify-between"
                     >
-                        START SYNC
-                    </Button>
-                </div>
-
-                {/* Right: Technical Sidebar */}
-                <div className="md:col-span-12 xl:col-span-4 space-y-12">
-                    <div className="bg-white/5 p-10 space-y-10 border border-white/10 rounded-[2.5rem] group/train hover:bg-[#E81414] hover:text-black transition-all relative overflow-hidden flex flex-col justify-between cursor-crosshair text-white">
-                        <div className="absolute inset-0 scanlines opacity-5 mix-blend-overlay group-hover/train:opacity-10 transition-opacity" />
-                        <div className="space-y-8 relative z-10">
-                            <div className="flex justify-between items-start">
-                                <div className="w-14 h-14 border border-white/10 rounded-2xl flex items-center justify-center bg-black group-hover/train:bg-black group-hover/train:border-black transition-all">
-                                    <img src="/suriken.png" alt="icon" className="w-6 h-6 white object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <div className="space-y-8 md:space-y-10 mb-12">
+                            <div className="flex items-center gap-4">
+                                <div className="px-4 py-1.5 border border-[#E81414] rounded-full text-[8px] md:text-[9px] tracking-[0.4em] font-black uppercase bg-[#E81414]/5 text-[#E81414]">
+                                    PIT COMMAND
                                 </div>
-                                <span className="text-[9px] tracking-[0.6em] font-black uppercase text-white/30 group-hover/train:text-black/60 transition-colors">SIM UNIT v4.2</span>
+                                <div className="flex -space-x-2">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="w-6 h-6 rounded-full border border-black bg-white/10 flex items-center justify-center text-[10px] font-black text-white/40">
+                                            {i}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase leading-[0.9] text-inherit transition-colors">
-                                TACTICAL<br />TRAINING
+                            
+                            <h2 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85] text-white">
+                                READY FOR<br />BATTLE.
                             </h2>
-                            <p className="text-[10px] tracking-[0.2em] font-black uppercase leading-relaxed text-inherit opacity-40">
-                                REPLICA NODES FOR SAFE SCRIPT VALIDATION.
+                            <p className="text-[11px] md:text-[13px] tracking-[0.1em] md:tracking-[0.2em] font-black uppercase text-white/40 max-w-xl leading-relaxed">
+                                ENGAGE IN REAL-TIME HAND-TO-HAND COMBAT WITHIN THE PIT. 
+                                VICTORY YIELDS GOLD COINS AND ROYAL PRESTIGE.
                             </p>
                         </div>
 
                         <Button
-                            variant="outline"
-                            size="lg"
+                            variant="primary"
+                            size="xl"
                             fullWidth
-                            className="mt-auto"
-                            icon={Terminal}
+                            className="h-20 md:h-28 text-sm md:text-lg tracking-[0.5em]"
+                            onClick={() => setIsMatching(true)}
+                            icon={() => <SurikenIcon size="md" className="transition-transform duration-700" />}
                         >
-                            LAUNCH SIM
+                            START BATTLE
                         </Button>
-                    </div>
+                    </HUDCard>
+                </div>
 
-                    <div className="bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-10 space-y-8 group/stats hover:bg-[#E81414] hover:text-black transition-all text-white cursor-default">
-                        <div className="flex items-center gap-6 border-b border-white/10 group-hover/stats:border-black/20 pb-6 transition-colors">
-                            <img src="/suriken.png" alt="icon" className="w-6 h-6 group-hover/stats:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                            <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/30 group-hover/stats:text-black/60 transition-colors">ARENA LOGISTICS</span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-8 relative z-10">
-                            <div>
-                                <p className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30 group-hover/stats:text-black/50 transition-colors mb-2">WIN RATE</p>
-                                <p className="text-3xl font-black text-white group-hover/stats:text-black transition-colors">64.2%</p>
+                {/* Right: Technical Sidebar */}
+                <div className="xl:col-span-4 space-y-8 md:gap-12 flex flex-col">
+                    <HUDCard 
+                        title="PIT TRAINING"
+                        subtitle="COMBAT SIMULATION"
+                        className="flex-1 group/train cursor-crosshair"
+                    >
+                        <div className="space-y-8 h-full flex flex-col">
+                            <div className="flex justify-between items-start">
+                                <div className="flex items-center justify-center">
+                                    <Target className="w-8 h-8 text-[#E81414]" />
+                                </div>
+                                <span className="text-[8px] tracking-[0.4em] font-black uppercase text-white/20">TRAIN v4.2</span>
                             </div>
-                            <div>
-                                <p className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30 group-hover/stats:text-black/50 transition-colors mb-2">SYS TIME</p>
-                                <p className="text-3xl font-black text-white group-hover/stats:text-black transition-colors">142H</p>
+                            
+                            <div className="space-y-4">
+                                <h3 className="text-3xl md:text-4xl font-black tracking-tighter uppercase  text-white">
+                                    TRAINING<br />DUMMIES
+                                </h3>
+                                <p className="text-[10px] tracking-[0.1em] font-black uppercase leading-relaxed text-white/30">
+                                    PRACTICE YOUR STRIKES AND COMBAT MOVES SAFELY.
+                                </p>
+                            </div>
+
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                fullWidth
+                                className="mt-auto group-hover/train:bg-white group-hover/train:text-black transition-all"
+                                icon={Terminal}
+                            >
+                                START PRACTICE
+                            </Button>
+                        </div>
+                    </HUDCard>
+
+                    <div className="bg-black border border-white/10 rounded-[2.5rem] p-8 md:p-10 space-y-8 group/stats hover:border-[#E81414]/30 transition-all text-white relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover/stats:opacity-[0.1] transition-opacity">
+                            <Zap size={80} strokeWidth={3} />
+                        </div>
+                        
+                        <div className="flex items-center gap-4 border-b border-white/10 pb-6">
+                            <SurikenIcon size="sm" opacity="0.3" />
+                            <span className="text-[10px] tracking-[0.4em] font-black uppercase text-white/30">PIT LOGISTICS</span>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-8 relative z-10">
+                            <div className="space-y-2">
+                                <p className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30 truncate">WIN RATE</p>
+                                <p className="text-3xl md:text-4xl font-black text-white tabular-nums">64.2%</p>
+                            </div>
+                            <div className="space-y-2">
+                                <p className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30 truncate">SYS TIME</p>
+                                <p className="text-3xl md:text-4xl font-black text-white tabular-nums">142H</p>
                             </div>
                         </div>
                     </div>
@@ -128,35 +138,57 @@ export default function ArenaPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[999] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-12 overflow-hidden"
+                        className="fixed inset-0 z-[999] bg-black/98 backdrop-blur-2xl flex flex-col items-center justify-center p-6 md:p-12 overflow-hidden"
                     >
-                        <div className="absolute inset-0 dot-grid opacity-[0.1]" />
+                        <DotGrid />
 
                         <div className="relative z-10 w-full max-w-4xl space-y-16 flex flex-col items-center text-center">
 
                             <div className="space-y-12">
-                                <div className="w-32 h-32 border border-white/10 rounded-full flex items-center justify-center mx-auto relative bg-[#0A0A0A]">
-                                    <div className="w-20 h-20 border border-white/10 rounded-full absolute" />
+                                <motion.div 
+                                    animate={{ opacity: [0.3, 1, 0.3] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                    className="w-24 h-24 md:w-40 md:h-40 border-2 border-dashed border-[#E81414]/30 rounded-full flex items-center justify-center mx-auto relative"
+                                >
+                                    <div className="w-16 h-16 md:w-28 md:h-28 border border-[#E81414] rounded-full flex items-center justify-center bg-[#E81414]/5">
+                                        <SurikenIcon size="lg" className="text-[#E81414]" />
+                                    </div>
+                                    
+                                    {/* Rotating signal dots */}
+                                    <div className="absolute inset-0">
+                                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#E81414] rounded-full shadow-[0_0_15px_#E81414]" />
+                                    </div>
+                                </motion.div>
+                                
+                                <div className="space-y-4">
+                                    <h2 className="text-4xl md:text-7xl font-black tracking-tighter uppercase text-white ">
+                                        LOCATING<br /><span className="text-[#E81414]">OPPONENT.</span>
+                                    </h2>
+                                    <div className="h-1 w-24 bg-[#E81414]/20 mx-auto rounded-full overflow-hidden">
+                                        <motion.div 
+                                            initial={{ x: "-100%" }}
+                                            animate={{ x: "100%" }}
+                                            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                                            className="h-full w-full bg-[#E81414]"
+                                        />
+                                    </div>
                                 </div>
-                                <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-white">
-                                    LOCATING<br /><span className="text-[#E81414]">SYNDICATE</span>
-                                </h2>
                             </div>
 
-                            <div className="text-[10px] tracking-[0.6em] font-black uppercase text-white/40 space-y-4">
-                                <p>ESTABLISHING SECURE CONNECTION...</p>
-                                <p className="text-[#E81414]">ROUTING PACKETS: 192.168.X.X</p>
-                                <p>AWAITING OPPONENT CONFIRMATION</p>
+                            <div className="text-[9px] md:text-[11px] tracking-[0.4em] md:tracking-[0.6em] font-black uppercase text-white/30 space-y-3 md:space-y-4 font-mono">
+                                <p>PREPARING THE PIT...</p>
+                                <p className="text-[#E81414] animate-pulse">ROUTING FIGHTERS...</p>
+                                <p>AWAITING OPPONENT</p>
                             </div>
 
                             <Button
                                 variant="outline"
-                                size="md"
+                                size="lg"
                                 onClick={() => setIsMatching(false)}
                                 icon={XCircle}
-                                className="border-white/20 text-white/50 hover:bg-white hover:text-black"
+                                className="border-white/10 text-white/40 hover:border-[#E81414] hover:text-[#E81414] transition-all px-12 rounded-full"
                             >
-                                ABORT SEQUENCE
+                                YIELD
                             </Button>
                         </div>
                     </motion.div>

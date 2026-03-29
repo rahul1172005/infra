@@ -136,7 +136,7 @@ function HUD({
                         const clr = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
                         return (
                             <div
-                                key={t.name}
+                                key={`${t.name}-${i}`}
                                 style={{
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -256,8 +256,8 @@ function HUD({
                     <div style={{ fontSize: '7.5px', letterSpacing: '.2em', color: 'rgba(255,255,255,.18)', textTransform: 'uppercase' }}>
                         Gap Analysis
                     </div>
-                    {teams.slice(1).map(t => (
-                        <div key={t.name} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '7.5px' }}>
+                    {teams.slice(1).map((t, i) => (
+                        <div key={`${t.name}-${i}`} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '7.5px' }}>
                              <span style={{ color: 'rgba(255,255,255,.2)', fontSize: '7.5px' }}>{t.name.replace(/_/g, ' ')}</span>
                             <span style={{ color: 'rgba(255,90,90,.55)', fontSize: '7.5px' }}>-{(teams[0].pts - t.pts).toLocaleString()}</span>
                         </div>
@@ -287,7 +287,7 @@ function HUD({
                             const clr = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
                             return (
                                 <div
-                                    key={t.name}
+                                    key={`${t.name}-${i}`}
                                     className="bb-item"
                                     style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}
                                 >

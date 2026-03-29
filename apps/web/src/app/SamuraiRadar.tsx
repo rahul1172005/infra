@@ -5,7 +5,7 @@ interface TrailDot {
   a: number; r: number; life: number; decay: number; sz: number;
 }
 interface Team {
-  name: string; kanji: string; rank: string; score: number;
+  name: string; kanji?: string; rank?: string; score: number;
   angle: number; strength: number; trail: TrailDot[];
   pingLife: number; active: boolean; labelAlpha: number;
 }
@@ -25,8 +25,7 @@ interface Mote {
 
 
 // ── Constants ─────────────────────────────────────────────────────────
-const KANJI_LIST = ["龍", "虎", "鳳", "狼", "鶴", "蛇", "鷹", "熊", "鮫", "猿"];
-const RANK_LIST = ["壱", "弐", "參", "四", "五", "六", "七", "八", "九", "十"];
+const SPD = 0.0075;
 
 function buildTeams(teamsProp: any[]): Team[] {
   const data = teamsProp;
@@ -48,8 +47,6 @@ function buildTeams(teamsProp: any[]): Team[] {
     }
     return { 
       name: t.team || t.name || t.id || "UNKNOWN",
-      kanji: t.kanji || KANJI_LIST[i % KANJI_LIST.length],
-      rank: t.rank || RANK_LIST[i % RANK_LIST.length],
       score: scoreVal,
       angle, strength, trail, pingLife: 0, active: false, labelAlpha: 0 
     };
@@ -57,7 +54,7 @@ function buildTeams(teamsProp: any[]): Team[] {
 }
 
 // ── Component ─────────────────────────────────────────────────────────
-export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] }) {
+export default function DynastyRadar({ teams: teamsProp = [] }: { teams?: any[] }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const propRef = useRef(teamsProp);
   const teamsRef = useRef<Team[]>([]);
@@ -165,29 +162,7 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
     // ── Draw helpers ─────────────────────────────────────────────────
     function drawBg() {
       ctx.save();
-      const bg = ctx.createRadialGradient(CX * 0.8, CY * 0.75, 0, W * 0.5, H * 0.5, Math.max(W, H) * 0.9);
-      bg.addColorStop(0, "rgba(18,18,24,1)");
-      bg.addColorStop(0.35, "rgba(10,10,14,1)");
-      bg.addColorStop(0.75, "rgba(5,5,8,1)");
-      bg.addColorStop(1, "rgba(2,2,4,1)");
-      ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
-      const washes = [
-        { x: 0.14, y: 0.20, rx: 0.28, ry: 0.18, a: 0.05 },
-        { x: 0.68, y: 0.16, rx: 0.22, ry: 0.14, a: 0.042 },
-        { x: 0.80, y: 0.62, rx: 0.24, ry: 0.26, a: 0.048 },
-        { x: 0.22, y: 0.75, rx: 0.30, ry: 0.17, a: 0.044 },
-        { x: 0.40, y: 0.28, rx: 0.10, ry: 0.07, a: 0.065 },
-        { x: 0.60, y: 0.50, rx: 0.08, ry: 0.09, a: 0.055 },
-      ];
-      washes.forEach(p => {
-        const gx = p.x * W, gy = p.y * H, rx = p.rx * W;
-        ctx.save(); ctx.translate(gx, gy); ctx.scale(1, (p.ry * H) / rx);
-        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rx);
-        g.addColorStop(0, `rgba(255,255,255,${p.a})`);
-        g.addColorStop(0.45, `rgba(220,220,235,${p.a * 0.3})`);
-        g.addColorStop(1, "transparent");
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, rx, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-      });
+      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, W, H);
       ctx.restore();
     }
 
@@ -289,11 +264,11 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
       ctx.shadowBlur = 10; ctx.shadowColor = "rgba(255,255,255,0.6)"; ctx.stroke(); ctx.restore();
     }
 
-    function drawSamuraiLabel(team: Team, px: number, py: number, alpha: number) {
+    function drawDynastyLabel(team: Team, px: number, py: number, alpha: number) {
       if (alpha <= 0.01) return;
       const isActive = team.active;
-      const baseAlpha = alpha * (isActive ? 1.0 : 0.55);
-      const outDist = 38 + (isActive ? 8 : 0);
+      const baseAlpha = alpha * (isActive ? 1.0 : 0.45);
+      const outDist = 42 + (isActive ? 10 : 0);
       const lx = px + Math.cos(team.angle) * outDist;
       const ly = py + Math.sin(team.angle) * outDist;
       const onRight = lx >= CX;
@@ -302,52 +277,27 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
       ctx.save();
       ctx.globalAlpha = baseAlpha;
 
-      // Kanji — large dominant glyph
-      const kanjiSize = Math.max(18, W * 0.022) * (isActive ? 1.15 : 1.0);
-      ctx.font = `700 ${kanjiSize}px 'Noto Serif JP', serif`;
+      // Team Identity
+      const primaryName = team.name?.replace(/_/g, ' ') || "ACTIVE_NODE";
+      const nameSize = Math.max(12, W * 0.014);
+      ctx.font = `black ${nameSize}px 'Rajdhani', sans-serif`;
       ctx.textAlign = align;
       ctx.textBaseline = "middle";
-      ctx.shadowBlur = isActive ? 24 : 8;
-      ctx.shadowColor = isActive ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)";
-      ctx.fillStyle = isActive ? "rgba(255,255,255,0.96)" : "rgba(200,200,215,0.65)";
-      ctx.fillText(team.kanji, lx, ly);
+      ctx.shadowBlur = isActive ? 15 : 0;
+      ctx.shadowColor = "rgba(232, 20, 20, 0.4)";
+      ctx.fillStyle = isActive ? "#fff" : "rgba(255,255,255,0.7)";
+      ctx.fillText(primaryName, lx + (onRight ? 8 : -8), ly - 10);
 
-      // Romaji name — small mono
-      const nameSize = Math.max(6, W * 0.0065);
-      ctx.font = `${nameSize}px 'Share Tech Mono', monospace`;
-      ctx.textBaseline = "top";
-      ctx.shadowBlur = isActive ? 8 : 2;
-      ctx.shadowColor = "rgba(255,255,255,0.5)";
-      ctx.fillStyle = isActive ? "rgba(255,255,255,0.75)" : "rgba(180,180,200,0.42)";
-      const nameY = ly + kanjiSize * 0.52;
-      ctx.fillText(team.name?.replace(/_/g, ' '), lx, nameY);
+      // Score Indicator
+      const subSize = Math.max(8, W * 0.009);
+      ctx.font = `bold ${subSize}px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = "#E81414";
+      ctx.fillText(`${team.score} XP`, lx + (onRight ? 8 : -8), ly + 6);
 
-      // Rank kanji — small, above
-      const rankSize = Math.max(7, W * 0.0075);
-      ctx.font = `300 ${rankSize}px 'Noto Serif JP', serif`;
-      ctx.textBaseline = "bottom";
-      ctx.shadowBlur = 0;
-      ctx.fillStyle = isActive ? "rgba(255,255,255,0.50)" : "rgba(160,160,180,0.28)";
-      ctx.fillText(team.rank, lx, ly - kanjiSize * 0.52);
-
-      // Score bar
-      const barW = Math.max(22, W * 0.028);
-      const barH = 1.5;
-      const barFrac = team.score / 98420;
-      const barX = onRight ? lx : lx - barW;
-      const barY = nameY + nameSize + 4;
-      ctx.fillStyle = "rgba(255,255,255,0.08)"; ctx.shadowBlur = 0;
-      ctx.fillRect(barX, barY, barW, barH);
-      ctx.fillStyle = isActive ? "rgba(255,255,255,0.72)" : "rgba(200,200,215,0.35)";
-      ctx.shadowBlur = isActive ? 6 : 0; ctx.shadowColor = "rgba(255,255,255,0.8)";
-      ctx.fillRect(barX, barY, barW * barFrac, barH);
-
-      // Connector line
-      ctx.globalAlpha = baseAlpha * 0.35;
-      ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.lineWidth = 0.5; ctx.shadowBlur = 0;
-      ctx.setLineDash([2, 5]);
-      ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(lx - (onRight ? 4 : -4), ly); ctx.stroke();
-      ctx.setLineDash([]);
+      // Connector Dash
+      ctx.strokeStyle = "rgba(255,255,255,0.15)";
+      ctx.setLineDash([2, 4]);
+      ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(lx, ly); ctx.stroke();
       ctx.restore();
     }
 
@@ -427,24 +377,21 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
       }
 
       // Cardinals
-      ([["北", -Math.PI / 2], ["東", 0], ["南", Math.PI / 2], ["西", Math.PI]] as [string, number][]).forEach(([l, a]) => {
+      ([["N", -Math.PI / 2], ["E", 0], ["S", Math.PI / 2], ["W", Math.PI]] as [string, number][]).forEach(([l, a]) => {
         ctx.save();
-        ctx.font = `600 ${Math.max(12, W * 0.014)}px 'Noto Serif JP', serif`;
-        ctx.fillStyle = l === "北" ? "rgba(255,255,255,0.95)" : "rgba(200,200,215,0.45)";
+        ctx.font = `900 ${Math.max(14, W * 0.016)}px 'Cinzel', serif`;
+        ctx.fillStyle = l === "N" ? "rgba(255,255,255,0.95)" : "rgba(200,200,215,0.45)";
         ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        if (l === "北") { ctx.shadowBlur = 20; ctx.shadowColor = "rgba(255,255,255,0.60)"; }
+        if (l === "N") { ctx.shadowBlur = 20; ctx.shadowColor = "rgba(255,255,255,0.60)"; }
         ctx.fillText(l, CX + Math.cos(a) * (R + 50), CY + Math.sin(a) * (R + 50));
         ctx.restore();
       });
 
-      // Radar face
+      // Radar face (Pure Black Minimalist)
       ctx.save();
-      const face = ctx.createRadialGradient(CX - R * 0.15, CY - R * 0.1, 0, CX, CY, R);
-      face.addColorStop(0, "rgba(20,20,20,0.25)");
-      face.addColorStop(0.55, "rgba(8,8,8,0.40)");
-      face.addColorStop(0.85, "rgba(4,4,4,0.50)");
-      face.addColorStop(1, "rgba(2,2,2,0.60)");
-      ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.fillStyle = face; ctx.fill(); ctx.restore();
+      ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); 
+      ctx.fillStyle = "#000"; ctx.fill(); 
+      ctx.restore();
 
       // Glass sheen
       ctx.save();
@@ -582,7 +529,7 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
           });
         }
         ctx.restore();
-        drawSamuraiLabel(team, px, py, labelA);
+        drawDynastyLabel(team, px, py, labelA);
       });
 
       // Particles
@@ -636,29 +583,11 @@ export default function SamuraiRadar({ teams: teamsProp = [] }: { teams?: any[] 
     <div style={{ width: "100%", height: "450px", background: "#040404", overflow: "hidden", position: "relative" }}>
       {/* Google Fonts */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&family=Noto+Serif+JP:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&family=Cinzel:wght@400;700;900&display=swap');
       `}</style>
 
       {/* Canvas */}
       <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, display: "block" }} />
-
-      {/* Scanlines removed for better background merging */}
-
-      {/* Ghost kanji */}
-      <div style={{
-        position: "absolute", right: "-1%", top: "5%",
-        fontSize: "clamp(40px,6vw,100px)", fontWeight: 900,
-        fontFamily: "'Rajdhani', sans-serif", color: "rgba(255,255,255,0.012)",
-        userSelect: "none", pointerEvents: "none", lineHeight: 1, zIndex: 1,
-      }}>武</div>
-      <div style={{
-        position: "absolute", left: "0%", bottom: "2%",
-        fontSize: "clamp(30px,4.5vw,70px)", fontWeight: 900,
-        fontFamily: "'Rajdhani', sans-serif", color: "rgba(255,255,255,0.012)",
-        userSelect: "none", pointerEvents: "none", lineHeight: 1, zIndex: 1,
-      }}>侍</div>
-
-      {/* HUD overlay removed */}
     </div>
   );
 }

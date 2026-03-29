@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-const words = ["BUSHIDO", "HONOR", "LOYALTY", "KATANA", "SHOGUNATE", "RONIN", "DOJO", "DISCIPLINE", "ZEN", "MASTERY", "PROWESS"];
+const words = ["VALYRIAN", "HONOR", "LOYALTY", "DRAGON", "IRON THRONE", "STARK", "LANNISTER", "TARGARYEN", "WINTER IS COMING", "FIRE AND BLOOD", "HEAR ME ROAR"];
 
 export function TickerTape() {
     return (

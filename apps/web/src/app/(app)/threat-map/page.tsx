@@ -10,7 +10,7 @@ const DotGrid = () => (
 );
 
 const MetricCard = ({ label, value, color = "text-white" }: { label: string; value: string, color?: string }) => (
-    <div className="bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] p-10 flex flex-col gap-6 min-w-[240px] hover:bg-[#E81414] hover:border-[#E81414] group transition-all text-white hover:text-black">
+    <div className="bg-black border border-white/10 rounded-[2.5rem] p-10 flex flex-col gap-6 min-w-[240px] hover:bg-[#E81414] hover:border-[#E81414] group transition-all text-white hover:text-black">
         <span className="text-[10px] tracking-[0.8em] uppercase font-black text-white/30 group-hover:text-black/60 transition-colors">{label}</span>
         <span className={`text-5xl font-bold tracking-tighter uppercase ${color} group-hover:text-black transition-colors`}>{value}</span>
     </div>
@@ -42,13 +42,13 @@ export default function ThreatMapPage() {
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end border-b border-white/10 pb-12 gap-12 relative z-10">
                 <div className="space-y-6">
                     <h1 className="text-6xl md:text-8xl tracking-tighter uppercase font-black leading-[0.85] text-white">
-                        THREAT<br /><span className="text-white">DYNAMICS</span>
+                        REALM<br /><span className="text-white">DYNAMICS</span>
                     </h1>
                 </div>
 
                 <div className="flex flex-wrap gap-8">
-                    <MetricCard label="ANOMALIES" value="12,042" color="text-[#E81414]" />
-                    <MetricCard label="STABILITY" value="94.2%" />
+                    <MetricCard label="THREATS" value="12,042" color="text-[#E81414]" />
+                    <MetricCard label="LOYALTY" value="94.2%" />
                 </div>
             </div>
 
@@ -56,7 +56,7 @@ export default function ThreatMapPage() {
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 h-fit min-h-[900px] relative z-10">
 
                 {/* Left: Global Sensor Grid */}
-                <div className="xl:col-span-8 bg-[#050505] border border-white/10 rounded-[3rem] relative overflow-hidden flex items-center justify-center p-16 group/map hover:border-white/20 transition-all">
+                <div className="xl:col-span-8 bg-black border border-white/10 rounded-[3rem] relative overflow-hidden flex items-center justify-center p-16 group/map hover:border-white/20 transition-all">
                     <DotGrid />
                     <div className="absolute inset-0 scanlines opacity-5 pointer-events-none mix-blend-overlay group-hover/map:opacity-10 transition-opacity" />
 
@@ -70,12 +70,12 @@ export default function ThreatMapPage() {
 
                     <div className="absolute top-12 left-12 flex flex-col gap-6 z-10 bg-black/50 backdrop-blur-md rounded-3xl p-6 border border-white/10">
                         <div className="flex items-center gap-6 group/target cursor-pointer">
-                            <img src="/suriken.png" alt="icon" className="w-8 h-8 transition-transform duration-700 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-14 h-14 transition-transform duration-700 object-contain" />
                             <div className="space-y-1">
-                                <span className="text-[12px] font-black tracking-[0.6em] uppercase text-white">SENSOR CORE V9.4</span>
+                                <span className="text-[12px] font-black tracking-[0.6em] uppercase text-white">DRAGON'S EYE V1.0</span>
                                 <div className="flex items-center gap-4">
                                     
-                                    <span className="text-[9px] tracking-[0.4em] font-black text-white/40 uppercase">GRID STABLE</span>
+                                    <span className="text-[9px] tracking-[0.4em] font-black text-white/40 uppercase">REALM LOYAL</span>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +96,7 @@ export default function ThreatMapPage() {
 
                                 <div className="absolute top-12 whitespace-nowrap bg-black text-white px-5 py-2 text-[9px] font-black tracking-[0.4em] uppercase border border-white/20 rounded-full shadow-2xl backdrop-blur-md">
                                     <span className={p.intensity > 0.6 ? 'text-[#E81414]' : 'text-white'}>
-                                        {p.intensity > 0.6 ? 'PRIORITY ALPHA' : 'SECTOR SYNC'}
+                                        {p.intensity > 0.6 ? 'DRAGON FIRE' : 'KINGDOM SYNC'}
                                     </span> 0x{p.id.toString().slice(-4)}
                                 </div>
                             </motion.div>
@@ -104,33 +104,33 @@ export default function ThreatMapPage() {
                     </div>
 
                     <div className="absolute bottom-12 right-12 flex items-center gap-6 bg-black/50 backdrop-blur-md rounded-full px-6 py-4 border border-white/10">
-                        <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 object-contain" />
                         <span className="text-[9px] tracking-[0.6em] font-black uppercase text-white/40">LIVE PULSE ESTABLISHED</span>
                     </div>
                 </div>
 
                 {/* Right: Incident Vault */}
-                <div className="xl:col-span-4 bg-[#0A0A0A] border border-white/10 rounded-[3rem] flex flex-col relative overflow-hidden group/sidebar transition-all">
+                <div className="xl:col-span-4 bg-black border border-white/10 rounded-[3rem] flex flex-col relative overflow-hidden group/sidebar transition-all">
                     <div className="p-10 border-b border-white/10 bg-white/5 text-white flex justify-between items-center relative overflow-hidden">
                         <div className="flex items-center gap-6 relative z-10">
-                            <img src="/suriken.png" alt="icon" className="w-8 h-8 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                            <span className="text-[14px] font-black tracking-[0.6em] uppercase">THREAT VAULT</span>
+                            <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-14 h-14 object-contain" />
+                            <span className="text-[14px] font-black tracking-[0.6em] uppercase">ROYAL RECORDS</span>
                         </div>
                         
                     </div>
 
                     <div className="flex-1 overflow-y-auto p-8 space-y-6 scrollbar-hide relative z-10">
                         {[
-                            { t: '12:00:42', s: 'AP SOUTH', type: 'KERNEL BREACH', sev: 'CRITICAL' },
-                            { t: '11:59:12', s: 'EU CENTRAL', type: 'SQL INJECT V2', sev: 'HIGH' },
-                            { t: '11:58:05', s: 'US EAST', type: 'PORT SCAN X', sev: 'MID' },
-                            { t: '11:57:44', s: 'UNKNOWN', type: 'ENCRYPT BLOCK', sev: 'CRITICAL' },
-                            { t: '11:56:30', s: 'GLOBAL CDN', type: 'DNS HIJACK', sev: 'HIGH' },
+                            { t: '12:00:42', s: 'KINGS LANDING', type: 'USURPER PLOT', sev: 'CRITICAL' },
+                            { t: '11:59:12', s: 'WINTERFELL', type: 'WHITE WALKER SIGHTING', sev: 'HIGH' },
+                            { t: '11:58:05', s: 'THE WALL', type: 'WILDLING BREACH', sev: 'MID' },
+                            { t: '11:57:44', s: 'BRAAVOS', type: 'GOLD SHORTAGE', sev: 'CRITICAL' },
+                            { t: '11:56:30', s: 'MEEREEN', type: 'DRAGON UNLEASHED', sev: 'HIGH' },
                         ].map((incident, i) => (
                             <div key={i} className="bg-black border border-white/10 rounded-[2rem] p-8 relative group/item hover:bg-[#E81414] hover:border-[#E81414] hover:text-black text-white transition-all cursor-pointer overflow-hidden">
                                 <div className="flex justify-between items-start mb-8">
                                     <div className="flex items-center gap-4">
-                                        <img src="/suriken.png" alt="icon" className="w-4 h-4 group-hover/item:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                        <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-8 h-8 object-contain" />
                                         <span className="text-[10px] font-black tracking-[0.3em] uppercase group-hover/item:text-black/60 text-white/40 transition-colors">{incident.t}</span>
                                     </div>
                                     <span className="text-[9px] px-4 py-1 border border-current rounded-full font-black uppercase tracking-[0.4em] group-hover/item:text-black/80 transition-colors">{incident.s}</span>
@@ -150,25 +150,23 @@ export default function ThreatMapPage() {
 
                     <div className="p-8 border-t border-white/10 bg-black group/footer relative z-10">
                         <button className="w-full py-6 rounded-full bg-white text-black text-[11px] tracking-[0.6em] font-black uppercase hover:bg-[#E81414] hover:text-white transition-all flex items-center justify-center gap-6 relative overflow-hidden group/btn">
-                            <span className="relative z-10">DOWNLOAD VAULT V9</span>
-                            <img src="/suriken.png" alt="icon" className="w-5 h-5 relative z-10 group-hover/btn:translate-x-4 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <span className="relative z-10">DOWNLOAD ROYAL SCROLLS</span>
                         </button>
                     </div>
                 </div>
             </div>
 
             {/* ══ ACTION FOOTER ═══════════════════════════════════════════════ */}
-            <div className="p-10 border border-white/10 rounded-[3rem] bg-[#0A0A0A] flex flex-col md:flex-row items-center justify-between group/action cursor-pointer hover:bg-[#E81414] hover:border-[#E81414] transition-all text-white hover:text-black gap-8">
+            <div className="p-10 border border-white/10 rounded-[3rem] bg-black flex flex-col md:flex-row items-center justify-between group/action cursor-pointer hover:bg-[#E81414] hover:border-[#E81414] transition-all text-white hover:text-black gap-8">
                 <div className="flex items-center gap-8 relative z-10">
-                    <img src="/suriken.png" alt="icon" className="w-10 h-10 group-hover:text-black transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                    <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-16 h-16 object-contain" />
                     <div className="space-y-2 text-center md:text-left">
-                        <p className="text-[10px] tracking-[0.6em] font-black uppercase text-white/30 group-hover:text-black/60 transition-colors">OPERATIONAL SYNC</p>
-                        <h4 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white group-hover:text-black transition-colors">DEPLOY GLOBAL SHIELD V4</h4>
+                        <p className="text-[10px] tracking-[0.6em] font-black uppercase text-white/30 group-hover:text-black/60 transition-colors">COUNCIL SYNC</p>
+                        <h4 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white group-hover:text-black transition-colors">RAISE THE DRAGON SHIELD</h4>
                     </div>
                 </div>
                 <div className="flex items-center gap-8 group-hover:text-black transition-colors">
                     <span className="text-4xl font-bold">0x9F</span>
-                    <img src="/suriken.png" alt="icon" className="w-10 h-10 group-hover/action:translate-x-2 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
                 </div>
             </div>
         </div>

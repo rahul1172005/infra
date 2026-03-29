@@ -1,8 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import Scanlines from '@/components/effects/Scanlines';
-import DotGrid from '@/components/effects/DotGrid';
+import { DotGrid } from '@/components/ui/DotGrid';
+import { GoogleIcon } from '@/components/ui/GoogleIcon';
 import dynamic from 'next/dynamic';
 import EnterButtons from '@/components/landing/EnterButtons';
 
@@ -19,7 +22,7 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
-      className="fixed inset-0 z-[9999] bg-[#050505] text-white overflow-hidden font-title"
+      className="fixed inset-0 z-[9999] bg-black text-white overflow-hidden font-title"
     >
       <Scanlines />
       <DotGrid />
@@ -46,80 +49,217 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
         />
       </div>
 
+      {/* Side 1 — Left 
+      <img
+        src="/side12.png"
+        alt="Side Left"
+        className="absolute pointer-events-none"
+        style={{
+          zIndex: 20,
+          left: 0,
+          top: '50%',
+          transform: 'translateY(-50%) translateX(-10%) scale(3.8)',
+          width: '22vw',
+          maxWidth: '320px',
+          height: 'auto',
+          objectFit: 'contain',
+        }}
+      />*/}
+
+      {/* Side 2 — Right 
+      <img
+        src="/side222.png"
+        alt="Side Right"
+        className="absolute pointer-events-none"
+        style={{
+          zIndex: 20,
+          right: 0,
+          top: '50%',
+          transform: 'translateY(-10%) translateX(-18%) scale(3.9)',
+          width: '22vw',
+          maxWidth: '320px',
+          height: 'auto',
+          objectFit: 'contain',
+        }}
+      />*/}
+
       <style>{`
         .bg-image-layer-1 {
             transform: scale(1.2) translate(0px, 20px);
         }
         @media (min-width: 768px) {
             .bg-image-layer-1 {
-                transform: scale(1.44) translate(10px, 60px);
+                transform: scale(1.4) translate(0px, 70px);
             }
         }
         .home-image-layer-top {
-            transform: scale(1.2) translate(0px, 100px);
+            transform: scale(1.7) translate(10px, 90px);
         }
         @media (min-width: 768px) {
             .home-image-layer-top {
-                transform: scale(1.6) translate(0px, 180px);
+                transform: scale(1.1) translate(10px, 75px);
             }
         }
       `}</style>
 
       {/* ── MOBILE CONTENT ── */}
-      <div className="relative z-[60] flex flex-col md:hidden h-full p-5 pt-8 pb-10">
-        <div>
-          <h1 className="text-[10vw] leading-none font-black uppercase tracking-[0.04em] text-black drop-shadow-sm">
-            ZAPSTERS
-          </h1>
-          <p className="mt-2 text-[4.5vw] sm:text-[4vw] font-black uppercase leading-[1.15] tracking-[0.02em] text-black w-full">
-            MY LOYAL KATANA.<br />AND CHAMPION<br />OF THE SHOGUNATE.
+      <div className="relative z-[60] flex flex-col md:hidden h-full p-8 pt-16 pb-12">
+        <div className="flex flex-col items-start">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-10 h-10">
+              <img src="/logo.png" alt="Zapsters Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0)' }} />
+            </div>
+            <h1 className="text-2xl font-black uppercase tracking-widest text-black">ZAPSTERS</h1>
+          </div>
+          <p className="mt-4 text-[7vw] font-black uppercase leading-[1.1] tracking-tight text-black w-full drop-shadow-sm">
+            THE DRAGON&apos;S FIRE.<br />AND HEIR<br />TO THE IRON THRONE.
           </p>
         </div>
 
-        <div className="mt-auto flex flex-col gap-3 w-full">
+        <div className="mt-auto flex flex-col gap-6 w-full">
           <EnterButtons onEnter={onEnter} variant="mobile" />
-          <p className="mt-2 text-[7px] text-center font-black uppercase tracking-[0.4em] text-white/55 leading-[1.8] max-w-[280px] mx-auto">
-            ZAPSTERS IS A COLOSSAL ARENA FOR ELITE ENGINEERS TO MASTER THE ARTS OF CODE. ENTER THE REALM WHERE YOUR LEGACIES ARE FORGED.
+          <p className="text-[10px] text-center font-black uppercase tracking-[0.3em] text-white/70 leading-relaxed max-w-[280px] mx-auto">
+            THE IRON THRONE IS THE SEAT OF POWER IN WESTEROS.<br />
+            CLAIM YOUR BIRTHRIGHT<br />
+            THROUGH FIRE AND BLOOD.
           </p>
         </div>
       </div>
 
-      {/* ── DESKTOP CONTENT ── */}
-      <div className="relative z-[60] hidden md:flex flex-col justify-between h-full p-12">
-        <div className="w-full flex justify-between items-start mt-4 text-neutral-700">
-          <h1 className="text-7xl lg:text-9xl leading-none font-black uppercase tracking-[0.05em] text-black">
+      {/* ── DESKTOP CONTENT (MATCHED TO IMAGE) ── */}
+      <div className="relative z-[60] hidden md:block h-full w-full overflow-hidden p-0">
+
+        {/* TOP LEFT: ZAPSTERS + LOGO */}
+        <div className="absolute flex items-center gap-6"
+          style={{
+            left: '40px',
+            top: '50px',
+            transform: 'translate(0px, 0px) scale(1.15)',
+            transformOrigin: 'left top'
+          }}>
+          <div className="shrink-0" style={{ transform: 'translate(-10px, 15.5px) scale(3.80)' }}>
+            <div className="w-24 h-28 lg:w-28 lg:h-28">
+              <img src="/logo.png" alt="Zapsters Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0)' }} />
+            </div>
+          </div>
+          <h1 className="font-black uppercase tracking-tighter text-black"
+            style={{
+              fontSize: '110px',
+              lineHeight: '0.8',
+              transform: 'translate(-40px, 15px) scale(0.6)',
+              marginLeft: '-80px'
+            }}>
             ZAPSTERS
           </h1>
-          <div className="text-right max-w-[200px] mt-4 text-black">
-            <h2 className="text-2xl font-black uppercase leading-[0.9]">
-              THE PROMISED<br />ARENA
-            </h2>
+        </div>
+
+        {/* MID LEFT: SHOGUNATE TEXT */}
+        <div className="absolute max-w-lg"
+          style={{
+            left: '44px',
+            top: '42%',
+            transform: 'translate(0px, -50%) scale(1.1)',
+            transformOrigin: 'left center'
+          }}>
+          <p className="text-[32px] font-black uppercase leading-[1.1] tracking-tight text-black drop-shadow-sm">
+            THE IRON THRONE IS THE SEAT OF POWER IN WESTEROS.<br />
+
+          </p>
+        </div>
+
+        {/* BOTTOM LEFT: COLOSSAL ARENA TEXT */}
+        <div className="absolute max-w-md"
+          style={{
+            left: '44px',
+            bottom: '60px',
+            transform: 'translate(0px, 0px) scale(0.95)',
+            transformOrigin: 'left bottom'
+          }}>
+
+        </div>
+
+        {/* TOP RIGHT: THE PROMISED ARENA */}
+        <div className="absolute text-right"
+          style={{
+            right: '50px',
+            top: '65px',
+            transform: 'translate(0px, 0px) scale(1.0)',
+            transformOrigin: 'right top'
+          }}>
+          <h2 className="text-[20px] font-black uppercase tracking-widest text-black leading-tight">
+            THE PROMISED<br />ARENA
+          </h2>
+          <p className="mt-4 text-[9px] font-black uppercase text-black opacity-100"
+            style={{
+              letterSpacing: '0.4em',
+              lineHeight: '2.2',
+              transform: 'translate(0px, 0px) scale(1.0)'
+            }}>
+            CLAIM YOUR BIRTHRIGHT<br />
+            THROUGH FIRE AND BLOOD.
+          </p>
+        </div>
+
+        {/* MID RIGHT: VERTICAL JAPANESE TEXT */}
+        <div className="absolute flex flex-col items-center gap-2"
+          style={{
+            right: '110px',
+            top: '45%',
+            transform: 'translate(0px, -50%) scale(1.4)',
+            opacity: 0.6
+          }}>
+          {"".split('').map((char, i) => (
+            <span key={i} className="text-2xl font-black text-neutral-800 leading-none">{char}</span>
+          ))}
+        </div>
+
+        {/* BOTTOM RIGHT: BUTTONS */}
+        <div className="absolute flex flex-col gap-4 items-end"
+          style={{
+            right: '50px',
+            bottom: '60px',
+            transform: 'translate(0px, 0px) scale(1.1)',
+            transformOrigin: 'right bottom'
+          }}>
+          {/* Custom style for buttons to match the image precisely */}
+          <style jsx global>{`
+            .welcome-btn-wrap button {
+              border-radius: 9999px !important;
+              background-color: #FFFFFF !important;
+              color: #000000 !important;
+              font-family: 'Adieu', 'Game of Thrones', sans-serif !important;
+              font-weight: 900 !important;
+              text-transform: uppercase !important;
+              padding-left: 2rem !important;
+              padding-right: 2rem !important;
+              height: 48px !important;
+              font-size: 11px !important;
+              letter-spacing: 0.1em !important;
+              border: none !important;
+              box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+            }
+            .welcome-btn-wrap button:hover {
+              background-color: #F3F3F3 !important;
+              transform: translateY(-1px);
+            }
+          `}</style>
+          <div className="welcome-btn-wrap flex flex-col gap-3">
+            <button onClick={onEnter} className="flex items-center justify-between gap-4">
+              <span>ENTER THE REALM</span>
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </button>
+            <Link href="/auth/login">
+              <button className="flex items-center gap-4">
+                <GoogleIcon className="w-4 h-4" />
+                <span>SIGN IN WITH GOOGLE</span>
+              </button>
+            </Link>
           </div>
         </div>
 
-        <div className="max-w-sm mt-auto mb-32 text-black">
-          <p className="text-3xl font-black uppercase leading-[1.2] tracking-[0.02em] drop-shadow-md">
-            MY LOYAL KATANA.<br />AND CHAMPION<br />OF THE SHOGUNATE.
-          </p>
-        </div>
-
-        <div className="w-full flex flex-row items-end justify-between gap-8 mb-4">
-          <p className="text-[11px] text-left font-black uppercase tracking-[0.5em] text-black max-w-sm leading-[1.8]">
-            ZAPSTERS IS A COLOSSAL ARENA FOR ELITE ENGINEERS TO MASTER THE ARTS OF CODE. ENTER THE REALM WHERE YOUR LEGACIES ARE FORGED.
-          </p>
-          <EnterButtons onEnter={onEnter} variant="desktop" />
-        </div>
       </div>
 
-      {/* Japanese corner decorations */}
-      <div className="hidden md:flex absolute top-6 right-8 pointer-events-none select-none z-[55] flex-col items-end gap-1">
-        {'ザプスターズ'.split('').map((c, i) => (
-          <span key={i} className="text-neutral-600/40 font-black text-[13px] leading-tight">{c}</span>
-        ))}
-      </div>
-      <div className="hidden md:block absolute bottom-24 right-8 pointer-events-none select-none z-[55] opacity-20">
-        <span className="font-black text-neutral-500 text-[80px] leading-none">侍</span>
-      </div>
+      {/* Corner decorations hidden for high fidelity to the image */}
     </motion.div>
   );
 }

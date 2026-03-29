@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 
 interface ButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -51,12 +51,18 @@ export function Button({
       disabled={disabled}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
     >
-      {/* Gloss effect */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-      
       <div className="flex items-center gap-3 relative z-10">
         {Icon && (
-          typeof Icon === 'function' ? <Icon /> : <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
+          React.isValidElement(Icon) 
+            ? React.cloneElement(Icon as React.ReactElement<any>, {
+                variant: variant === 'primary' ? 'black' : 'white'
+              })
+            : typeof Icon === 'function' || typeof Icon === 'object' 
+                ? React.createElement(Icon as any, { 
+                    className: "w-4 h-4 transition-transform group-hover:scale-110",
+                    variant: variant === 'primary' ? 'black' : 'white'
+                  })
+                : null
         )}
         {children}
       </div>

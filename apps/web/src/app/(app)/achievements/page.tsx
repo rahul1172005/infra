@@ -23,26 +23,25 @@ export default function AchievementsPage() {
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end border-b-2 border-white/10 pb-16 gap-12 relative z-10">
                 <div className="space-y-8">
                     <div className="flex items-center gap-6">
-                        <div className="w-16 h-16 flex items-center justify-center transition-transform duration-500 relative group/header">
-                            <img
+                        <div className="w-24 h-24 flex items-center justify-center transition-transform duration-500 relative group/header">
+                            <img style={{ transform: "scale(1.6)" }}
                                 src="/logo.png"
-                                alt="Zapsters Logo"
+                                alt="Realm Logo"
                                 className="w-full h-full object-contain"
-                                style={{ transform: "scale(2.5) translate(0px, 0px)" }}
                             />
                         </div>
-                        <span className="text-[11px] tracking-[0.8em] font-black uppercase text-white/30">OPERATIONAL COMMENDATIONS</span>
+                        <span className="text-[11px] tracking-[0.8em] font-black uppercase text-white/30">ROYAL HONOURS</span>
                     </div>
                     <h1 className="text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.8] text-white">
-                        TROPHY<br /><span className="text-[#E81414]">CABINET.</span>
+                        HALL OF<br /><span className="text-[#E81414]">HEROES.</span>
                     </h1>
                 </div>
 
                 <div className="flex items-center gap-12 bg-white/[0.02] border-2 border-white/10 p-10 group hover:border-[#E81414]/30 transition-all">
                     <div className="flex flex-col items-start gap-3">
-                        <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/20">TOTAL COMMENDATIONS UNLOCKED</span>
+                        <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/20">TOTAL HONOURS EARNED</span>
                         <div className="flex items-center gap-8">
-                            <img src="/suriken.png" alt="icon" className="w-10 h-10 white group-hover: transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-20 h-20 white group-hover: transition-colors object-contain" />
                             <span className="text-5xl font-bold uppercase tracking-tighter text-white">04 <span className="text-white/10">/ 142</span></span>
                         </div>
                     </div>
@@ -58,19 +57,19 @@ export default function AchievementsPage() {
                     <div className="flex items-center justify-between border-b-2 border-white/5 pb-12">
                         <div className="flex items-center gap-8 group/title cursor-pointer">
                             <div className="w-12 h-12 border-2 border-[#E81414] flex items-center justify-center group-hover/title:bg-[#E81414] transition-all">
-                                <img src="/suriken.png" alt="icon" className="w-6 h-6 white transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 white transition-transform object-contain" />
                             </div>
-                            <h2 className="text-4xl font-black uppercase tracking-tighter text-white">ACQUIRED BADGES</h2>
+                            <h2 className="text-4xl font-black uppercase tracking-tighter text-white">EARNED MEDALS</h2>
                         </div>
-                        <div className="px-6 py-2 border-2 border-white/10 bg-white/5 text-[11px] tracking-[0.6em] font-black uppercase text-white/30">TIER: OPERATIVE L1</div>
+                        <div className="px-6 py-2 border-2 border-white/10 bg-white/5 text-[11px] tracking-[0.6em] font-black uppercase text-white/30">RANK: SQUIRE L1</div>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-16">
                         {/* Unlocked Badges */}
                         {[
-                            { title: 'FIRST BLOOD', desc: 'Solved CTF < 10min', icon: Zap, color: 'border-[#E81414]', glow: 'shadow-[0_0_30px_rgba(232,20,20,0.3)]' },
-                            { title: 'CORE BREACH', desc: '5 Arena Wins', icon: Code2, color: 'border-white', glow: 'shadow-[0_0_30px_rgba(255,255,255,0.1)]' },
-                            { title: 'DATA MINER', desc: 'Optimal Complexity', icon: Database, color: 'border-[#E81414]', glow: 'shadow-[0_0_30px_rgba(232,20,20,0.3)]' },
+                            { title: 'FIRST BLOOD', desc: 'Solved Quest < 10min', icon: Zap, color: 'border-[#E81414]', glow: 'shadow-[0_0_30px_rgba(232,20,20,0.3)]' },
+                            { title: 'CASTLE BREACH', desc: '5 Arena Wins', icon: Code2, color: 'border-white', glow: 'shadow-[0_0_30px_rgba(255,255,255,0.1)]' },
+                            { title: 'GOLD MINER', desc: 'Optimal Complexity', icon: Database, color: 'border-[#E81414]', glow: 'shadow-[0_0_30px_rgba(232,20,20,0.3)]' },
                             { title: 'SILICON MIND', desc: '30 Day Streak', icon: Cpu, color: 'border-white', glow: 'shadow-[0_0_30px_rgba(255,255,255,0.1)]' },
                         ].map((badge, i) => (
                             <motion.div
@@ -104,7 +103,7 @@ export default function AchievementsPage() {
                             >
                                 <div className="w-32 h-32 border-2 border-dashed border-white/20 bg-black flex items-center justify-center mb-10 rotate-45 group-hover/locked:border-white/40 transition-colors duration-500">
                                     <div className="-rotate-45">
-                                        <img src="/suriken.png" alt="icon" className="w-10 h-10 white/20 group-hover/locked:scale-90 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                        <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-16 h-16 white/20 group-hover/locked:scale-90 transition-transform object-contain" />
                                     </div>
                                 </div>
                                 <div className="text-center space-y-4">
@@ -120,20 +119,20 @@ export default function AchievementsPage() {
 
             {/* Bottom Insight Bar */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border-2 border-white/10 relative z-10 overflow-hidden divide-x-2 divide-white/10">
-                <div className="p-16 bg-[#050505] space-y-10 relative group/insight overflow-hidden">
+                <div className="p-16 bg-black space-y-10 relative group/insight overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-[#E81414]/5 blur-3xl opacity-0 group-hover/insight:opacity-100 transition-opacity" />
                     <div className="flex items-center gap-8 border-b border-white/5 pb-8 relative z-10">
-                        <img src="/suriken.png" alt="icon" className="w-10 h-10 [#E81414] object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                        <h3 className="text-4xl font-black uppercase tracking-tighter text-white">GLOBAL RANK: #4,204</h3>
+                        <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-20 h-20 [#E81414] object-contain" />
+                        <h3 className="text-4xl font-black uppercase tracking-tighter text-white">REALM RANK: #4,204</h3>
                     </div>
                     <div className="space-y-6 relative z-10">
                         <p className="text-[15px] tracking-[0.3em] uppercase text-white/30 font-black leading-loose group-hover:text-white/60 transition-colors">
-                            Your performance metrics are being synchronized with the global operational ledger.
-                            Each commendation increases your architectural clearance level and grants access
-                            to experimental system protocols in the workspace.
+                            Your performance metrics are being synchronized with the royal operational ledger.
+                            Each honour increases your architectural clearance level and grants access
+                            to royal council protocols in the workspace.
                         </p>
                         <div className="flex items-center gap-6 text-[10px] tracking-[0.6em] text-white/10 font-black uppercase">
-                            <img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> LEDGER STATED: IMMUTABLE
+                            <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-8 h-8 object-contain" /> LEDGER STATED: IMMUTABLE
                         </div>
                     </div>
                 </div>

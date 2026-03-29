@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
-const KANJI_LIST = ['龍', '虎', '鳳', '狼', '鶴', '蛇', '鷹', '熊', '鮫', '猿'];
-const RANK_LIST = ['壱', '弐', '参', '四', '五', '六', '七', '八', '九', '十'];
+const KANJI_LIST = ['T', 'S', 'L', 'B', 'G', 'M', 'A', 'N', 'D', 'H'];
+const RANK_LIST = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
 export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -112,7 +112,7 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
             });
         }
 
-        const drawSamuraiLabel = (team: any, px: number, py: number, alpha: number) => {
+        const drawThroneLabel = (team: any, px: number, py: number, alpha: number) => {
             if (alpha <= 0.01) return;
             const isActive = team.active;
             const baseAlpha = alpha * (isActive ? 1.0 : 0.55);
@@ -126,13 +126,13 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
             ctx.save();
             ctx.globalAlpha = baseAlpha;
             const kanjiSize = Math.max(18, W * 0.04) * (isActive ? 1.15 : 1.0);
-            ctx.font = `700 ${kanjiSize}px "Noto Serif JP", serif`;
+            ctx.font = `700 ${kanjiSize}px "Share Tech Mono", monospace`;
             ctx.textAlign = align;
             ctx.textBaseline = 'middle';
             ctx.shadowBlur = isActive ? 24 : 8;
             ctx.shadowColor = isActive ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.4)';
             ctx.fillStyle = isActive ? 'rgba(255,255,255,0.96)' : 'rgba(200,200,215,0.65)';
-            ctx.fillText(team.kanji || '龍', lx, ly);
+            ctx.fillText(team.kanji || 'T', lx, ly);
 
             const nameSize = Math.max(8, W * 0.015);
             ctx.font = `${nameSize}px "Share Tech Mono", monospace`;
@@ -143,11 +143,11 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
             ctx.fillText(team.team?.replace(/_/g, ' ') || team.name?.replace(/_/g, ' '), lx, nameY);
 
             const rankSize = Math.max(8, W * 0.015);
-            ctx.font = `300 ${rankSize}px "Noto Serif JP", serif`;
+            ctx.font = `300 ${rankSize}px "Share Tech Mono", monospace`;
             ctx.textAlign = align;
             ctx.textBaseline = 'bottom';
             ctx.fillStyle = isActive ? 'rgba(255,255,255,0.50)' : 'rgba(160,160,180,0.28)';
-            ctx.fillText(team.rank || '壱', lx, ly - kanjiSize * 0.52);
+            ctx.fillText(team.rank || 'I', lx, ly - kanjiSize * 0.52);
 
             const barW = Math.max(22, W * 0.05);
             const barH = 1.5;
@@ -230,10 +230,10 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
             }
 
             // Cardinals
-            [{l:'北',a:-Math.PI/2},{l:'東',a:0},{l:'南',a:Math.PI/2},{l:'西',a:Math.PI}].forEach(c=>{
+            [{l:'N',a:-Math.PI/2},{l:'E',a:0},{l:'S',a:Math.PI/2},{l:'W',a:Math.PI}].forEach(c=>{
                 ctx.save();
-                ctx.font=`600 ${Math.max(12,W*0.03)}px "Noto Serif JP", serif`;
-                ctx.fillStyle=c.l==='北'?'rgba(255,255,255,0.95)':'rgba(200,200,215,0.45)';
+                ctx.font=`600 ${Math.max(12,W*0.03)}px "Share Tech Mono", monospace`;
+                ctx.fillStyle=c.l==='N'?'rgba(255,255,255,0.95)':'rgba(200,200,215,0.45)';
                 ctx.textAlign='center'; ctx.textBaseline='middle';
                 ctx.fillText(c.l,CX+Math.cos(c.a)*(R+35),CY+Math.sin(c.a)*(R+35));
                 ctx.restore();
@@ -293,7 +293,7 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
                 ctx.beginPath(); ctx.arc(px, py, team.active?5:3,0,Math.PI*2); ctx.fill();
                 ctx.restore();
 
-                drawSamuraiLabel(team, px, py, labelA);
+                drawThroneLabel(team, px, py, labelA);
             });
 
             // Slashes
@@ -354,25 +354,24 @@ export default function OrbitalRadar({ teams = [] }: { teams?: any[] }) {
             <div className="samurai-vignette"></div>
             <div className="samurai-scanlines"></div>
 
-            <div className="samurai-kanji-bg top-5 right-[-5%] text-[150px]">武</div>
-            <div className="samurai-kanji-bg bottom-2 left-[0%] text-[100px]">侍</div>
+            <div className="samurai-kanji-bg top-5 right-[-5%] text-[150px]">T</div>
+            <div className="samurai-kanji-bg bottom-2 left-[0%] text-[100px]">G</div>
 
             {/* Header */}
             <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between mb-3 sm:mb-6 md:mb-8 border-b border-white/5 pb-5 gap-4">
                 <div className="flex items-center gap-4">
-                    <img
-                        src="/suriken.png"
+                    <img style={{ transform: "scale(1.6)" }}
+                        src="/logo.png"
                         alt="icon"
-                        className="w-5 h-5 object-contain opacity-70"
-                        style={{ transform: 'scale(2.2) translate(0px, 0px)' }}
+                        className="w-10 h-10 object-contain opacity-70"
                     />
                     <div className="space-y-1">
-                        <p className="text-[11px] font-black tracking-[0.3em] text-white uppercase leading-none font-mono">SAMURAI RADAR</p>
-                        <p className="text-[8px] font-black tracking-[0.4em] text-white/20 uppercase leading-none font-mono">戰力雷達 BUSHIDO TACTICAL</p>
+                        <p className="text-[11px] font-black tracking-[0.3em] text-white uppercase leading-none font-mono">DYNASTY RADAR</p>
+                        <p className="text-[8px] font-black tracking-[0.4em] text-white/20 uppercase leading-none font-mono">DRAGON EYE — TACTICAL</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 text-[8px] font-black tracking-[0.2em] text-white/10 uppercase font-mono">
-                    武士道 · TACTICAL · CLASSIFIED
+                    IRON THRONE · TACTICAL · CLASSIFIED
                 </div>
             </div>
 

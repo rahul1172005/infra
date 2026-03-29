@@ -1,0 +1,15 @@
+﻿src/app/(app)/analytics/page.tsx(223,25): error TS2657: JSX expressions must have one parent element.
+src/app/(app)/analytics/page.tsx(284,41): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/app/(app)/analytics/page.tsx(286,43): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/app/(app)/analytics/page.tsx(293,39): error TS17002: Expected corresponding JSX closing tag for 'motion.div'.
+src/app/(app)/analytics/page.tsx(394,33): error TS1005: ')' expected.
+src/app/(app)/analytics/page.tsx(394,35): error TS17002: Expected corresponding JSX closing tag for 'AnimatePresence'.
+src/app/(app)/analytics/page.tsx(440,25): error TS1005: ')' expected.
+src/app/(app)/analytics/page.tsx(441,21): error TS1109: Expression expected.
+src/app/(app)/analytics/page.tsx(441,23): error TS1128: Declaration or statement expected.
+src/app/(app)/analytics/page.tsx(544,31): error TS17002: Expected corresponding JSX closing tag for 'HUDCard'.
+src/app/(app)/analytics/page.tsx(547,17): error TS1128: Declaration or statement expected.
+src/app/(app)/analytics/page.tsx(548,13): error TS1109: Expression expected.
+src/app/(app)/analytics/page.tsx(549,9): error TS1109: Expression expected.
+src/app/(app)/analytics/page.tsx(550,5): error TS1109: Expression expected.
+src/app/(app)/analytics/page.tsx(551,1): error TS1128: Declaration or statement expected.

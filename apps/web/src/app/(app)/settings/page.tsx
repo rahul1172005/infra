@@ -2,16 +2,17 @@
 
 import { useState } from 'react';
 import {
-    LogOut, Bell, Shield, Eye, Globe, Zap,
-    ChevronRight, Check, Lock, Trash2, AlertTriangle
+    LogOut, ChevronRight, Check, Trash2, AlertTriangle, Edit3
 } from 'lucide-react';
+import { GOTIcon } from '@/components/icons/GOTIcon';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
-import { DotGrid } from '@/components/ui/Decorative';
 import { ToggleSwitch } from '@/components/ui/ToggleSwitch';
+import { SurikenIcon } from '@/components/icons/SurikenIcon';
+import { DotGrid } from '@/components/ui/DotGrid';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { HUDFrame } from '@/components/ui/HUDFrame';
-import { Suriken } from '@/components/ui/Suriken';
+import { HUDCard } from '@/components/ui/HUDCard';
+import { MetaCard } from '@/components/ui/MetaCard';
 
 // Settings Row
 function SettingRow({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) {
@@ -31,14 +32,16 @@ function SettingRow({ label, sub, children }: { label: string; sub?: string; chi
 // Select input styled
 function SelectInput({ options, value, onChange }: { options: string[]; value: string; onChange: (v: string) => void }) {
     return (
-        <select
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="bg-black border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full outline-none focus:border-[#E81414]/50 transition-colors cursor-pointer appearance-none pr-8"
-            style={{ backgroundImage: 'none' }}
-        >
-            {options.map(o => <option key={o} value={o} className="bg-black">{o}</option>)}
-        </select>
+        <div className="relative group">
+            <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="bg-black border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] px-5 py-2.5 rounded-full outline-none focus:border-[#E81414]/50 transition-all cursor-pointer appearance-none pr-10"
+            >
+                {options.map(o => <option key={o} value={o} className="bg-black">{o}</option>)}
+            </select>
+            <ChevronRight className="w-3 h-3 absolute right-4 top-1/2 -translate-y-1/2 text-white/20 group-hover:text-white transition-colors rotate-90" />
+        </div>
     );
 }
 
@@ -50,7 +53,7 @@ export default function SettingsPage() {
     // Settings state
     const [notifications, setNotifications] = useState({
         emailAlerts: true,
-        clanUpdates: true,
+        houseUpdates: true,
         matchReminders: false,
         rankChanges: true,
         systemAlerts: false,
@@ -69,7 +72,7 @@ export default function SettingsPage() {
         reducedMotion: false,
     });
 
-    const toggle = (group: any, setter: any, key: string) => {
+    const toggle = (setter: any, key: string) => {
         setter((prev: any) => ({ ...prev, [key]: !prev[key] }));
     };
 
@@ -84,31 +87,29 @@ export default function SettingsPage() {
             setTimeout(() => setLogoutConfirm(false), 3000);
             return;
         }
-        sessionStorage.removeItem('skipZapstersWelcome');
+        sessionStorage.removeItem('skipRealmWelcome');
         router.push('/auth/login');
     };
 
     return (
-        <div className="w-full pb-20 space-y-8 md:space-y-10 relative overflow-hidden">
+        <div className="w-full pb-20 space-y-8 md:space-y-10 relative">
             <DotGrid />
 
             {/* ══ HEADER ══════════════════════════════════════════════ */}
             <PageHeader
+                tag="ADMINISTRATION"
                 title={<>GLOBAL<br /><span className="text-[#E81414]">CONFIG</span></>}
-                stats={{
-                    label: "HW SIGNATURE",
-                    value: "DE292X BETA",
-                    subValue: "SYNC V9"
-                }}
-                action={
-                    <Button
-                        onClick={handleSave}
-                        variant={saved ? 'secondary' : 'primary'}
-                        icon={saved ? Check : Zap}
-                        className="py-4 px-8"
-                    >
-                        {saved ? 'SAVED' : 'SAVE CONFIG'}
-                    </Button>
+                actions={
+                    <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-end">
+                        <Button
+                            onClick={handleSave}
+                            variant={saved ? 'secondary' : 'primary'}
+                            icon={saved ? Check : (props: any) => <GOTIcon type="zap" {...props} />}
+                            className="py-4 px-10"
+                        >
+                            {saved ? 'SAVED' : 'SAVE CONFIG'}
+                        </Button>
+                    </div>
                 }
             />
 
@@ -116,138 +117,150 @@ export default function SettingsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
 
                 {/* Notifications */}
-                <HUDFrame title="NOTIFICATIONS" subtitle="ALERTS & UPDATES">
-                    <SettingRow label="EMAIL ALERTS" sub="RECEIVE ALERTS VIA EMAIL">
-                        <ToggleSwitch enabled={notifications.emailAlerts} onToggle={() => toggle(notifications, setNotifications, 'emailAlerts')} />
-                    </SettingRow>
-                    <SettingRow label="CLAN UPDATES" sub="SYNC REPORTS FROM YOUR CLAN">
-                        <ToggleSwitch enabled={notifications.clanUpdates} onToggle={() => toggle(notifications, setNotifications, 'clanUpdates')} />
-                    </SettingRow>
-                    <SettingRow label="MATCH REMINDERS" sub="UPCOMING KATA TRIAL ALERTS">
-                        <ToggleSwitch enabled={notifications.matchReminders} onToggle={() => toggle(notifications, setNotifications, 'matchReminders')} />
-                    </SettingRow>
-                    <SettingRow label="RANK CHANGES" sub="LEADERBOARD POSITION SHIFTS">
-                        <ToggleSwitch enabled={notifications.rankChanges} onToggle={() => toggle(notifications, setNotifications, 'rankChanges')} />
-                    </SettingRow>
-                    <SettingRow label="SYSTEM ALERTS" sub="MAINTENANCE AND DOWNTIME">
-                        <ToggleSwitch enabled={notifications.systemAlerts} onToggle={() => toggle(notifications, setNotifications, 'systemAlerts')} />
-                    </SettingRow>
-                </HUDFrame>
+                <HUDCard title="NOTIFICATIONS" icon={<GOTIcon type="bell" size={56} className="opacity-70" />}>
+                    <div className="px-2">
+                        <SettingRow label="EMAIL ALERTS" sub="RECEIVE ALERTS VIA EMAIL">
+                            <ToggleSwitch enabled={notifications.emailAlerts} onToggle={() => toggle(setNotifications, 'emailAlerts')} />
+                        </SettingRow>
+                        <SettingRow label="HOUSE UPDATES" sub="SYNC REPORTS FROM YOUR HOUSE">
+                            <ToggleSwitch enabled={notifications.houseUpdates} onToggle={() => toggle(setNotifications, 'houseUpdates')} />
+                        </SettingRow>
+                        <SettingRow label="MATCH REMINDERS" sub="UPCOMING COMBAT TRIAL ALERTS">
+                            <ToggleSwitch enabled={notifications.matchReminders} onToggle={() => toggle(setNotifications, 'matchReminders')} />
+                        </SettingRow>
+                        <SettingRow label="RANK CHANGES" sub="LEADERBOARD POSITION SHIFTS">
+                            <ToggleSwitch enabled={notifications.rankChanges} onToggle={() => toggle(setNotifications, 'rankChanges')} />
+                        </SettingRow>
+                        <SettingRow label="SYSTEM ALERTS" sub="MAINTENANCE AND DOWNTIME">
+                            <ToggleSwitch enabled={notifications.systemAlerts} onToggle={() => toggle(setNotifications, 'systemAlerts')} />
+                        </SettingRow>
+                    </div>
+                </HUDCard>
 
                 {/* Privacy */}
-                <HUDFrame title="PRIVACY" subtitle="VISIBILITY CONTROL">
-                    <SettingRow label="PUBLIC PROFILE" sub="VISIBLE TO ALL OPERATIVES">
-                        <ToggleSwitch enabled={privacy.publicProfile} onToggle={() => toggle(privacy, setPrivacy, 'publicProfile')} />
-                    </SettingRow>
-                    <SettingRow label="SHOW ACTIVITY" sub="DISPLAY YOUR ACTIVITY FEED">
-                        <ToggleSwitch enabled={privacy.showActivity} onToggle={() => toggle(privacy, setPrivacy, 'showActivity')} />
-                    </SettingRow>
-                    <SettingRow label="SHOW RANK" sub="DISPLAY LEADERBOARD POSITION">
-                        <ToggleSwitch enabled={privacy.showRank} onToggle={() => toggle(privacy, setPrivacy, 'showRank')} />
-                    </SettingRow>
-                    <SettingRow label="ALLOW CHALLENGES" sub="ACCEPT DIRECT KATA CHALLENGES">
-                        <ToggleSwitch enabled={privacy.allowChallenges} onToggle={() => toggle(privacy, setPrivacy, 'allowChallenges')} />
-                    </SettingRow>
-                </HUDFrame>
+                <HUDCard title="PRIVACY" icon={<GOTIcon type="eye" size={56} className="opacity-70" />}>
+                    <div className="px-2">
+                        <SettingRow label="PUBLIC PROFILE" sub="VISIBLE TO THE REALM">
+                            <ToggleSwitch enabled={privacy.publicProfile} onToggle={() => toggle(setPrivacy, 'publicProfile')} />
+                        </SettingRow>
+                        <SettingRow label="SHOW ACTIVITY" sub="DISPLAY YOUR ACTIVITY FEED">
+                            <ToggleSwitch enabled={privacy.showActivity} onToggle={() => toggle(setPrivacy, 'showActivity')} />
+                        </SettingRow>
+                        <SettingRow label="SHOW RANK" sub="DISPLAY LEADERBOARD POSITION">
+                            <ToggleSwitch enabled={privacy.showRank} onToggle={() => toggle(setPrivacy, 'showRank')} />
+                        </SettingRow>
+                        <SettingRow label="ALLOW CHALLENGES" sub="ACCEPT DIRECT COMBAT CHALLENGES">
+                            <ToggleSwitch enabled={privacy.allowChallenges} onToggle={() => toggle(setPrivacy, 'allowChallenges')} />
+                        </SettingRow>
+                    </div>
+                </HUDCard>
 
                 {/* Preferences */}
-                <HUDFrame title="PREFERENCES" subtitle="INTERFACE OPTIMIZATION">
-                    <SettingRow label="THEME" sub="INTERFACE COLOR SCHEME">
-                        <SelectInput options={['DARK', 'DARKER', 'ABYSS']} value={preferences.theme} onChange={(v) => setPreferences(p => ({ ...p, theme: v }))} />
-                    </SettingRow>
-                    <SettingRow label="LANGUAGE" sub="DISPLAY LANGUAGE">
-                        <SelectInput options={['ENGLISH', 'JAPANESE', 'KOREAN']} value={preferences.language} onChange={(v) => setPreferences(p => ({ ...p, language: v }))} />
-                    </SettingRow>
-                    <SettingRow label="TIMEZONE" sub="MATCH SCHEDULING ZONE">
-                        <SelectInput options={['IST GMT+5:30', 'UTC+0', 'PST GMT-8', 'JST GMT+9']} value={preferences.timezone} onChange={(v) => setPreferences(p => ({ ...p, timezone: v }))} />
-                    </SettingRow>
-                    <SettingRow label="PERFORMANCE MODE" sub="DISABLE HEAVY ANIMATIONS">
-                        <ToggleSwitch enabled={preferences.performanceMode} onToggle={() => toggle(preferences, setPreferences, 'performanceMode')} />
-                    </SettingRow>
-                    <SettingRow label="REDUCED MOTION" sub="MINIMIZE UI TRANSITIONS">
-                        <ToggleSwitch enabled={preferences.reducedMotion} onToggle={() => toggle(preferences, setPreferences, 'reducedMotion')} />
-                    </SettingRow>
-                </HUDFrame>
+                <HUDCard title="PREFERENCES" icon={<GOTIcon type="globe" size={56} className="opacity-70" />}>
+                    <div className="px-2">
+                        <SettingRow label="THEME" sub="INTERFACE COLOR SCHEME">
+                            <SelectInput options={['DARK', 'DARKER', 'ABYSS']} value={preferences.theme} onChange={(v) => setPreferences(p => ({ ...p, theme: v }))} />
+                        </SettingRow>
+                        <SettingRow label="LANGUAGE" sub="DISPLAY LANGUAGE">
+                            <SelectInput options={['ENGLISH', 'VALYRIAN', 'DOTHRAKI']} value={preferences.language} onChange={(v) => setPreferences(p => ({ ...p, language: v }))} />
+                        </SettingRow>
+                        <SettingRow label="TIMEZONE" sub="MATCH SCHEDULING ZONE">
+                            <SelectInput options={['IST GMT+5:30', 'UTC+0', 'PST GMT-8', 'JST GMT+9']} value={preferences.timezone} onChange={(v) => setPreferences(p => ({ ...p, timezone: v }))} />
+                        </SettingRow>
+                        <SettingRow label="PERFORMANCE MODE" sub="DISABLE HEAVY ANIMATIONS">
+                            <ToggleSwitch enabled={preferences.performanceMode} onToggle={() => toggle(setPreferences, 'performanceMode')} />
+                        </SettingRow>
+                        <SettingRow label="REDUCED MOTION" sub="MINIMIZE UI TRANSITIONS">
+                            <ToggleSwitch enabled={preferences.reducedMotion} onToggle={() => toggle(setPreferences, 'reducedMotion')} />
+                        </SettingRow>
+                    </div>
+                </HUDCard>
 
                 {/* Security */}
-                <HUDFrame title="SECURITY" subtitle="CREDENTIAL VAULT">
-                    <SettingRow label="CHANGE PASSWORD" sub="UPDATE DIRECT KEY CREDENTIAL">
-                        <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors">
-                            UPDATE <ChevronRight className="w-3 h-3" />
-                        </button>
-                    </SettingRow>
-                    <SettingRow label="TWO-FACTOR AUTH" sub="BIOMETRIC DOUBLE LOCK">
-                        <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-[#E81414] hover:text-white transition-colors">
-                            ENABLE <ChevronRight className="w-3 h-3" />
-                        </button>
-                    </SettingRow>
-                    <SettingRow label="ACTIVE SESSIONS" sub="MANAGE CONNECTED DEVICES">
-                        <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors">
-                            VIEW <ChevronRight className="w-3 h-3" />
-                        </button>
-                    </SettingRow>
-                    <SettingRow label="ENCRYPTION KEY" sub="256-BIT NODE SIGNATURE">
-                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#E81414]">ACTIVE</span>
-                    </SettingRow>
-                    <SettingRow label="AUDIT LOG" sub="FULL ACCESS HISTORY">
-                        <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors">
-                            EXPORT <ChevronRight className="w-3 h-3" />
-                        </button>
-                    </SettingRow>
-                </HUDFrame>
+                <HUDCard title="SECURITY" icon={<GOTIcon type="shield" size={56} className="opacity-70" />}>
+                    <div className="px-2">
+                        <SettingRow label="CHANGE PASSWORD" sub="UPDATE DIRECT KEY CREDENTIAL">
+                            <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors">
+                                UPDATE <ChevronRight className="w-3 h-3" />
+                            </button>
+                        </SettingRow>
+                        <SettingRow label="TWO-FACTOR AUTH" sub="BIOMETRIC DOUBLE LOCK">
+                            <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-[#E81414] hover:text-white transition-colors">
+                                ENABLE <ChevronRight className="w-3 h-3" />
+                            </button>
+                        </SettingRow>
+                        <SettingRow label="ACTIVE SESSIONS" sub="MANAGE CONNECTED DEVICES">
+                            <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors">
+                                VIEW <ChevronRight className="w-3 h-3" />
+                            </button>
+                        </SettingRow>
+                        <SettingRow label="ENCRYPTION KEY" sub="256-BIT NODE SIGNATURE">
+                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#E81414]">ACTIVE</span>
+                        </SettingRow>
+                        <SettingRow label="AUDIT LOG" sub="FULL ACCESS HISTORY">
+                            <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors">
+                                EXPORT <ChevronRight className="w-3 h-3" />
+                            </button>
+                        </SettingRow>
+                    </div>
+                </HUDCard>
             </div>
 
             {/* ══ SUB-MODULES BAR ════════════════════════════════════ */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
                 {[
-                    { icon: <Shield className="w-5 h-5" />, title: 'SECURITY POLICIES', desc: 'VIEW ENCRYPTION STANDARDS AND ACTIVE PROTOCOLS' },
-                    { icon: <Zap className="w-5 h-5" />, title: 'CORE PROCESSING', desc: 'DIAGNOSTIC DATA FOR Z-OS KERNEL ALLOCATION' },
-                    { icon: <Lock className="w-5 h-5" />, title: 'DEV TERMINAL', desc: 'LOCAL CLI EMULATOR FOR SYSTEM DEBUGGING' },
+                    { icon: <GOTIcon type="shield" size={64} />, title: 'SECURITY POLICIES', desc: 'ENCRYPTION STANDARDS AND ACTIVE PROTOCOLS' },
+                    { icon: <GOTIcon type="zap" size={64} />, title: 'CORE PROCESSING', desc: 'DIAGNOSTIC DATA FOR ROYAL KERNEL ALLOCATION' },
+                    { icon: <GOTIcon type="lock" size={64} />, title: 'DEV TERMINAL', desc: 'LOCAL CLI EMULATOR FOR SYSTEM DEBUGGING' },
                 ].map(({ icon, title, desc }) => (
-                    <button key={title} className="p-8 bg-[#0A0A0A] border border-white/10 hover:bg-[#E81414] hover:border-[#E81414] transition-all group rounded-[2.5rem] cursor-pointer text-white hover:text-black text-left">
-                        <div className="w-12 h-12 border border-white/10 group-hover:border-black/20 rounded-full flex items-center justify-center bg-black group-hover:bg-black/20 transition-all mb-6 text-white group-hover:text-black">
-                            {icon}
-                        </div>
-                        <h3 className="text-[12px] tracking-[0.3em] font-black uppercase mb-3 transition-colors">{title}</h3>
-                        <p className="text-[9px] tracking-[0.2em] font-black uppercase text-white/30 group-hover:text-black/60 transition-colors leading-relaxed">{desc}</p>
-                    </button>
+                    <HUDCard key={title} padding="none" className="hover:border-[#E81414] group cursor-pointer transition-all">
+                        <button className="w-full text-left p-8 md:p-10">
+                            <div className="mb-6 flex items-center justify-start">
+                                {icon}
+                            </div>
+                            <h3 className="text-sm md:text-base tracking-[0.2em] font-black uppercase mb-3 text-white transition-colors leading-tight">{title}</h3>
+                            <p className="text-[10px] tracking-[0.15em] font-black uppercase text-white/30 group-hover:text-white/50 transition-colors leading-loose">{desc}</p>
+                        </button>
+                    </HUDCard>
                 ))}
             </div>
 
             {/* ══ DANGER ZONE ════════════════════════════════════════ */}
-            <HUDFrame title="DANGER ZONE" subtitle="TERMINAL OVERRIDE">
-                <div className="space-y-8 py-4">
-                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-white/5 pb-8">
+            <HUDCard variant="danger" className="border-[#E81414]/20 p-6 md:px-10 md:py-8">
+                <div className="space-y-6">
+                    <div className="flex items-center gap-3">
+                        <AlertTriangle className="w-5 h-5 text-[#E81414]" />
+                        <span className="text-[10px] tracking-[0.6em] font-black uppercase text-[#E81414]">DANGER ZONE</span>
+                    </div>
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                         <div className="space-y-2">
-                            <h3 className="text-lg font-black uppercase tracking-tighter">SESSION TERMINATION</h3>
-                            <p className="text-[10px] tracking-[0.2em] font-black uppercase text-white/30">SIGN OUT FROM ALL ACTIVE SESSIONS AND CLEAR SHOGUNATE CREDENTIALS</p>
+                            <h3 className="text-lg font-black uppercase tracking-tighter text-white">SESSION TERMINATION</h3>
+                            <p className="text-[10px] tracking-[0.2em] font-black uppercase text-white/30">SIGN OUT FROM ALL ACTIVE SESSIONS AND CLEAR ROYAL CREDENTIALS</p>
                         </div>
                         <Button
                             onClick={handleLogout}
                             icon={LogOut}
                             variant={logoutConfirm ? 'secondary' : 'outline'}
-                            fullWidth
-                            className="md:w-auto py-4 px-10"
+                            className="w-full md:w-auto py-4 px-10"
                         >
                             {logoutConfirm ? 'CLICK AGAIN TO CONFIRM' : 'LOG OUT'}
                         </Button>
                     </div>
-                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div className="pt-6 border-t border-white/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                         <div className="space-y-2">
-                            <h3 className="text-lg font-black uppercase tracking-tighter text-[#E81414]">DELETE OPERATIVE</h3>
+                            <h3 className="text-lg font-black uppercase tracking-tighter text-[#E81414]">DELETE IDENTITY</h3>
                             <p className="text-[10px] tracking-[0.2em] font-black uppercase text-white/30">PERMANENTLY REMOVE YOUR ACCOUNT THIS ACTION IS IRREVERSIBLE</p>
                         </div>
                         <Button
                             icon={Trash2}
                             variant="danger"
-                            fullWidth
-                            className="md:w-auto px-10 py-4"
+                            className="w-full md:w-auto"
                         >
                             DELETE ACCOUNT
                         </Button>
                     </div>
                 </div>
-            </HUDFrame>
+            </HUDCard>
         </div>
     );
 }

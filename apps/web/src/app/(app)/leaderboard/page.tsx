@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { GOTIcon } from '@/components/icons/GOTIcon';
 import { Button } from '@/components/ui/Button';
-import { Download } from 'lucide-react';
-import { DotGrid, Scanlines } from '@/components/ui/Decorative';
-import { Suriken } from '@/components/ui/Suriken';
+import { SurikenIcon } from '@/components/icons/SurikenIcon';
+import { DotGrid } from '@/components/ui/DotGrid';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { SearchInput } from '@/components/ui/SearchInput';
-import { HUDFrame } from '@/components/ui/HUDFrame';
+import { HUDCard } from '@/components/ui/HUDCard';
+import { MetaCard } from '@/components/ui/MetaCard';
 
 export default function LeaderboardPage() {
     const [clans, setClans] = useState<any[]>([]);
@@ -15,116 +15,136 @@ export default function LeaderboardPage() {
 
     useEffect(() => {
         const fetchClans = async () => {
+            let apiTeams: any[] = [];
             try {
                 const res = await fetch('http://localhost:5000/teams');
                 if (res.ok) {
-                    const data = await res.json();
-                    if (Array.isArray(data)) {
-                        setClans(data);
-                    }
+                    apiTeams = await res.json();
                 }
             } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
+                console.warn("Backend offline, using local registry");
             }
+
+            // Merge with local persistent teams
+            const localTeamsStr = localStorage.getItem('persistent_teams');
+            const localTeams = localTeamsStr ? JSON.parse(localTeamsStr) : [];
+            
+            const combined = [...apiTeams];
+            localTeams.forEach((lt: any) => {
+                const idx = combined.findIndex(ct => ct.name === lt.name);
+                if (idx !== -1) {
+                    combined[idx] = { ...combined[idx], ...lt };
+                } else {
+                    combined.push(lt);
+                }
+            });
+
+            // Sort by score
+            combined.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+            setClans(combined);
+            setLoading(false);
         };
+
         fetchClans();
+
+        // Listen for profile/score updates
+        window.addEventListener('profile_update', fetchClans);
+        return () => window.removeEventListener('profile_update', fetchClans);
     }, []);
 
     return (
-        <div className="w-full space-y-8 md:space-y-14 lg:space-y-20 pb-16 md:pb-24 relative overflow-hidden">
+        <div className="w-full space-y-8 md:space-y-12 pb-20 relative">
             <DotGrid />
 
-            {/* ══ HEADER ═════════════════════════════════════════════════════ */}
+            {/* ══ HEADER ══════════════════════════════════════════════ */}
             <PageHeader
-                title={<>GLOBAL<br /><span className="text-white">RANKS.</span></>}
-                subtitle="SYSTEM HIERARCHY"
-                stats={{
-                    label: "RANK ID",
-                    value: "#8,241",
-                    locked: true
-                }}
+                tag="KINGDOM HIERARCHY"
+                title={<>TOP<br /><span className="text-[#E81414]">HOUSES</span></>}
             />
 
             {/* ══ SEARCH & FILTERS ════════════════════════════════════════════ */}
-            <div className="flex flex-col xl:flex-row gap-4 md:gap-6 relative z-10">
-                <SearchInput placeholder="SEARCH OPERATIVE..." />
-                <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full xl:w-auto">
+            <div className="flex flex-col xl:flex-row gap-6 relative z-10">
+                <div className="flex-1 bg-black border border-white/10 px-8 py-5 flex items-center gap-6 group/search cursor-text rounded-full transition-all hover:border-[#E81414]/50">
+                    <GOTIcon type="zap" size={32} scale={1.2} x={0} y={1} className="opacity-20 transition-colors" />
+                    <input
+                        type="text"
+                        placeholder="SEARCH SOLDIER OR HOUSE..."
+                        className="bg-transparent border-none text-[12px] tracking-[0.3em] font-black uppercase text-white placeholder-white/20 focus:outline-none w-full min-w-0"
+                    />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 shrink-0">
                     <Button
-                        variant="primary"
-                        size="md"
-                        fullWidth
-                        className="xl:w-auto"
-                    >
-                        SYNDICATE VIEW
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="md"
-                        fullWidth
-                        className="xl:w-auto gap-3 md:gap-5"
-                        icon={() => <Suriken size="sm" />}
+                        variant="secondary"
+                        icon={<GOTIcon type="shield" size={32} scale={1.2} x={0} y={0} />}
+                        className="px-10"
                     >
                         FILTERS
+                    </Button>
+                    <Button
+                        variant="primary"
+                        icon={<GOTIcon type="shield" size={32} scale={1.2} x={0} y={0} />}
+                        className="px-10"
+                    >
+                        EXPORT
                     </Button>
                 </div>
             </div>
 
             {/* ══ LEADERBOARD TABLE ══════════════════════════════════════════ */}
-            <div className="border border-white/10 bg-[#0A0A0A] overflow-hidden relative z-10 rounded-[2.5rem]">
+            <HUDCard padding="none" title="ROYAL LEDGER" tag="REALM RANKS" icon={<GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} className="opacity-40" />}>
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+                    <table className="w-full text-left border-collapse min-w-[700px]">
                         <thead>
-                            <tr className="bg-white/[0.03] text-white/40 text-[7px] md:text-[10px] tracking-[0.2em] md:tracking-[0.8em] font-black uppercase border-b border-white/10">
-                                <th className="py-4 px-3 md:py-8 md:px-12">POS</th>
-                                <th className="py-4 px-3 md:py-8 md:px-12">SYNDICATE ID</th>
-                                <th className="py-4 px-3 md:py-8 md:px-12">XP RATING</th>
-                                <th className="py-4 px-3 md:py-8 md:px-12 hidden sm:table-cell">MISSION STATS</th>
-                                <th className="py-4 px-3 md:py-8 md:px-12 text-right">GROWTH</th>
+                            <tr className="bg-white/[0.03] text-white/40 text-[8px] tracking-[0.4em] font-black uppercase border-b border-white/10">
+                                <th className="py-8 px-10">POS</th>
+                                <th className="py-8 px-10">HOUSE IDENTITY</th>
+                                <th className="py-8 px-10">STRENGTH RATING</th>
+                                <th className="py-8 px-10">SOLDIERS</th>
+                                <th className="py-8 px-10 text-right">VELOCITY</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={5} className="py-8 text-center text-white/40 font-black tracking-widest text-[10px]">DOWNLOADING LEDGER...</td>
+                                    <td colSpan={5} className="py-20 text-center text-white/20 font-black tracking-[0.4em] text-[10px] uppercase italic">ACCESSING ROYAL DATABASE...</td>
                                 </tr>
                             ) : clans.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="py-8 text-center text-white/40 font-black tracking-widest text-[10px]">NO DATA ESTABLISHED</td>
+                                    <td colSpan={5} className="py-20 text-center text-white/20 font-black tracking-[0.4em] text-[10px] uppercase italic">NO DATA ESTABLISHED IN CURRENT CYCLE</td>
                                 </tr>
                             ) : clans.map((team, i) => (
-                                <tr key={team.id || i} className="hover:bg-white/[0.02] transition-all group/row cursor-pointer relative">
-                                    <td className="py-4 px-3 md:py-10 md:px-12 text-sm md:text-2xl font-black tracking-tighter text-white/10 group-hover/row:text-white transition-colors">{(i + 1).toString().padStart(2, '0')}</td>
-                                    <td className="py-4 px-3 md:py-10 md:px-12">
-                                        <div className="flex items-center gap-3 md:gap-8">
-                                            <div className={`w-8 h-8 md:w-14 md:h-14 ${i === 0 ? 'bg-[#E81414]' : 'bg-white/5'} border border-white/10 flex items-center justify-center shrink-0 transition-transform rounded-2xl`}>
-                                                <span className={`${i === 0 ? 'text-white' : 'text-white/20'} text-[10px] md:text-[16px] font-black`}>{team.name?.[0] || '?'}</span>
+                                <tr key={team.id || i} className="hover:bg-white/[0.02] transition-all group/row cursor-pointer">
+                                    <td className="py-8 px-10">
+                                        <span className="text-xl font-black tracking-tighter text-white/10 group-hover/row:text-white transition-colors">{(i + 1).toString().padStart(2, '0')}</span>
+                                    </td>
+                                    <td className="py-8 px-10">
+                                        <div className="flex items-center gap-6">
+                                            <div className={`w-14 h-14 ${i === 0 ? 'bg-[#E81414] shadow-lg shadow-[#E81414]/20' : 'bg-white/5'} flex items-center justify-center shrink-0 rounded-2xl group-hover/row:scale-110 transition-transform`}>
+                                                <span className={`${i === 0 ? 'text-white' : 'text-white/40'} text-lg font-black`}>{team.name?.[0] || '?'}</span>
                                             </div>
-                                            <div className="flex flex-col gap-0.5 md:gap-1">
-                                                <span className={`text-[10px] md:text-[16px] font-black tracking-tight md:tracking-widest uppercase ${i === 0 ? 'text-[#E81414]' : 'text-white'} truncate max-w-[80px] sm:max-w-none`}>{team.name}</span>
-                                                <span className="text-[7px] md:text-[9px] tracking-[0.2em] md:tracking-[0.4em] font-black uppercase text-white/20">{i < 3 ? 'ELITE' : 'ACTIVE'} TAG</span>
+                                            <div className="flex flex-col">
+                                                <span className={`text-[13px] font-black tracking-widest uppercase ${i === 0 ? 'text-[#E81414]' : 'text-white'}`}>{team.name}</span>
+                                                <span className="text-[9px] tracking-[0.3em] font-black uppercase text-white/20">{i < 3 ? 'ELITE MASTER' : 'ACTIVE SOLDIER'}</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="py-4 px-3 md:py-10 md:px-12">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs md:text-3xl font-bold tracking-tight md:tracking-widest text-white">{team.score?.toLocaleString() || '0'}</span>
+                                    <td className="py-8 px-10">
+                                        <div className="flex items-center gap-4">
+                                            <GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} className={`${i === 0 ? 'text-[#E81414]' : 'text-white/20'}`} />
+                                            <span className="text-xl font-black tracking-tighter text-white tabular-nums">{team.score?.toLocaleString() || '0'}</span>
                                         </div>
                                     </td>
-                                    <td className="py-4 px-3 md:py-10 md:px-12 hidden sm:table-cell">
-                                        <div className="flex items-center gap-2 md:gap-5">
-                                            <Suriken size="sm" />
-                                            <span className="text-[9px] md:text-[11px] font-black tracking-[0.2em] uppercase text-white/30 truncate">{team._count?.members || 0} OPERATIVES</span>
+                                    <td className="py-8 px-10">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-[#E81414] animate-pulse" />
+                                            <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40">{team._count?.members || 0} SOLDIERS</span>
                                         </div>
                                     </td>
-                                    <td className="py-4 px-3 md:py-10 md:px-12 text-right">
-                                        <div className="flex flex-col items-end gap-1 md:gap-1.5">
-                                            <span className={`text-[9px] md:text-[12px] font-black tracking-[0.1em] md:tracking-[0.2em] uppercase text-green-500`}>N/A</span>
-                                            <div className="flex items-center gap-1 md:gap-2">
-                                                <Suriken size="sm" className="opacity-10" />
-                                                <span className="text-[7px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] font-black uppercase text-white/10 hidden md:inline">30D VELOCITY</span>
-                                            </div>
+                                    <td className="py-8 px-10 text-right">
+                                        <div className="flex flex-col items-end">
+                                            <span className="text-[11px] font-black tracking-widest uppercase text-green-500">+12.4%</span>
+                                            <span className="text-[8px] tracking-[0.2em] font-black uppercase text-white/10">30D GAIN</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -132,33 +152,31 @@ export default function LeaderboardPage() {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </HUDCard>
 
-            {/* ══ FOOTER INFO ════════════════════════════════════════════════ */}
-            <HUDFrame
-                title="SYNC PROTOCOL LOCKED"
-                subtitle="SYSTEM VERSION OVERSIGHT"
-                className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6 md:gap-10"
-            >
-                <div className="flex items-center gap-5 md:gap-10 relative z-10">
-                    <div className="w-12 h-12 md:w-16 md:h-16 border border-white/10 flex items-center justify-center bg-white/5 rounded-xl md:rounded-2xl shrink-0">
-                        <Suriken size="lg" />
+            {/* ══ SYNC INFO ════════════════════════════════════════════════ */}
+            <HUDCard variant="default" className="border-white/5 bg-black/40" padding="p-10 md:p-20">
+                <div className="flex flex-col lg:flex-row items-center justify-between gap-12 md:gap-24">
+                    <div className="flex items-center gap-10 md:gap-14">
+                        <div className="w-20 h-20 bg-white/5 flex items-center justify-center rounded-[2rem] shrink-0">
+                            <GOTIcon type="shield" size={40} scale={1.8} x={0} y={0} />
+                        </div>
+                        <div className="space-y-4">
+                            <h4 className="text-[11px] tracking-[0.6em] font-black uppercase text-white/40">WALL SYNC PROTOCOL</h4>
+                            <p className="text-[11px] tracking-widest font-black uppercase text-white/20 leading-loose max-w-3xl">
+                                RANKINGS ARE IMMUTABLE ONCE PERSISTED TO THE ROYAL LEDGER. CALCULATIONS FACTOR IN QUEST VELOCITY, REALM CONTROL, AND HOUSE COHESION.
+                            </p>
+                        </div>
                     </div>
-                    <div className="space-y-1.5 md:space-y-3 text-left">
-                        <p className="text-[8px] md:text-[11px] tracking-[0.05em] font-black uppercase text-white/20 max-w-xl leading-relaxed">
-                            RANKS ARE CALCULATED EVERY 60 CYCLES BASED ON CHALLENGE VELOCITY, DOMAIN STABILITY, AND COLLECTIVE SYNDICATE XP.
-                        </p>
-                    </div>
+                    <Button
+                        variant="ghost"
+                        className="text-white/40 hover:text-white px-10 py-6"
+                        icon={<GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} />}
+                    >
+                        VIEW RANKING CRITERIA
+                    </Button>
                 </div>
-                <Button
-                    variant="primary"
-                    size="lg"
-                    className="w-full xl:w-auto mt-4 md:mt-0"
-                    icon={Download}
-                >
-                    EXPORT LOGS
-                </Button>
-            </HUDFrame>
+            </HUDCard>
         </div>
     );
 }

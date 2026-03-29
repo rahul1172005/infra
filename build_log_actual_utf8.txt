@@ -1,0 +1,70 @@
+﻿
+> build
+> npm run build -w @zapsters/types && npm run build -w @zapsters/database && npm run build -w @zapsters/api && npm run build -w web
+
+
+> @zapsters/types@1.0.0 build
+> tsc
+
+
+> @zapsters/database@1.0.0 build
+> tsc
+
+
+> @zapsters/api@1.0.0 build
+> cd ../../packages/database && npm run build && cd ../../apps/api && npx prisma generate --schema=../../packages/database/prisma/schema.prisma && tsc
+
+
+> @zapsters/database@1.0.0 build
+> tsc
+
+Environment variables loaded from .env
+Prisma schema loaded from ..\..\packages\database\prisma\schema.prisma
+node.exe : Error: 
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Us
+ers\Raja\AppData\Roaming\n 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Error:   
+  :String) [], RemoteExcep   
+ tion
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+EPERM: operation not 
+permitted, rename 'C:\Users\R
+aja\OneDrive\Desktop\scoreboa
+rd\node_modules\.prisma\clien
+t\query_engine-windows.dll.no
+de.tmp9552' -> 'C:\Users\Raja
+\OneDrive\Desktop\scoreboard\
+node_modules\.prisma\client\q
+uery_engine-windows.dll.node'
+
+
+npm error Lifecycle script 
+`build` failed with error:
+npm error code 1
+npm error path C:\Users\Raja\
+OneDrive\Desktop\scoreboard\a
+pps\api
+npm error workspace 
+@zapsters/api@1.0.0
+npm error location C:\Users\R
+aja\OneDrive\Desktop\scoreboa
+rd\apps\api
+npm error command failed
+npm error command 
+C:\Windows\system32\cmd.exe 
+/d /s /c cd 
+../../packages/database && 
+npm run build && cd 
+../../apps/api && npx prisma 
+generate --schema=../../packa
+ges/database/prisma/schema.pr
+isma && tsc

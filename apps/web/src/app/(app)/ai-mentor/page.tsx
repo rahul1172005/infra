@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { Send, Zap, Code2, Database, Shield, Search } from 'lucide-react';
 
 import { useState, useEffect } from 'react';
@@ -19,7 +19,7 @@ const BarcodeDecoration = ({ className = "" }: { className?: string }) => (
 const TechDossierHeader = ({ title, subtitle }: { title: string; subtitle: string }) => (
     <div className="flex flex-col gap-4 border-l-4 border-[#E81414] pl-10 mb-12">
         <span className="text-[11px] tracking-[0.8em] uppercase font-black text-white/30">{subtitle}</span>
-        <h2 className="text-6xl font-black tracking-tighter uppercase leading-none text-white">{title}</h2>
+        <h2 className="text-6xl font-black tracking-tighter uppercase  text-white">{title}</h2>
     </div>
 );
 
@@ -35,19 +35,19 @@ export default function AiMentorPage() {
 
             {/* ══ PAGE HEADER ═══════════════════════════════════════════════ */}
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end border-b-2 border-white/10 pb-16 gap-12 relative z-10">
-                <TechDossierHeader title="NEURAL LOGIC" subtitle="TACTICAL INTERFACE V3.0 OMEGA" />
+                <TechDossierHeader title="ROYAL WHISPERS" subtitle="COUNCIL INTERFACE V3.0 OMEGA" />
                 <div className="flex items-center gap-10 bg-white/[0.02] border-2 border-white/10 p-10 hover:border-white/20 transition-all group">
                     <div className="flex flex-col gap-4">
                         <span className="text-[10px] tracking-[0.6em] uppercase font-black text-white/20 group-hover:text-white/40 transition-colors">NODE INSTANCE</span>
                         <div className="flex items-center gap-6">
-                            <span className="text-4xl font-black tracking-widest text-white">NM-901</span>
+                            <span className="text-4xl font-black tracking-widest text-white">RW-901</span>
                             
                         </div>
                     </div>
                     <div className="h-16 w-[2px] bg-white/5" />
                     <div className="flex flex-col gap-4">
-                        <span className="text-[10px] tracking-[0.6em] uppercase font-black text-white/20 group-hover:text-white/40 transition-colors">Authorization</span>
-                        <div className="px-6 py-2 border-2 border-[#E81414] text-[11px] tracking-[0.6em] uppercase font-black bg-[#E81414]/10 text-[#E81414]">ALPHA 01 CLEARANCE</div>
+                        <span className="text-[10px] tracking-[0.6em] uppercase font-black text-white/20 group-hover:text-white/40 transition-colors">Royal Clearance</span>
+                        <div className="px-6 py-2 border-2 border-[#E81414] text-[11px] tracking-[0.6em] uppercase font-black bg-[#E81414]/10 text-[#E81414]">KINGSGUARD CLEARANCE</div>
                     </div>
                 </div>
             </div>
@@ -63,10 +63,10 @@ export default function AiMentorPage() {
                     <div className="p-10 border-b-2 border-white/10 bg-black/80 backdrop-blur-md flex justify-between items-center z-20">
                         <div className="flex items-center gap-8">
                             <div className="w-12 h-12 bg-white flex items-center justify-center transition-transform duration-500">
-                                <img src="/suriken.png" alt="icon" className="w-6 h-6 black object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 black object-contain" />
                             </div>
                             <div className="space-y-1">
-                                <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">NEURAL FEED</span>
+                                <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">COUNCIL FEED</span>
                                 <div className="flex items-center gap-3">
                                     
                                     <span className="text-[9px] tracking-[0.4em] text-green-500/60 uppercase font-black">LINK STABLE</span>
@@ -94,17 +94,17 @@ export default function AiMentorPage() {
                             className="flex gap-10 items-start max-w-4xl"
                         >
                             <div className="w-16 h-16 border-2 border-[#E81414] flex items-center justify-center shrink-0 mt-2 bg-[#E81414]/10 group cursor-pointer hover:bg-[#E81414] transition-all">
-                                <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover:text-white transition-colors fill-current object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-14 h-14 group-hover:text-white transition-colors fill-current object-contain" />
                             </div>
                             <div className="space-y-10">
                                 <div className="bg-white/[0.02] border-2 border-white/10 p-12 relative group/msg hover:border-[#E81414]/30 transition-all">
                                     <div className="absolute -top-1 -right-1 p-4 bg-white text-black text-[10px] tracking-widest font-black uppercase flex items-center gap-4">
-                                        <img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> V COSMOS 9.0
+                                        <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-8 h-8 object-contain" /> V RED KEEP 9.0
                                     </div>
                                     <p className="text-[16px] tracking-widest uppercase font-black leading-loose text-white/80">
-                                        Tactical Neural Core Online. Logic kernels synchronized at 99.8%.
-                                        Architectural anomalies detected in sector-07. Ready to facilitate deep-level system optimization.
-                                        Provide mission parameters or directive codes.
+                                        Royal Council Core Online. Logic kernels synchronized at 99.8%.
+                                        Realm anomalies detected in sector-07. Ready to facilitate deep-level kingdom optimization.
+                                        Provide quest parameters or directive codes.
                                     </p>
                                 </div>
                                 <div className="flex flex-wrap gap-6">
@@ -139,35 +139,35 @@ export default function AiMentorPage() {
                                     AUTHENTICATED INPUT
                                 </div>
                                 <p className="text-[16px] tracking-widest uppercase font-black text-black group-hover:text-white transition-colors leading-relaxed">
-                                    Analyze the structural instability of the neural buffer in cluster-14.
+                                    Analyze the structural instability of the royal buffer in sector-14.
                                 </p>
                             </div>
                             <div className="w-16 h-16 border-2 border-white flex items-center justify-center shrink-0 mt-2 bg-black text-white hover:bg-white hover:text-black transition-all cursor-pointer">
-                                <img src="/suriken.png" alt="icon" className="w-8 h-8 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-14 h-14 object-contain" />
                             </div>
                         </motion.div>
                     </div>
 
                     {/* Input Module */}
-                    <div className="p-12 border-t-2 border-white/10 bg-[#050505] z-20">
+                    <div className="p-12 border-t-2 border-white/10 bg-black z-20">
                         <div className="relative border-4 border-white/10 bg-black focus-within:border-[#E81414] transition-all group/input px-4">
                             <textarea
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
-                                placeholder="INPUT DIRECTIVE OR COMMAND CODE..."
+                                placeholder="INPUT DECREE OR COMMAND CODE..."
                                 className="w-full bg-transparent p-12 text-[16px] tracking-[0.5em] font-black uppercase text-white placeholder-white/5 focus:outline-none resize-none h-48 scrollbar-hide"
                             />
                             <div className="absolute bottom-10 right-10 flex items-center gap-12">
                                 <div className="hidden lg:flex flex-col items-end gap-2 text-white/10 group-focus-within/input:text-[#E81414]/60 transition-colors">
                                     <span className="text-[9px] tracking-[0.6em] uppercase font-black flex items-center gap-3">
-                                        <img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} /> SHIFT ENTER TO EXECUTE
+                                        <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-6 h-6 object-contain" /> SHIFT ENTER TO PROCLAIM
                                     </span>
                                 </div>
                                 <Button
                                     variant="primary"
                                     size="lg"
                                     className="w-20 h-20 p-0 flex items-center justify-center hover:bg-[#E81414] hover:text-white transition-all transform hover:-translate-y-2"
-                                    icon={() => <img src="/suriken.png" alt="icon" className="w-8 h-8 group-hover/input:translate-x-2 group-hover/input:-translate-y-2 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />}
+                                    icon={() => <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-12 h-12 group-hover/input:translate-x-2 group-hover/input:-translate-y-2 transition-transform object-contain" />}
                                     onClick={() => {/* handle send */}}
                                 />
                             </div>
@@ -182,16 +182,16 @@ export default function AiMentorPage() {
 
                         <div className="flex items-center justify-between border-b border-white/10 pb-10">
                             <div className="flex items-center gap-6">
-                                <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">NEURAL STATUS</span>
+                                <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 object-contain" />
+                                <span className="text-[12px] tracking-[0.8em] uppercase font-black text-white">COUNCIL STATUS</span>
                             </div>
-                            <img src="/suriken.png" alt="icon" className="w-5 h-5 white/10 hover:text-white cursor-pointer transition-colors object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                            <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-8 h-8 white/10 hover:text-white cursor-pointer transition-colors object-contain" />
                         </div>
 
                         <div className="space-y-12">
                             {[
-                                { label: 'CPU CORE UTILITY', value: '14%', p: 14 },
-                                { label: 'COGNITIVE SYNC', value: 'OPTIMAL', p: 100 },
+                                { label: 'ROYAL CORE UTILITY', value: '14%', p: 14 },
+                                { label: 'REALM SYNC', value: 'OPTIMAL', p: 100 },
                                 { label: 'TRUST COEFFICIENT', value: '0.98X', p: 98 },
                                 { label: 'LATENCY DELTA', value: '0.01MS', p: 10 },
                             ].map((stat, i) => (
@@ -209,17 +209,17 @@ export default function AiMentorPage() {
 
                         <div className="pt-12 border-t border-white/10 grid grid-cols-2 gap-12">
                             <div className="space-y-4">
-                                <span className="text-[9px] tracking-[0.6em] uppercase text-white/20 font-black">Architecture</span>
+                                <span className="text-[9px] tracking-[0.6em] uppercase text-white/20 font-black">Realm Structure</span>
                                 <div className="flex items-center gap-4">
-                                    <img src="/suriken.png" alt="icon" className="w-5 h-5 white/40 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                    <span className="text-[11px] font-black tracking-[0.2em] uppercase text-white">X86 CORE</span>
+                                    <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-8 h-8 white/40 object-contain" />
+                                    <span className="text-[11px] font-black tracking-[0.2em] uppercase text-white">ROYAL CORE</span>
                                 </div>
                             </div>
                             <div className="space-y-4 text-right">
                                 <span className="text-[9px] tracking-[0.6em] uppercase text-white/20 font-black">Region</span>
                                 <div className="flex items-center gap-4 justify-end">
-                                    <span className="text-[11px] font-black tracking-[0.2em] uppercase text-white">GLB NODES</span>
-                                    <img src="/suriken.png" alt="icon" className="w-5 h-5 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                    <span className="text-[11px] font-black tracking-[0.2em] uppercase text-white">RLM NODES</span>
+                                    <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-8 h-8 object-contain" />
                                 </div>
                             </div>
                         </div>
@@ -229,16 +229,16 @@ export default function AiMentorPage() {
                         <div className="absolute inset-0 scanlines opacity-5 invert group-hover:opacity-10 transition-opacity" />
                         <div className="relative z-10 space-y-8">
                             <div className="flex items-center gap-6 border-b-2 border-black/5 pb-6">
-                                <img src="/suriken.png" alt="icon" className="w-6 h-6 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                                <span className="text-[12px] tracking-[0.8em] uppercase font-black">SYSTEM DIRECTIVE 001</span>
+                                <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 object-contain" />
+                                <span className="text-[12px] tracking-[0.8em] uppercase font-black">ROYAL DECREE 001</span>
                             </div>
                             <p className="text-[11px] tracking-[0.3em] uppercase leading-loose text-black/40 font-black group-hover:text-black transition-colors">
-                                All neural transmissions are strictly encrypted and stored in local deep-archives.
+                                All royal transmissions are strictly encrypted and stored in royal deep-archives.
                                 Unauthorized buffer access triggers mandatory sector lockdown.
                             </p>
                         </div>
                         <div className="flex justify-between items-center pt-8 border-t-2 border-black/5 text-[9px] font-black uppercase tracking-[0.5em] text-black/20">
-                            <span>VERIFIED ALPHA</span>
+                            <span>VERIFIED ROYAL</span>
                             <div className="flex gap-2">
                                 <div className="w-1.5 h-1.5 bg-black" />
                                 <div className="w-1.5 h-1.5 bg-black" />

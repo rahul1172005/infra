@@ -10,10 +10,12 @@ export function NavigationBar() {
  transition={{ duration: 0.6 }}
  className="sticky top-6 z-50 flex justify-between items-center px-4 py-3 mx-6 bg-[#FFD700] text-black text-[10px] lg:text-sm tracking-wide font-bold uppercase rounded-sm border border-[#FFD700] shadow-2xl"
  >
- <div className="flex items-center gap-3">
- <Square className="w-5 h-5 fill-black"/>
- <span className="text-base tracking-widest">CIPHER</span>
- </div>
+  <div className="flex items-center gap-2">
+    <div className="w-6 h-6 lg:w-8 lg:h-8">
+      <img src="/logo.png" alt="Zapsters Logo" className="w-full h-full object-contain filter brightness-0" />
+    </div>
+    <span className="text-lg lg:text-xl font-black tracking-tighter">ZAPSTERS</span>
+  </div>
 
  <nav className="hidden xl:flex items-center gap-6">
  <Link href="#about"className="hover:opacity-70 transition-opacity">ABOUT</Link>
@@ -26,7 +28,7 @@ export function NavigationBar() {
  </nav>
 
  <div className="flex items-center">
- <Link href="/dashboard"className="bg-black text-[#FFD700] px-6 py-2 border border-black hover:bg-zinc-900 transition-colors uppercase tracking-[0.2em] text-[10px] font-bold">
+ <Link href="/dashboard"className="bg-black text-[#FFD700] px-6 py-2 border border-black hover:bg-black transition-colors uppercase tracking-[0.2em] text-[10px] font-bold">
  BOOST SECURITY
  </Link>
  </div>

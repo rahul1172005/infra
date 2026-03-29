@@ -1,0 +1,12 @@
+﻿src/app/(app)/api-keys/page.tsx(22,17): error TS2322: Type 'Element' is not assignable to type 'string'.
+src/app/(app)/arena/page.tsx(32,30): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ReactNode'.
+src/app/(app)/arena/page.tsx(39,30): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ReactNode'.
+src/app/(app)/challenges/page.tsx(26,17): error TS2322: Type 'Element' is not assignable to type 'string'.
+src/app/(app)/dashboard/page.tsx(43,17): error TS2322: Type 'Element' is not assignable to type 'string'.
+src/app/(app)/leaderboard/page.tsx(42,17): error TS2322: Type 'Element' is not assignable to type 'string'.
+src/app/(app)/leaderboard/page.tsx(154,30): error TS2304: Cannot find name 'Shield'.
+src/app/(app)/profile/page.tsx(76,17): error TS2322: Type 'Element' is not assignable to type 'string'.
+src/app/(app)/projects/page.tsx(20,17): error TS2322: Type 'Element' is not assignable to type 'string'.
+src/app/(app)/settings/page.tsx(100,17): error TS2322: Type 'Element' is not assignable to type 'string'.
+src/app/(app)/teams/page.tsx(82,17): error TS2322: Type 'Element' is not assignable to type 'string'.
+src/app/(app)/workspace/page.tsx(164,17): error TS2322: Type 'Element' is not assignable to type 'string'.

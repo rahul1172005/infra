@@ -2,8 +2,12 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
- title: "Zapsters — Command Center",
- description: "Next-generation competitive hacking platform and battle arena.",
+ title: "Zapsters — The Iron Throne",
+ description: "A quest for the Seven Kingdoms — Conquer and Rule with Zapsters.",
+ icons: {
+   icon: '/logo.png',
+   apple: '/logo.png',
+ },
 };
 
 export const viewport: Viewport = {
@@ -23,12 +27,12 @@ export default function RootLayout({
  return (
  <html lang="en"suppressHydrationWarning>
  <head>
- <link rel="preload"href="/adieu-regular.otf"as="font"type="font/otf"crossOrigin="anonymous"/>
+ <link rel="preload"href="/Game of Thrones.ttf"as="font"type="font/ttf"crossOrigin="anonymous"/>
  </head>
  <body
- className="antialiased bg-black text-white font-['Adieu']"
+ className="antialiased bg-black text-white font-['Game of Thrones']"
  suppressHydrationWarning
- style={{ fontFamily: "'Adieu', sans-serif"}}
+ style={{ fontFamily: "'Game of Thrones', 'Adieu', sans-serif"}}
  >
  {children}
  </body>

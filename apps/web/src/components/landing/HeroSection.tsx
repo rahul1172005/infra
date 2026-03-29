@@ -10,9 +10,9 @@ export function HeroSection() {
  transition={{ duration: 0.8, ease: "easeOut"}}
  className="max-w-4xl"
  >
- <h1 className="text-[#FFD700] text-6xl md:text-8xl lg:text-[100px] font-bold leading-[0.9] tracking-tighter uppercase mb-6">
- NO BREACHES, <br />
- ONLY BOLD MOVES
+ <h1 className="text-[#FFD700] text-6xl md:text-8xl lg:text-[100px] font-bold leading-[1.4] tracking-wider mb-10">
+ FIRE AND BLOOD, <br />
+ ONLY DRAGONS RULE
  </h1>
  <p className="text-[#FFD700] text-[10px] md:text-xs tracking-widest leading-relaxed max-w-[400px] mb-12 opacity-80 uppercase">
  We empower you to take bold actions that secure your digital world and eliminate threats.

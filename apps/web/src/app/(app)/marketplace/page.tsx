@@ -19,15 +19,14 @@ export default function MarketplacePage() {
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end border-b-2 border-white/10 pb-16 gap-12 relative z-10">
                 <div className="space-y-8">
                     <div className="flex items-center gap-6">
-                        <div className="w-12 h-12 flex items-center justify-center transition-transform duration-500 relative group/header">
-                            <img
+                        <div className="w-20 h-20 flex items-center justify-center transition-transform duration-500 relative group/header">
+                            <img style={{ transform: "scale(1.6)" }}
                                 src="/logo.png"
-                                alt="Zapsters Logo"
+                                alt="Realm Logo"
                                 className="w-full h-full object-contain"
-                                style={{ transform: "scale(2.2) translate(0px, 0px)" }}
                             />
                         </div>
-                        <span className="text-[11px] tracking-[0.8em] font-black uppercase text-white/30">LOGISTIC EXCHANGE</span>
+                        <span className="text-[11px] tracking-[0.8em] font-black uppercase text-white/30">ROYAL EXCHANGE</span>
                     </div>
                     <h1 className="text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.8] text-white">
                         CORE<br /><span className="text-[#E81414]">MARKET</span>
@@ -38,8 +37,8 @@ export default function MarketplacePage() {
                     <div className="flex flex-col items-start gap-3">
                         <span className="text-[10px] tracking-[0.6em] font-black uppercase text-white/20">OPERATIVE CREDITS</span>
                         <div className="flex items-center gap-8">
-                            <img src="/suriken.png" alt="icon" className="w-10 h-10 [#E81414] group-hover:scale-110 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
-                            <span className="text-5xl font-black uppercase tracking-tighter text-white">0.00 <span className="text-white/10">ZXP</span></span>
+                            <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-16 h-16 group-hover:scale-110 transition-transform object-contain" />
+                            <span className="text-5xl font-black uppercase tracking-tighter text-white">0.00 <span className="text-white/10">COINS</span></span>
                         </div>
                     </div>
                 </div>
@@ -56,7 +55,7 @@ export default function MarketplacePage() {
 
                 <div className="relative z-10 flex flex-col items-center gap-16 max-w-4xl text-center">
                     <div className="w-32 h-32 border-2 border-white/10 bg-white/5 flex items-center justify-center relative hover:bg-black group/icon transition-all duration-500">
-                        <img src="/suriken.png" alt="icon" className="w-12 h-12 [#E81414] group-hover:scale-110 transition-transform z-10 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                        <img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-24 h-24 group-hover:scale-110 transition-transform z-10 object-contain" />
                         <div className="absolute inset-0 bg-[#E81414]/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
 
                         {/* Corner markers */}
@@ -65,36 +64,36 @@ export default function MarketplacePage() {
                     </div>
 
                     <div className="space-y-12">
-                        <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none group-hover:scale-105 transition-transform duration-700">
+                        <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white  group-hover:scale-105 transition-transform duration-700">
                             SUPPLY CHAIN<br /><span className="text-[#E81414]">INTERRUPTION</span>
                         </h2>
                         <div className="bg-white p-16 border-2 border-white flex flex-col items-center gap-10 max-w-3xl mx-auto shadow-[0_0_50px_rgba(255,255,255,0.05)] relative overflow-hidden group/notice">
                             <div className="absolute inset-0 scanlines opacity-5 invert pointer-events-none" />
                             <p className="text-[16px] tracking-[0.3em] font-black text-black uppercase leading-relaxed relative z-10">
-                                Marketplace synchronization is currently suspended for node maintenance.
-                                Global hardware shipments are redirected to local sector hubs.
-                                Check back for priority clearance status.
+                                Marketplace synchronization is currently suspended for royal maintenance.
+                                House resources are redirected to local kingdom hubs.
+                                Check back for royal clearance status.
                             </p>
                             <button className="px-12 py-5 bg-black text-white text-[12px] tracking-[0.6em] font-black uppercase hover:bg-[#E81414] transition-all relative z-10 flex items-center gap-6 group/btn">
-                                REQUEST CLEARANCE <img src="/suriken.png" alt="icon" className="w-5 h-5 group-hover/btn:translate-x-4 transition-transform object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />
+                                REQUEST CLEARANCE
                             </button>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-12 w-full pt-16 border-t-2 border-white/5">
-                        <MarketStatus label="SYNC NODE" status="Refused" icon={<img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />} />
-                        <MarketStatus label="EDGE LINK" status="Offline" icon={<img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />} />
-                        <MarketStatus label="Hardware" status="Blocked" icon={<img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />} />
-                        <MarketStatus label="Security" status="Active" icon={<img src="/suriken.png" alt="icon" className="w-4 h-4 object-contain" style={{ "transform": "scale(2.2) translate(0px, 0px)" }} />} />
+                        <MarketStatus label="SYNC NODE" status="Refused" icon={<img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 object-contain" />} />
+                        <MarketStatus label="EDGE LINK" status="Offline" icon={<img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 object-contain" />} />
+                        <MarketStatus label="SUPPLY" status="Blocked" icon={<img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 object-contain" />} />
+                        <MarketStatus label="REALM" status="Active" icon={<img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-10 h-10 object-contain" />} />
                     </div>
                 </div>
             </div>
 
             {/* Future Listings Preview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <ListingType label="INDUSTRIAL HW" val="TIER 04 PRIME" icon={<img src="/suriken.png" alt="icon" className="w-full h-full object-contain" style={{ "transform": "scale(1.3) translate(0px, 1px)" }} />} />
-                <ListingType label="NEURAL LOGIC BETA" val="KERNEL V1" icon={<img src="/suriken.png" alt="icon" className="w-full h-full object-contain" style={{ "transform": "scale(1.3) translate(0px, 1px)" }} />} />
-                <ListingType label="SECTOR ACCESS OPS" val="RESTRICTED" icon={<img src="/suriken.png" alt="icon" className="w-full h-full object-contain" style={{ "transform": "scale(1.3) translate(0px, 1px)" }} />} />
+                <ListingType label="ROYAL ARMORY" val="VALYRIAN STEEL" icon={<img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-full h-full object-contain" />} />
+                <ListingType label="DRAGON FIRE" val="WILDFIRE V1" icon={<img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-full h-full object-contain" />} />
+                <ListingType label="KINGDOM ACCESS" val="RESTRICTED" icon={<img style={{ transform: "scale(1.6)" }} src="/logo.png" alt="icon" className="w-full h-full object-contain" />} />
             </div>
         </div>
     );
