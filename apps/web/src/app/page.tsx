@@ -117,14 +117,14 @@ export default function Home() {
           {/* ══ SECTORS ════════════════════════════════════════════════════ */}
           <section id="sectors" className="w-full bg-black text-white py-16 md:py-32 border-b border-white/5">
             <div className="max-w-[1440px] mx-auto px-5 md:px-8">
-              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-16 relative">
+              <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end text-center lg:text-left gap-8 mb-16 relative">
                 <div className="space-y-4">
                   <h2 className="text-3xl md:text-[3rem] lg:text-[4.5rem] font-black tracking-[0.1em] uppercase leading-[1.1]">
                     CORE<br />KINGDOMS
                   </h2>
                 </div>
                 {/* Decorative icon removed */}
-                <p className="max-w-md text-white/40 text-[13px] tracking-wide uppercase font-black leading-loose border-l-2 border-white/10 pl-8">
+                <p className="max-w-md text-white/40 text-[13px] tracking-wide uppercase font-black leading-loose border-l-0 lg:border-l-2 border-white/10 px-0 lg:pl-8">
                   ADVANCED ROYAL MODULES FOR HOUSE SYNCHRONIZATION AND QUEST-CRITICAL CODE ANALYSIS.
                 </p>
               </div>
@@ -177,7 +177,7 @@ export default function Home() {
           {/* ══ PROTOCOLS ═══════════════════════════════════════════════════ */}
           <section id="protocols" className="w-full bg-black py-16 md:py-32 overflow-hidden relative border-b border-white/5">
             <div className="max-w-[1400px] mx-auto px-5 md:px-8 relative z-10">
-              <div className="mb-24 space-y-8 flex flex-col md:flex-row items-end justify-between relative">
+              <div className="mb-24 space-y-8 flex flex-col md:flex-row items-center md:items-end justify-center md:justify-between text-center md:text-left relative">
                 <h2 className="text-3xl sm:text-4xl md:text-[4rem] font-black text-white tracking-[0.1em] uppercase leading-[1.1]">
                   GLOBAL<br /><span className="text-[#E81414]">RANKINGS</span>
                 </h2>

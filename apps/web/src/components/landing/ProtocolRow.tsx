@@ -80,7 +80,7 @@ export default function ProtocolRow({
         }
       `}</style>
 
-      <div className="relative z-[10] flex flex-col md:flex-row md:items-center justify-between w-full px-12">
+      <div className="relative z-[10] flex flex-col md:flex-row items-center md:items-center text-center md:text-left justify-between w-full px-12">
         <div className="space-y-3">
           <h3 className="text-xl md:text-3xl font-black text-white tracking-widest uppercase transition-colors group-hover:text-black">
             {title}

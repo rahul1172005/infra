@@ -104,14 +104,34 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
 
       {/* ── MOBILE CONTENT ── */}
       <div className="relative z-[60] flex flex-col md:hidden h-full p-8 pt-16 pb-12">
-        <div className="flex flex-col items-start">
-          <div className="flex items-center gap-4 mb-8">
+        <div className="flex flex-col items-center text-center">
+          <div className="flex items-center justify-center gap-4 mb-8">
             <div className="w-10 h-10">
-              <img src="/logo.png" alt="Zapsters Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0)' }} />
+              <img
+                src="/logo.png"
+                alt="Zapsters Logo"
+                className="w-full h-full object-contain"
+                style={{
+                  transform: 'scale(3.0) translate(0px, 0px)',
+                  filter: 'brightness(0) saturate(100%)'
+                }}
+              />
             </div>
-            <h1 className="text-2xl font-black uppercase tracking-widest text-black">ZAPSTERS</h1>
+            <h1
+              className="text-2xl font-black uppercase leading-[5] tracking-widest text-black"
+              style={{
+                transform: "translate(-8px, 0px) scale(1.0)"
+              }}
+            >
+              ZAPSTERS
+            </h1>
           </div>
-          <p className="mt-4 text-[7vw] font-black uppercase leading-[1.1] tracking-tight text-black w-full drop-shadow-sm">
+          <p
+            className="mt-0 text-[7vw] font-black uppercase leading-[1.1] tracking-tight text-black w-full drop-shadow-sm text-center"
+            style={{
+              transform: "translateY(-40px)"
+            }}
+          >
             THE DRAGON&apos;S FIRE.<br />AND HEIR<br />TO THE IRON THRONE.
           </p>
         </div>

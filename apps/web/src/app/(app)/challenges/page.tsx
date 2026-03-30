@@ -38,20 +38,20 @@ export default function ChallengesPage() {
                         icon={<GOTIcon type="zap" size={56} className="text-[#E81414]" scale={1.6} x={0} y={0} />}
                         className="h-full"
                     >
-                        <div className="space-y-10 p-8">
+                        <div className="space-y-6 sm:space-y-10 p-4 sm:p-6 md:p-8">
                             <div className="space-y-3">
-                                <label className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30">QUEST IDENTIFIER</label>
+                                <label className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/30">QUEST IDENTIFIER</label>
                                 <input
                                     type="text"
                                     placeholder="IDENTIFIER"
-                                    className="w-full bg-white/5 border border-white/10 px-8 py-5 text-[11px] font-black tracking-[0.2em] outline-none focus:border-[#E81414]/50 transition-all text-white uppercase rounded-full"
+                                    className="w-full bg-white/5 border border-white/10 px-6 sm:px-8 py-4 sm:py-5 text-[10px] sm:text-[11px] font-black tracking-widest sm:tracking-[0.2em] outline-none focus:border-[#E81414]/50 transition-all text-white uppercase rounded-full"
                                 />
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30">KINGDOM CLASSIFICATION</label>
+                                <label className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/30">KINGDOM CLASSIFICATION</label>
                                 <div className="relative">
-                                    <select className="w-full bg-white/5 border border-white/10 px-8 py-5 text-[11px] font-black tracking-[0.2em] outline-none focus:border-[#E81414]/50 transition-all text-white uppercase appearance-none rounded-full">
+                                    <select className="w-full bg-white/5 border border-white/10 px-6 sm:px-8 py-4 sm:py-5 text-[10px] sm:text-[11px] font-black tracking-widest sm:tracking-[0.2em] outline-none focus:border-[#E81414]/50 transition-all text-white uppercase appearance-none rounded-full">
                                         <option>DRAGON</option>
                                         <option>FORTRESS</option>
                                         <option>VALYRIA</option>
@@ -61,12 +61,12 @@ export default function ChallengesPage() {
                             </div>
 
                             <div className="space-y-3">
-                                <label className="text-[9px] tracking-[0.4em] font-black uppercase text-white/30">REWARD COINS</label>
+                                <label className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/30">REWARD COINS</label>
                                 <div className="flex items-center gap-4 w-full overflow-hidden">
                                     <input
                                         type="number"
                                         defaultValue="500"
-                                        className="min-w-0 flex-1 bg-white/5 border border-white/10 px-4 md:px-8 py-4 md:py-5 text-sm md:text-[16px] font-black tracking-[0.1em] md:tracking-[0.2em] outline-none focus:border-[#E81414]/50 transition-all text-white uppercase rounded-full"
+                                        className="min-w-0 flex-1 bg-white/5 border border-white/10 px-4 sm:px-8 py-4 sm:py-5 text-sm sm:text-[16px] font-black tracking-[0.1em] sm:tracking-[0.2em] outline-none focus:border-[#E81414]/50 transition-all text-white uppercase rounded-full"
                                     />
                                 </div>
                             </div>
@@ -75,7 +75,7 @@ export default function ChallengesPage() {
                                 variant="primary"
                                 size="lg"
                                 fullWidth
-                                className="mt-4 py-6"
+                                className="mt-4 py-4 sm:py-6"
                             >
                                 ANNOUNCE QUEST
                             </Button>
@@ -93,32 +93,32 @@ export default function ChallengesPage() {
                         className="h-full flex flex-col"
                     >
                         <div className="divide-y divide-white/5">
-                            {challenges.map((ch) => (
-                                <div key={ch.id} className="p-8 md:p-14 lg:p-16 flex items-center justify-between hover:bg-[#E81414] transition-all duration-300 group cursor-pointer text-white hover:text-white gap-4">
-                                    <div className="flex items-center gap-6 md:gap-10 min-w-0">
+                             {challenges.map((ch) => (
+                                <div key={ch.id} className="p-4 sm:p-8 md:p-14 lg:p-16 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:bg-[#E81414] transition-all duration-300 group cursor-pointer text-white hover:text-white gap-6">
+                                    <div className="flex items-center gap-4 sm:gap-10 min-w-0 w-full sm:w-auto">
                                         <div className="flex items-center justify-center transition-all shrink-0">
                                             <GOTIcon size="sm" className={`${ch.id === 'GOT-003' ? 'opacity-100' : 'opacity-20'} transition-opacity group-hover:opacity-100`} scale={1.6} x={0} y={0} />
                                         </div>
-                                        <div className="space-y-1 min-w-0">
+                                        <div className="space-y-1 min-w-0 flex-1">
                                             <div className="flex items-center gap-3">
-                                                <span className="text-[8px] md:text-[9px] tracking-[0.3em] font-black uppercase text-white/30 group-hover:text-white/60 transition-colors truncate">
-                                                    {ch.id} <span className="mx-2 opacity-50">//</span> {ch.domain}
+                                                <span className="text-[8px] md:text-[9px] tracking-widest sm:tracking-[0.3em] font-black uppercase text-white/30 group-hover:text-white/60 transition-colors">
+                                                    {ch.id} <span className="mx-1 opacity-50">//</span> {ch.domain}
                                                 </span>
                                             </div>
-                                            <h4 className="text-sm md:text-xl font-black tracking-tighter uppercase truncate ">{ch.name}</h4>
+                                            <h4 className="text-[12px] sm:text-sm md:text-xl font-black tracking-tighter uppercase whitespace-normal leading-tight">{ch.name}</h4>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+                                    <div className="flex items-center justify-between sm:justify-end gap-6 sm:gap-8 w-full sm:w-auto pt-4 sm:pt-0 border-t border-white/5 sm:border-none">
                                         <div className="flex flex-col items-end">
                                             <div className="flex items-baseline gap-2">
-                                                <span className="text-lg md:text-2xl font-black tabular-nums group-hover:text-white">{ch.points}</span>
-                                                <span className="text-[8px] md:text-[10px] tracking-[0.4em] font-black uppercase text-white/30 group-hover:text-white/50">COINS</span>
+                                                <span className="text-xl sm:text-2xl font-black tabular-nums group-hover:text-white">{ch.points}</span>
+                                                <span className="text-[8px] md:text-[10px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/30 group-hover:text-white/50">COINS</span>
                                             </div>
                                         </div>
                                         <Button
                                             variant="primary"
                                             size="sm"
-                                            className="opacity-40 group-hover:opacity-100 group-hover:bg-white group-hover:text-black text-[10px] px-8 py-3"
+                                            className="opacity-40 group-hover:opacity-100 group-hover:bg-white group-hover:text-black text-[9px] sm:text-[10px] px-6 sm:px-8 py-2.5 sm:py-3 whitespace-nowrap"
                                         >
                                             VERIFY
                                         </Button>

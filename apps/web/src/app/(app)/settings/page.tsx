@@ -104,8 +104,9 @@ export default function SettingsPage() {
                         <Button
                             onClick={handleSave}
                             variant={saved ? 'secondary' : 'primary'}
+                            size="sm"
                             icon={saved ? Check : (props: any) => <GOTIcon type="zap" {...props} />}
-                            className="py-4 px-10"
+                            className="py-2.5 px-6"
                         >
                             {saved ? 'SAVED' : 'SAVE CONFIG'}
                         </Button>
@@ -241,7 +242,7 @@ export default function SettingsPage() {
                             onClick={handleLogout}
                             icon={LogOut}
                             variant={logoutConfirm ? 'secondary' : 'outline'}
-                            className="w-full md:w-auto py-4 px-10"
+                            className="w-full md:w-auto py-3 px-8"
                         >
                             {logoutConfirm ? 'CLICK AGAIN TO CONFIRM' : 'LOG OUT'}
                         </Button>

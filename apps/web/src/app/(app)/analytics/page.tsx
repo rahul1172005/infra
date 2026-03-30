@@ -181,34 +181,35 @@ export default function AnalyticsPage() {
                     topLabel="400 HOUSES | REAL-TIME MONITOR | SEASON III"
                 />
 
-                <div className="flex items-center gap-3 overflow-x-auto no-scrollbar">
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-4 pb-4">
                     {SECTORS.map(sector => (
                         <Button
                             key={sector}
                             variant={activeSector === sector ? 'primary' : 'outline'}
                             size="sm"
                             onClick={() => setActiveSector(sector)}
-                            className="px-5 py-1.5 h-auto text-[8px]"
+                            className="px-6 py-2.5 h-auto text-[10px] sm:text-[11px] tracking-widest shadow-none"
                         >
                             {sector}
                         </Button>
                     ))}
                 </div>
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                     {[
-                        { title: 'REALM STABILITY', sub: 'KINGDOM SECURITY', value: metrics.stability, label: 'INTEGRITY', slug: 'RED KEEP WALL', status: 'SECURE' as const, icon: 'shield' as const },
-                        { title: 'WAR READY', sub: 'ARMY PREP', value: metrics.battleReady, label: 'RESOURCES', slug: 'ROYAL ARMORY', status: 'AT RISK' as const, icon: 'zap' as const },
-                        { title: 'DIRE FLOW', sub: 'VALYRIAN SPEED', value: metrics.zenFlow, label: 'THROUGHPUT', slug: 'KINGDOM SYNC', status: 'SECURE' as const, icon: 'zap' as const },
-                        { title: 'REALM SYNC', sub: 'KINGDOM SYNC', value: teams[0]?.sync || 88, label: 'NETWORK', slug: 'GRID LOCK', status: 'SECURE' as const, icon: 'globe' as const },
+                        { title: 'REALM STABILITY', sub: 'KINGDOM SECURITY', value: metrics.stability, label: 'INTEGRITY', slug: 'RED KEEP', status: 'SECURE' as const, icon: 'shield' as const },
+                        { title: 'WAR READY', sub: 'ARMY PREP', value: metrics.battleReady, label: 'RESOURCES', slug: 'ARMORY', status: 'AT RISK' as const, icon: 'zap' as const },
+                        { title: 'DIRE FLOW', sub: 'VALYRIAN SPEED', value: metrics.zenFlow, label: 'THROUGHPUT', slug: 'SYNC', status: 'SECURE' as const, icon: 'zap' as const },
+                        { title: 'REALM SYNC', sub: 'KINGDOM SYNC', value: teams[0]?.sync || 88, label: 'NETWORK', slug: 'LOCK', status: 'SECURE' as const, icon: 'globe' as const },
                     ].map((card, i) => (
                         <HUDCard 
                             key={card.title} 
                             title={card.title} 
                             subtitle={card.sub} 
-                            icon={<GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} className="opacity-40" />}
+                            headerClassName="!p-4 sm:!p-10"
+                            icon={<GOTIcon type="zap" size={24} scale={1.2} x={0} y={0} className="opacity-40" />}
                         >
-                            <div className="flex justify-center py-4 md:py-10">
+                            <div className="flex justify-center py-6 md:py-10 px-2">
                                 <RadialGauge value={card.value} label={card.label} sub={card.slug} />
                             </div>
                         </HUDCard>

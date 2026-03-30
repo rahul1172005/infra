@@ -143,7 +143,7 @@ function FlipCard({ challenge }: { challenge: typeof CHALLENGES[0] }) {
                     <Button
                         variant="primary"
                         fullWidth
-                        className="mt-8 py-6 bg-black text-white hover:bg-white hover:text-black border-transparent"
+                        className="mt-8 py-6 !bg-black !text-white hover:!bg-white hover:!text-black border-transparent"
                     >
                         TAKE THE OATH
                     </Button>

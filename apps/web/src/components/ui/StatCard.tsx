@@ -41,9 +41,9 @@ export const StatCard = ({
     return (
         <div
             className={`
-                p-6 md:p-10 border-2 md:border-[3px] flex flex-col justify-between min-h-[120px] md:min-h-[240px] 
+                p-8 md:p-12 border-2 md:border-[3px] flex flex-col justify-between min-h-[140px] md:min-h-[260px] 
                 group transition-all duration-300 relative overflow-hidden h-full 
-                rounded-[2rem]
+                rounded-[2.5rem]
                 ${isOversight
                     ? 'bg-black border-white/5 hover:bg-[#E81414] hover:border-[#E81414] text-white hover:text-black'
                     : 'bg-white border-black hover:bg-[#E81414] hover:text-black'}
@@ -52,10 +52,10 @@ export const StatCard = ({
         >
             <DotGrid opacity={isOversight ? 'opacity-[0.03]' : 'opacity-[0.03]'} />
 
-            <div className="flex justify-between items-start relative z-10 gap-x-4">
+            <div className="flex justify-between items-start relative z-10 gap-x-6">
                 <div className="flex-1 text-left">
                     <span className={`
-                        text-[8px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] 
+                        text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] 
                         transition-all block whitespace-nowrap
                         ${isOversight
                             ? 'text-white/40 group-hover:text-black group-hover:opacity-100'
@@ -68,11 +68,13 @@ export const StatCard = ({
                 {icon && (
                     <div
                         className={`
-                            flex-shrink-0 flex items-center justify-center transition-colors duration-300 
+                            flex-shrink-0 flex items-center justify-center transition-all duration-300 
+                            translate-x-3 -translate-y-3 md:translate-x-6 md:-translate-y-6
                             ${isOversight ? 'text-[#E81414] group-hover:text-black' : 'text-black'}
                         `}
                         style={{
-                            transform: `scale(${scale}) translate(${x}px, ${y}px)`
+                            transform: `scale(${scale})`
+                            // We use Tailwind for x/y translation to handle responsiveness safely
                         }}
                     >
                         {renderIcon()}
@@ -81,7 +83,7 @@ export const StatCard = ({
             </div>
 
             <h3 className={`
-                ${isVeryLongValue ? 'text-base md:text-xl' : isLongValue ? 'text-lg md:text-3xl' : 'text-xl md:text-5xl'} 
+                ${isVeryLongValue ? 'text-lg md:text-2xl' : isLongValue ? 'text-xl md:text-4xl' : 'text-2xl md:text-6xl'} 
                 font-black tracking-tighter leading-none mt-auto relative z-10 transition-all duration-500 group-hover:-translate-y-1 uppercase
                 ${isOversight ? 'text-white group-hover:text-black' : 'text-black'}
             `}>

@@ -83,7 +83,7 @@ export default function SectorCard({
       `}</style>
 
       {/* Wordings Layer */}
-      <div className="relative z-[10] h-full flex flex-col justify-start p-8 pt-4 gap-3">
+      <div className="relative z-[10] h-full flex flex-col items-center md:items-start text-center md:text-left justify-start p-8 pt-4 gap-3">
         <span className="text-[9px] tracking-[0.4em] font-black text-white/20 group-hover:text-black transition-colors uppercase">{num}</span>
 
         <div className="space-y-1">

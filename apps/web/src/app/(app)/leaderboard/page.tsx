@@ -116,7 +116,7 @@ export default function LeaderboardPage() {
                             ) : clans.map((team, i) => (
                                 <tr key={team.id || i} className="hover:bg-white/[0.02] transition-all group/row cursor-pointer">
                                     <td className="py-8 px-10">
-                                        <span className="text-xl font-black tracking-tighter text-white/10 group-hover/row:text-white transition-colors">{(i + 1).toString().padStart(2, '0')}</span>
+                                        <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-white transition-colors">{(i + 1).toString().padStart(2, '0')}</span>
                                     </td>
                                     <td className="py-8 px-10">
                                         <div className="flex items-center gap-6">
@@ -132,13 +132,15 @@ export default function LeaderboardPage() {
                                     <td className="py-8 px-10">
                                         <div className="flex items-center gap-4">
                                             <GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} className={`${i === 0 ? 'text-[#E81414]' : 'text-white/20'}`} />
-                                            <span className="text-xl font-black tracking-tighter text-white tabular-nums">{team.score?.toLocaleString() || '0'}</span>
+                                            <span className="text-xl font-black tracking-tighter text-[#E81414] tabular-nums">{team.score?.toLocaleString() || '0'}</span>
                                         </div>
                                     </td>
                                     <td className="py-8 px-10">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-[#E81414] animate-pulse" />
-                                            <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40">{team._count?.members || 0} SOLDIERS</span>
+                                            <span className="text-[10px] font-black tracking-[0.2em] uppercase">
+                                                <span className="text-[#E81414]">{team._count?.members || 0}</span>
+                                                <span className="text-white/40 ml-2">SOLDIERS</span>
+                                            </span>
                                         </div>
                                     </td>
                                     <td className="py-8 px-10 text-right">

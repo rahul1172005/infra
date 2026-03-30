@@ -18,9 +18,8 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen bg-black text-white flex selection:bg-[#E81414] selection:text-white relative overflow-hidden">
             <DotGrid />
-            {/* Background red glow */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#E81414]/5 blur-[180px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/[0.02] blur-[120px] pointer-events-none" />
+            {/* Background red glow removed */}
+
 
             {/* Left Brand Panel — hidden on mobile */}
             <div className="hidden lg:flex flex-col justify-between w-[420px] xl:w-[500px] shrink-0 border-r border-white/10 p-12 xl:p-16 relative z-10">
@@ -39,7 +38,7 @@ export default function LoginPage() {
                 <div className="space-y-10">
                     <div className="space-y-4">
                         <span className="text-[10px] tracking-[0.6em] text-[#E81414] font-black uppercase">SECURE NODE</span>
-                        <h2 className="text-5xl xl:text-6xl font-black uppercase leading-[0.85] tracking-tighter">
+                        <h2 className="text-5xl xl:text-6xl font-black uppercase leading-[1.3] tracking-tighter">
                             AUTH<br /><span className="text-[#E81414]">GATE</span>
                         </h2>
                     </div>
@@ -86,8 +85,8 @@ export default function LoginPage() {
                     {/* Header */}
                     <div className="space-y-3 border-b border-white/10 pb-8">
                         <span className="text-[10px] tracking-[0.6em] text-[#E81414] font-black uppercase">AUTHORIZATION</span>
-                        <h1 className="text-4xl md:text-5xl font-black uppercase leading-[0.85] tracking-tighter">
-                            SIGN IN
+                        <h1 className="text-4xl md:text-5xl font-black uppercase leading-[1.3] tracking-tighter">
+                            SIGN &nbsp; IN
                         </h1>
                         <p className="text-[10px] tracking-[0.3em] font-black uppercase text-white/30">
                             NODE AUTHORIZATION REQUIRED
@@ -96,10 +95,9 @@ export default function LoginPage() {
 
                     {/* Google Sign In — Primary */}
                     <button
-                        className="w-full flex items-center justify-center gap-4 px-6 py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.4em] hover:bg-[#E81414] hover:text-white transition-all group rounded-full shadow-xl"
+                        className="w-full flex items-center justify-center gap-4 px-8 py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.5em] hover:bg-[#E81414] hover:text-white transition-all group rounded-full shadow-xl"
                         onClick={() => { /* TODO: Google Auth */ }}
                     >
-                        <GOTIcon type="targaryen" size={24} scale={1.6} x={0} y={0} />
                         SIGN IN WITH GOOGLE
                     </button>
 
@@ -111,43 +109,41 @@ export default function LoginPage() {
                     </div>
 
                     {/* Credential Form */}
-                    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                    <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
                         {/* Email */}
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                             <label className="text-[9px] font-black uppercase tracking-[0.5em] text-white/40 ml-1">HOUSE ALIAS</label>
                             <div className="relative group">
-                                <GOTIcon type="targaryen" size={32} scale={1.6} x={0} y={0} className="absolute left-5 top-1/2 -translate-y-1/2 opacity-20 group-focus-within:opacity-60 transition-opacity" />
                                 <input
                                     type="text"
                                     placeholder="ENTER HOUSE EMAIL OR TITLE"
-                                    className="w-full bg-black border border-white/10 focus:border-white/40 py-4 pl-14 pr-6 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full"
+                                    className="w-full bg-black border border-white/10 focus:border-white/40 py-5 px-10 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full"
                                 />
                             </div>
                         </div>
 
                         {/* Password */}
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                             <label className="text-[9px] font-black uppercase tracking-[0.5em] text-white/40 ml-1">DIRECT KEY</label>
                             <div className="relative group">
-                                <GOTIcon type="lock" size={32} scale={1.6} x={0} y={0} className="absolute left-5 top-1/2 -translate-y-1/2 opacity-20 group-focus-within:opacity-60 transition-opacity" />
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     placeholder="••••••••••••"
-                                    className="w-full bg-black border border-white/10 focus:border-white/40 py-4 pl-14 pr-14 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full"
+                                    className="w-full bg-black border border-white/10 focus:border-white/40 py-5 px-10 pr-16 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-5 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/60 transition-colors"
+                                    className="absolute right-6 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/60 transition-colors"
                                 >
-                                    <GOTIcon type="eye" size={32} scale={1.6} x={0} y={0} />
+                                    <GOTIcon type="eye" size={28} scale={1.6} x={0} y={0} />
                                 </button>
                             </div>
                         </div>
 
                         {/* Submit */}
-                        <button className="w-full bg-white text-black font-black uppercase tracking-[0.5em] text-[11px] py-5 flex items-center justify-center gap-4 hover:bg-[#E81414] hover:text-white transition-all rounded-full active:scale-[0.98]">
-                            INITIATE ACCESS <GOTIcon type="zap" size={24} scale={1.6} x={0} y={0} />
+                        <button className="w-full bg-white text-black font-black uppercase tracking-[0.5em] text-[11px] py-6 flex items-center justify-center gap-4 hover:bg-[#E81414] hover:text-white transition-all rounded-full active:scale-[0.98] shadow-2xl">
+                            INITIATE ACCESS
                         </button>
                     </form>
 

@@ -3,20 +3,20 @@ import Link from'next/link';
 
 export function HeroSection() {
  return (
- <section className="relative pt-32 pb-48 px-6 md:px-12 flex flex-col justify-start z-10">
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.8, ease: "easeOut"}}
- className="max-w-4xl"
- >
- <h1 className="text-[#FFD700] text-6xl md:text-8xl lg:text-[100px] font-bold leading-[1.4] tracking-wider mb-10">
- FIRE AND BLOOD, <br />
- ONLY DRAGONS RULE
- </h1>
- <p className="text-[#FFD700] text-[10px] md:text-xs tracking-widest leading-relaxed max-w-[400px] mb-12 opacity-80 uppercase">
- We empower you to take bold actions that secure your digital world and eliminate threats.
- </p>
+ <section className="relative pt-32 pb-48 px-6 md:px-12 flex flex-col items-center text-center md:items-start md:text-left justify-start z-10">
+  <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, ease: "easeOut"}}
+  className="max-w-4xl flex flex-col items-center md:items-start"
+  >
+  <h1 className="text-[#FFD700] text-5xl sm:text-6xl md:text-8xl lg:text-[100px] font-bold leading-[1.4] tracking-wider mb-10">
+  FIRE AND BLOOD, <br />
+  ONLY DRAGONS RULE
+  </h1>
+  <p className="text-[#FFD700] text-[10px] md:text-xs tracking-widest leading-relaxed max-w-[400px] mb-12 opacity-80 uppercase mx-auto md:mx-0">
+  We empower you to take bold actions that secure your digital world and eliminate threats.
+  </p>
 
  <div className="flex flex-wrap items-center gap-4 relative z-20 mt-8">
  <Link href="/dashboard"className="bg-[#FFD700] text-black font-bold text-xs px-6 py-3 tracking-widest uppercase hover:bg-white hover:text-black transition-colors rounded-sm border border-[#FFD700]">

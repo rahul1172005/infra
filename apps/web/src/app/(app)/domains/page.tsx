@@ -23,7 +23,7 @@ export default function DomainsPage() {
             <DotGrid />
 
             {/* ══ HEADER ═════════════════════════════════════════════════════ */}
-            <PageHeader 
+            <PageHeader
                 title="WESTEROS"
                 accentTitle="PROVINCES"
                 topLabel="WESTEROS DOMAIN CONTROL"
@@ -32,48 +32,47 @@ export default function DomainsPage() {
             {/* ══ DOMAIN GRID ════════════════════════════════════════════════ */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 relative z-10">
                 {domains.map((domain) => (
-                        <HUDCard 
-                            key={domain.id} 
-                            title={domain.name} 
-                            subtitle={`${domain.id} // ${domain.type}`}
-                            tag="WESTEROS SECURED"
-                            icon={<GOTIcon type={domain.iconType as any} size={48} scale={1.6} x={0} y={0} className="text-[#E81414]" />}
-                            className="group/domain cursor-pointer hover:border-[#E81414]/30 transition-all duration-500"
-                        >
-                            <div className="p-8 md:p-12 space-y-12">
-                                <div className="space-y-4">
-                                    <div className="flex items-center gap-4">
-                                        <div className="h-[2px] w-12 bg-[#E81414]" />
-                                        <span className="text-[10px] tracking-[0.5em] font-black uppercase text-white/30 truncate">PROVINCE CLASSIFICATION</span>
-                                    </div>
-                                    <h3 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase text-white group-hover/domain:translate-x-4 transition-transform duration-700 leading-none">
-                                        {domain.name}
-                                    </h3>
+                    <HUDCard
+                        key={domain.id}
+                        title={domain.name}
+                        subtitle={`${domain.id} // ${domain.type}`}
+                        tag="WESTEROS SECURED"
+                        icon={<GOTIcon type={domain.iconType as any} size={48} scale={1.6} x={0} y={0} className="text-[#E81414]" />}
+                        className="group/domain cursor-pointer hover:border-[#E81414]/30 transition-all duration-500"
+                    >
+                        <div className="p-6 sm:p-8 md:p-12 space-y-8 sm:space-y-12">
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3 sm:gap-4">
+                                    <div className="h-[2px] w-8 sm:w-12 bg-[#E81414] shrink-0" />
+                                    <span className="text-[9px] sm:text-[10px] tracking-widest sm:tracking-[0.5em] font-black uppercase text-white/30 truncate">PROVINCE CLASSIFICATION</span>
                                 </div>
-
-                                <div className="grid grid-cols-2 gap-12 py-10 border-t border-white/10 relative">
-                                    <div className="absolute top-0 right-0 w-10 h-10 border-t-2 border-r-2 border-white/5" />
-                                    <div className="space-y-4">
-                                        <span className="text-[9px] tracking-[0.4em] font-black uppercase text-white/20 truncate block">ACTIVE DECREES</span>
-                                        <p className="text-4xl md:text-5xl font-black text-white tabular-nums tracking-tighter">{domain.activeChallenges.toString().padStart(2, '0')}</p>
-                                    </div>
-                                    <div className="space-y-4">
-                                        <span className="text-[9px] tracking-[0.4em] font-black uppercase text-white/20 truncate block">SYNC STATUS</span>
-                                        <p className={`text-2xl md:text-3xl font-black tabular-nums transition-colors tracking-widest ${domain.status === 'SYNCING' ? 'text-[#E81414] animate-pulse' : 'text-white'}`}>{domain.status}</p>
-                                    </div>
-                                </div>
-
-                                <Button
-                                    variant="primary"
-                                    size="lg"
-                                    fullWidth
-                                    className="h-20 text-[12px] tracking-[0.8em] font-black group-hover:bg-white group-hover:text-black transition-all"
-                                    icon={<GOTIcon type="zap" size={32} scale={1.6} x={0} y={0} />}
-                                >
-                                    CLAIM PROVINCE
-                                </Button>
+                                <h3 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase text-white group-hover/domain:translate-x-4 transition-transform duration-700 leading-none">
+                                    {domain.name}
+                                </h3>
                             </div>
-                        </HUDCard>
+
+                            <div className="grid grid-cols-2 gap-8 sm:gap-12 py-6 sm:py-10 relative">
+                                <div className="space-y-3 sm:space-y-4">
+                                    <span className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/20 truncate block">ACTIVE DECREES</span>
+                                    <p className="text-3xl sm:text-4xl md:text-5xl font-black text-white tabular-nums tracking-tighter">{domain.activeChallenges.toString().padStart(2, '0')}</p>
+                                </div>
+                                <div className="space-y-3 sm:space-y-4">
+                                    <span className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/20 truncate block">SYNC STATUS</span>
+                                    <p className={`text-xl sm:text-2xl md:text-3xl font-black tabular-nums transition-colors tracking-widest ${domain.status === 'SYNCING' ? 'text-[#E81414] animate-pulse' : 'text-white'}`}>{domain.status}</p>
+                                </div>
+                            </div>
+
+                            <Button
+                                variant="primary"
+                                size="lg"
+                                fullWidth
+                                className="h-16 sm:h-20 text-[10px] sm:text-[12px] tracking-widest sm:tracking-[0.8em] font-black group-hover:bg-white group-hover:text-black transition-all"
+                                icon={<GOTIcon type="zap" size={24} className="sm:w-8 sm:h-8" scale={1.6} x={0} y={0} />}
+                            >
+                                CLAIM PROVINCE
+                            </Button>
+                        </div>
+                    </HUDCard>
                 ))}
             </div>
 
@@ -108,7 +107,7 @@ export default function DomainsPage() {
             <HUDCard title="REALM PROTOCOL" subtitle="REALM SYNC STATUS" className="p-0">
                 <div className="p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between group/status">
                     <div className="flex items-center gap-6">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+
                         <span className="text-[10px] tracking-[0.4em] font-black uppercase text-white/30 group-hover/status:text-white transition-colors">WESTEROS SYNC ACTIVE // CITADEL VERIFIED</span>
                     </div>
                     <div className="flex items-center gap-8 md:gap-12 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-white/5 pt-6 md:pt-0">

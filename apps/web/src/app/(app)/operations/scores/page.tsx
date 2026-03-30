@@ -98,10 +98,9 @@ export default function BattleScoresPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/10">
                 <div className="space-y-4">
                     <div className="flex items-center gap-3 text-[#E81414]">
-                        <Database size={16} />
                         <span className="text-[10px] tracking-[0.5em] font-black uppercase">RECORDS & LOGISTICS</span>
                     </div>
-                    <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">BATTLE SCORES</h1>
+                    <h1 className="text-4xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">BATTLE SCORES</h1>
                     <p className="text-white/40 text-[11px] tracking-[0.3em] font-black uppercase">MANUAL SCORE OVERRIDE & POINT ADMINISTRATION</p>
                 </div>
                 <div className="flex items-center gap-4">
@@ -115,44 +114,36 @@ export default function BattleScoresPage() {
             {/* Manual Entry Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {teams.map((team) => (
-                    <HUDCard key={team.name} className="p-0 border-none overflow-hidden group">
-                        <div className="p-8 flex items-center justify-between gap-8 h-full">
-                            <div className="flex items-center gap-6">
-                                <div className="w-16 h-16 bg-white flex items-center justify-center text-black font-black text-xl rounded-full grow-0 shrink-0">
+                    <HUDCard key={team.name} className="overflow-hidden group border border-white/10 bg-white/[0.02]">
+                        <div className="p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-8 min-h-[140px]">
+                            <div className="flex items-center gap-4 sm:gap-6 w-full sm:w-auto">
+                                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white flex items-center justify-center text-black font-black text-lg sm:text-xl rounded-full shrink-0">
                                     {team.name[0]}
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-2xl font-black uppercase tracking-tight group-hover:text-[#E81414] transition-colors">{team.name}</h3>
-                                    <p className="text-white/30 text-[9px] tracking-[0.3em] font-black uppercase">HOUSE IDENTITY</p>
+                                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight group-hover:text-[#E81414] transition-colors">{team.name}</h3>
+                                    <p className="text-white/30 text-[8px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.3em] font-black uppercase leading-none">HOUSE IDENTITY</p>
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 w-full sm:w-auto pt-4 sm:pt-0 border-t border-white/5 sm:border-none">
                                 <div className="space-y-2">
-                                    <p className="text-white/20 text-[8px] tracking-[0.3em] font-black text-right uppercase">CURRENT SCORE</p>
+                                    <p className="text-white/20 text-[7px] sm:text-[8px] tracking-[0.2em] sm:tracking-[0.3em] font-black text-left sm:text-right uppercase">CURRENT SCORE</p>
                                     <input 
                                         type="number" 
                                         value={team.score}
                                         onChange={(e) => handleScoreChange(team.name, parseInt(e.target.value) || 0)}
-                                        className="w-32 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-2xl font-black text-right focus:border-[#E81414] focus:outline-none transition-all"
+                                        className="w-24 sm:w-32 bg-white/5 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-xl sm:text-2xl font-black text-right focus:border-[#E81414] focus:outline-none transition-all"
                                     />
                                 </div>
                                 <button 
                                     onClick={() => handleSave(team)}
                                     disabled={saving}
-                                    className="p-4 bg-white hover:bg-[#E81414] text-black hover:text-white rounded-xl transition-all border-none"
+                                    className="p-3 sm:p-4 bg-white hover:bg-[#E81414] text-black hover:text-white rounded-xl transition-all border-none mt-4 sm:mt-0"
                                 >
-                                    <Save size={24} />
+                                    <Save size={20} className="sm:w-6 sm:h-6" />
                                 </button>
                             </div>
-                        </div>
-                        
-                        {/* Progress Preview Bar */}
-                        <div className="h-1 bg-white/5 w-full">
-                            <div 
-                                className="h-full bg-[#E81414] transition-all duration-500" 
-                                style={{ width: `${Math.min(100, (team.score / 5000) * 100)}%` }}
-                            />
                         </div>
                     </HUDCard>
                 ))}
@@ -174,7 +165,6 @@ export default function BattleScoresPage() {
             {/* Footer Notice */}
             <div className="py-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 opacity-40">
                 <div className="flex items-center gap-4 text-[10px] tracking-[0.4em] font-black uppercase">
-                    <TrendingUp size={14} className="text-[#E81414]" />
                     <span>MANUAL OVERRIDES LOGGED TO SYSTEM AUDIT</span>
                 </div>
                 <div className="text-[9px] tracking-[0.5em] font-black uppercase">

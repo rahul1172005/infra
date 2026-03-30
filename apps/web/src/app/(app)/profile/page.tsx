@@ -268,11 +268,12 @@ export default function ProfilePage() {
                 <HUDCard
                     title="HONOURS"
                     tag="LEGACY"
-                    padding="p-12 md:p-14"
+                    padding="none"
                     icon={<GOTIcon type="trophy" size={56} className="text-[#E81414]" scale={1.6} x={0} y={0} />}
-                    className="border-none"
                 >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                    <div className="p-10 md:p-14 bg-black/20">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+
                         {BADGES.map((badge) => (
                             <div
                                 key={badge.id}
@@ -292,7 +293,10 @@ export default function ProfilePage() {
                                 </p>
                             </div>
                         ))}
+                        </div>
                     </div>
+
+
 
                     {/* Badge Requirements Modal — Overlaid inside HUDCard */}
                     {selectedBadge && (
