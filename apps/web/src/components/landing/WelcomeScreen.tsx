@@ -129,10 +129,10 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
           <p
             className="mt-0 text-[7vw] font-black uppercase leading-[1.1] tracking-tight text-black w-full drop-shadow-sm text-center"
             style={{
-              transform: "translateY(-40px)"
+              transform: "translateY(-45px)"
             }}
           >
-            THE DRAGON&apos;S FIRE.<br />AND HEIR<br />TO THE IRON THRONE.
+            THE DRAGON&apos;S FIRE.<br />AND HEIR<br />
           </p>
         </div>
 
