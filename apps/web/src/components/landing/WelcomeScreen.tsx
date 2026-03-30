@@ -112,7 +112,7 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
                 alt="Zapsters Logo"
                 className="w-full h-full object-contain"
                 style={{
-                  transform: 'scale(3.0) translate(0px, 0px)',
+                  transform: 'scale(3.0) translate(0px, -50px)',
                   filter: 'brightness(0) saturate(100%)'
                 }}
               />
@@ -120,7 +120,7 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
             <h1
               className="text-2xl font-black uppercase leading-[5] tracking-widest text-black"
               style={{
-                transform: "translate(-8px, 0px) scale(1.0)"
+                transform: "translate(-8px, -15px) scale(1.0)"
               }}
             >
               ZAPSTERS
@@ -129,7 +129,7 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
           <p
             className="mt-0 text-[7vw] font-black uppercase leading-[1.1] tracking-tight text-black w-full drop-shadow-sm text-center"
             style={{
-              transform: "translateY(-45px)"
+              transform: "translateY(-69px)"
             }}
           >
             THE DRAGON&apos;S FIRE.<br />AND HEIR<br />
