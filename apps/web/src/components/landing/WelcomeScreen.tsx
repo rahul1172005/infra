@@ -112,7 +112,7 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
                 alt="Zapsters Logo"
                 className="w-full h-full object-contain"
                 style={{
-                  transform: 'scale(3.0) translate(0px, -50px)',
+                  transform: 'scale(3.0) translate(0px, -5px)',
                   filter: 'brightness(0) saturate(100%)'
                 }}
               />
