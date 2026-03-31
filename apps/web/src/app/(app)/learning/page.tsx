@@ -30,12 +30,12 @@ export default function LearningPage() {
                     </h1>
                 </div>
 
-                <div className="p-10 border-2 border-white/10 bg-white/[0.02] flex flex-col gap-4 min-w-[300px] group hover:border-[#E81414]/30 transition-all">
-                    <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                        <span className="text-[10px] tracking-[0.6em] text-white/20 uppercase font-black">MAESTER LEVEL</span>
+                <div className="p-10 border-2 border-white/10 bg-white/[0.02] flex flex-col gap-4 min-w-[300px] group hover:bg-[#E81414] hover:border-[#E81414] transition-all duration-500">
+                    <div className="flex items-center justify-between border-b border-white/5 group-hover:border-black/10 pb-4">
+                        <span className="text-[10px] tracking-[0.6em] text-white/20 group-hover:text-black/50 uppercase font-black transition-colors duration-500">MAESTER LEVEL</span>
                         
                     </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter text-white group-hover:text-[#E81414] transition-colors">LEVEL 04</span>
+                    <span className="text-4xl font-black uppercase tracking-tighter text-white group-hover:text-black transition-colors duration-500">LEVEL 04</span>
                 </div>
             </div>
 
@@ -88,15 +88,15 @@ export default function LearningPage() {
                             { title: 'CORE FOUNDATIONS', status: 'LOCKED KERN', progress: '00%' },
                             { title: 'EXPLOIT THEORY', status: 'ENCRYPTED', progress: '00%' },
                         ].map((mod, i) => (
-                            <div key={i} className="bg-black p-12 flex justify-between items-center group/mod cursor-wait hover:bg-[#E81414]/5 transition-all">
+                            <div key={i} className="bg-black p-12 flex justify-between items-center group/mod cursor-wait hover:bg-[#E81414] transition-all duration-500">
                                 <div className="space-y-4">
-                                    <h3 className="text-[14px] tracking-[0.6em] font-black uppercase text-white/20 group-hover/mod:text-white transition-all">{mod.title}</h3>
+                                    <h3 className="text-[14px] tracking-[0.6em] font-black uppercase text-white/20 group-hover/mod:text-black transition-colors duration-500">{mod.title}</h3>
                                     <div className="flex items-center gap-4">
-                                        <div className="w-2 h-2 bg-[#E81414]" />
-                                        <span className="text-[11px] tracking-[0.4em] uppercase text-[#E81414] font-black">{mod.status}</span>
+                                        <div className="w-2 h-2 bg-[#E81414] group-hover/mod:bg-black transition-colors duration-500" />
+                                        <span className="text-[11px] tracking-[0.4em] uppercase text-[#E81414] group-hover/mod:text-black transition-colors duration-500 font-black">{mod.status}</span>
                                     </div>
                                 </div>
-                                <div className="text-6xl font-black tracking-tighter text-white/5 transition-all group-hover/mod:text-white/10">{mod.progress}</div>
+                                <div className="text-6xl font-black tracking-tighter text-white/5 transition-all group-hover/mod:text-black/20">{mod.progress}</div>
                             </div>
                         ))}
                     </div>
@@ -133,14 +133,14 @@ export default function LearningPage() {
                     </div>
 
                     {/* Decorative Call to Action */}
-                    <div className="bg-black border-2 border-white/10 p-12 min-h-[300px] relative overflow-hidden flex flex-col justify-between group cursor-pointer hover:border-[#E81414] transition-all h-[300px]">
-                        <div className="absolute inset-0 bg-[#E81414]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <GOTIcon size={80} scale={1.2} x={0} y={0} className="relative z-10 transition-all duration-500" />
+                    <div className="bg-black border-2 border-white/10 p-12 min-h-[300px] relative overflow-hidden flex flex-col justify-between group cursor-pointer hover:bg-[#E81414] hover:border-[#E81414] transition-all duration-500 h-[300px]">
+                        <div className="absolute inset-0 bg-[#E81414]/5 opacity-0 group-hover:opacity-0 transition-opacity" />
+                        <GOTIcon size={80} scale={1.2} x={0} y={0} className="relative z-10 transition-all duration-500 group-hover:text-black" />
                         <div className="space-y-4 relative z-10">
-                            <h3 className="text-4xl font-black tracking-tighter uppercase text-white group-hover:text-[#E81414]  transition-colors">
+                            <h3 className="text-4xl font-black tracking-tighter uppercase text-white group-hover:text-black transition-colors duration-500">
                                 SQUIRE<br />TRAINING
                             </h3>
-                            <p className="text-[11px] tracking-[0.4em] uppercase text-white/20 group-hover:text-white transition-colors font-black">Accelerate combat skills</p>
+                            <p className="text-[11px] tracking-[0.4em] uppercase text-white/20 group-hover:text-black/50 transition-colors duration-500 font-black">Accelerate combat skills</p>
                         </div>
                     </div>
                 </div>

@@ -32,6 +32,7 @@ const NAV_GROUPS = [
             { href: '/dashboard', label: 'DASHBOARD' },
             { href: '/workspace', label: 'WORKSPACE' },
             { href: '/analytics', label: 'ANALYTICS' },
+            { href: '/challenges', label: 'CHALLENGES' },
         ]
     },
     {
@@ -40,7 +41,6 @@ const NAV_GROUPS = [
             { href: '/teams', label: 'HOUSES' },
             { href: '/operations/scores', label: 'BATTLE SCORES' },
             { href: '/domains', label: 'DOMAINS' },
-            { href: '/challenges', label: 'QUEST LAB' },
             { href: '/leaderboard', label: 'LEADERBOARD' },
         ]
     },

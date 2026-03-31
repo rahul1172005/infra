@@ -69,12 +69,10 @@ export const StatCard = ({
                     <div
                         className={`
                             flex-shrink-0 flex items-center justify-center transition-all duration-300 
-                            translate-x-3 -translate-y-3 md:translate-x-6 md:-translate-y-6
                             ${isOversight ? 'text-[#E81414] group-hover:text-black' : 'text-black'}
                         `}
                         style={{
-                            transform: `scale(${scale})`
-                            // We use Tailwind for x/y translation to handle responsiveness safely
+                            transform: `scale(${scale === 1.2 ? 1 : scale})`
                         }}
                     >
                         {renderIcon()}

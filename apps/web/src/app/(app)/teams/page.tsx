@@ -205,17 +205,17 @@ export default function TeamsPage() {
                                 return (
                                     <div
                                         key={group.id}
-                                        className="p-6 md:p-10 flex flex-col md:flex-row items-center justify-between hover:bg-white/[0.02] transition-all duration-300 group cursor-pointer gap-6"
+                                        className="p-6 md:p-10 flex flex-col md:flex-row items-center justify-between hover:bg-[#E81414] transition-all duration-500 group cursor-pointer gap-6"
                                     >
                                         {/* Left: Index + Name + Tags */}
                                         <div className="flex items-center gap-8 min-w-0 w-full md:w-auto">
-                                            <div className={`w-14 h-14 border border-white/10 flex items-center justify-center transition-all rounded-2xl shrink-0 ${isLoyal ? 'bg-[#E81414] border-[#E81414]' : 'group-hover:bg-white/10'}`}>
-                                                <span className="text-xl font-black text-white">{(idx + 1).toString().padStart(2, '0')}</span>
+                                            <div className={`w-14 h-14 border border-white/10 flex items-center justify-center transition-all rounded-2xl shrink-0 ${isLoyal ? 'bg-[#E81414] border-[#E81414]' : 'group-hover:bg-black/20'}`}>
+                                                <span className="text-xl font-black text-white group-hover:text-black transition-colors duration-500">{(idx + 1).toString().padStart(2, '0')}</span>
                                             </div>
                                             <div className="space-y-2 min-w-0">
                                                 {/* Team name — no truncate, full visibility */}
                                                 <div className="flex items-center gap-3 flex-wrap">
-                                                    <h4 className="text-xl md:text-3xl font-black tracking-tighter uppercase text-white break-all">
+                                                    <h4 className="text-xl md:text-3xl font-black tracking-tighter uppercase text-white group-hover:text-black transition-colors duration-500 break-all">
                                                         {group.name}
                                                     </h4>
                                                     {/* Mode tag */}
@@ -241,10 +241,10 @@ export default function TeamsPage() {
                                         {/* Right: Score + Actions */}
                                         <div className="flex items-center gap-10 w-full md:w-auto justify-between md:justify-end">
                                             <div className="flex flex-col items-end">
-                                                <span className="text-2xl md:text-4xl font-black text-[#E81414] tabular-nums group-hover:scale-105 transition-transform">
+                                                <span className="text-2xl md:text-4xl font-black text-[#E81414] group-hover:text-black tabular-nums transition-colors duration-500">
                                                     {group.score.toLocaleString()}
                                                 </span>
-                                                <span className="text-[9px] tracking-[0.3em] font-black uppercase text-white/20">STRENGTH</span>
+                                                <span className="text-[9px] tracking-[0.3em] font-black uppercase text-white/20 group-hover:text-black/40 transition-colors duration-500">STRENGTH</span>
                                             </div>
 
                                             <div className="flex gap-4">

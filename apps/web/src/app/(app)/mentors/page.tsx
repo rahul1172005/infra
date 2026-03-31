@@ -30,12 +30,12 @@ export default function MentorsPage() {
                     </h1>
                 </div>
 
-                <div className="p-10 border-2 border-white/10 bg-white/[0.02] flex flex-col gap-4 min-w-[300px] group hover:border-[#E81414]/30 transition-all">
-                    <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                        <span className="text-[10px] tracking-[0.6em] text-white/20 uppercase font-black">AVAILABILITY STATE</span>
+                <div className="p-10 border-2 border-white/10 bg-white/[0.02] flex flex-col gap-4 min-w-[300px] group hover:bg-[#E81414] hover:border-[#E81414] transition-all duration-500">
+                    <div className="flex items-center justify-between border-b border-white/5 group-hover:border-black/10 pb-4">
+                        <span className="text-[10px] tracking-[0.6em] text-white/20 group-hover:text-black/50 uppercase font-black transition-colors duration-500">AVAILABILITY STATE</span>
                         
                     </div>
-                    <span className="text-3xl font-black uppercase tracking-widest text-[#E81414] group-hover:scale-105 transition-transform">MASTERS ENGAGED</span>
+                    <span className="text-3xl font-black uppercase tracking-widest text-[#E81414] group-hover:text-black transition-colors duration-500">MASTERS ENGAGED</span>
                 </div>
             </div>
 
@@ -82,29 +82,29 @@ export default function MentorsPage() {
 
             {/* Industrial Bottom Info Bar */}
             <div className="grid grid-cols-1 md:grid-cols-3 border-2 border-white/10 bg-black divide-x-2 divide-white/10 z-10 relative">
-                <div className="p-12 space-y-6 group hover:bg-white/[0.02] transition-all cursor-crosshair">
+                <div className="p-12 space-y-6 group hover:bg-[#E81414] transition-all duration-500 cursor-crosshair">
                     <div className="flex items-center gap-6">
-                        <GOTIcon type="targaryen" size={56} scale={1.6} x={0} y={0} className="group-hover:opacity-100 opacity-30 transition-colors" />
-                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-white transition-colors">NEXT COUNCIL WINDOW</span>
+                        <GOTIcon type="targaryen" size={56} scale={1.6} x={0} y={0} className="group-hover:opacity-100 opacity-30 transition-opacity duration-500" />
+                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-black transition-colors duration-500">NEXT COUNCIL WINDOW</span>
                     </div>
-                    <p className="text-4xl font-black tracking-widest uppercase text-white">72:00 HR</p>
-                    <div className="h-1 w-12 bg-white/5 transition-all group-hover:w-full group-hover:bg-white/10 duration-700" />
+                    <p className="text-4xl font-black tracking-widest uppercase text-white group-hover:text-black transition-colors duration-500">72:00 HR</p>
+                    <div className="h-1 w-12 bg-white/5 transition-all group-hover:w-full group-hover:bg-black/20 duration-700" />
                 </div>
-                <div className="p-12 space-y-6 group hover:bg-white/[0.02] transition-all cursor-crosshair">
+                <div className="p-12 space-y-6 group hover:bg-[#E81414] transition-all duration-500 cursor-crosshair">
                     <div className="flex items-center gap-6">
                         <GOTIcon type="targaryen" size={56} scale={1.6} x={0} y={0} className="group-hover:scale-[1.7] transition-transform" />
-                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-white transition-colors">ACTIVE MASTERS</span>
+                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-black transition-colors duration-500">ACTIVE MASTERS</span>
                     </div>
-                    <p className="text-4xl font-black tracking-widest uppercase text-white">42 NODES</p>
-                    <div className="h-1 w-12 bg-[#E81414]/20 transition-all group-hover:w-full group-hover:bg-[#E81414]/40 duration-700" />
+                    <p className="text-4xl font-black tracking-widest uppercase text-white group-hover:text-black transition-colors duration-500">42 NODES</p>
+                    <div className="h-1 w-12 bg-[#E81414]/20 transition-all group-hover:w-full group-hover:bg-black/20 duration-700" />
                 </div>
-                <div className="p-12 space-y-6 group hover:bg-white/[0.02] transition-all cursor-crosshair">
+                <div className="p-12 space-y-6 group hover:bg-[#E81414] transition-all duration-500 cursor-crosshair">
                     <div className="flex items-center gap-6">
-                        <GOTIcon type="targaryen" size={56} scale={1.6} x={0} y={0} className="group-hover:opacity-100 opacity-30 transition-colors" />
-                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-white transition-colors">REALM STABILITY</span>
+                        <GOTIcon type="targaryen" size={56} scale={1.6} x={0} y={0} className="group-hover:opacity-100 opacity-30 transition-opacity duration-500" />
+                        <span className="text-[11px] tracking-[0.6em] font-black uppercase text-white/20 group-hover:text-black transition-colors duration-500">REALM STABILITY</span>
                     </div>
-                    <p className="text-4xl font-black tracking-widest uppercase text-white">99.2% CLEAR</p>
-                    <div className="h-1 w-12 bg-white/5 transition-all group-hover:w-full group-hover:bg-white/10 duration-700" />
+                    <p className="text-4xl font-black tracking-widest uppercase text-white group-hover:text-black transition-colors duration-500">99.2% CLEAR</p>
+                    <div className="h-1 w-12 bg-white/5 transition-all group-hover:w-full group-hover:bg-black/20 duration-700" />
                 </div>
             </div>
         </div>

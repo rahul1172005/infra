@@ -114,39 +114,39 @@ export default function LeaderboardPage() {
                                     <td colSpan={5} className="py-20 text-center text-white/20 font-black tracking-[0.4em] text-[10px] uppercase italic">NO DATA ESTABLISHED IN CURRENT CYCLE</td>
                                 </tr>
                             ) : clans.map((team, i) => (
-                                <tr key={team.id || i} className="hover:bg-white/[0.02] transition-all group/row cursor-pointer">
+                                <tr key={team.id || i} className="hover:bg-[#E81414] transition-all duration-500 group/row cursor-pointer">
                                     <td className="py-8 px-10">
-                                        <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-white transition-colors">{(i + 1).toString().padStart(2, '0')}</span>
+                                        <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-black transition-colors duration-500">{(i + 1).toString().padStart(2, '0')}</span>
                                     </td>
                                     <td className="py-8 px-10">
                                         <div className="flex items-center gap-6">
-                                            <div className={`w-14 h-14 ${i === 0 ? 'bg-[#E81414] shadow-lg shadow-[#E81414]/20' : 'bg-white/5'} flex items-center justify-center shrink-0 rounded-2xl group-hover/row:scale-110 transition-transform`}>
-                                                <span className={`${i === 0 ? 'text-white' : 'text-white/40'} text-lg font-black`}>{team.name?.[0] || '?'}</span>
+                                            <div className={`w-14 h-14 ${i === 0 ? 'bg-[#E81414] shadow-lg shadow-[#E81414]/20' : 'bg-white/5 group-hover/row:bg-black/20'} flex items-center justify-center shrink-0 rounded-2xl group-hover/row:scale-110 transition-transform duration-500`}>
+                                                <span className={`${i === 0 ? 'text-white group-hover/row:text-black' : 'text-white/40 group-hover/row:text-black'} text-lg font-black transition-colors duration-500`}>{team.name?.[0] || '?'}</span>
                                             </div>
                                             <div className="flex flex-col">
-                                                <span className={`text-[13px] font-black tracking-widest uppercase ${i === 0 ? 'text-[#E81414]' : 'text-white'}`}>{team.name}</span>
-                                                <span className="text-[9px] tracking-[0.3em] font-black uppercase text-white/20">{i < 3 ? 'ELITE MASTER' : 'ACTIVE SOLDIER'}</span>
+                                                <span className={`text-[13px] font-black tracking-widest uppercase transition-colors duration-500 ${i === 0 ? 'text-[#E81414] group-hover/row:text-black' : 'text-white group-hover/row:text-black'}`}>{team.name}</span>
+                                                <span className="text-[9px] tracking-[0.3em] font-black uppercase text-white/20 group-hover/row:text-black/50 transition-colors duration-500">{i < 3 ? 'ELITE MASTER' : 'ACTIVE SOLDIER'}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="py-8 px-10">
                                         <div className="flex items-center gap-4">
-                                            <GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} className={`${i === 0 ? 'text-[#E81414]' : 'text-white/20'}`} />
-                                            <span className="text-xl font-black tracking-tighter text-[#E81414] tabular-nums">{team.score?.toLocaleString() || '0'}</span>
+                                            <GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} className={`${i === 0 ? 'text-[#E81414] group-hover/row:text-black' : 'text-white/20 group-hover/row:text-black'} transition-colors duration-500`} />
+                                            <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-black tabular-nums transition-colors duration-500">{team.score?.toLocaleString() || '0'}</span>
                                         </div>
                                     </td>
                                     <td className="py-8 px-10">
                                         <div className="flex items-center gap-4">
-                                            <span className="text-[10px] font-black tracking-[0.2em] uppercase">
-                                                <span className="text-[#E81414]">{team._count?.members || 0}</span>
-                                                <span className="text-white/40 ml-2">SOLDIERS</span>
+                                            <span className="text-[10px] font-black tracking-[0.2em] uppercase transition-colors duration-500">
+                                                <span className="text-[#E81414] group-hover/row:text-black transition-colors duration-500">{team._count?.members || 0}</span>
+                                                <span className="text-white/40 group-hover/row:text-black ml-2 transition-colors duration-500">SOLDIERS</span>
                                             </span>
                                         </div>
                                     </td>
                                     <td className="py-8 px-10 text-right">
                                         <div className="flex flex-col items-end">
-                                            <span className="text-[11px] font-black tracking-widest uppercase text-green-500">+12.4%</span>
-                                            <span className="text-[8px] tracking-[0.2em] font-black uppercase text-white/10">30D GAIN</span>
+                                            <span className="text-[11px] font-black tracking-widest uppercase text-[#E81414] group-hover/row:text-black transition-colors duration-500">+12.4%</span>
+                                            <span className="text-[8px] tracking-[0.2em] font-black uppercase text-white/10 group-hover/row:text-black/50 transition-colors duration-500">30D GAIN</span>
                                         </div>
                                     </td>
                                 </tr>

@@ -28,19 +28,19 @@ export const MetaCard = ({
     subIcon
 }: MetaCardProps) => {
     return (
-        <div className={`p-6 md:p-10 border border-white/10 bg-black rounded-2xl md:rounded-[2.5rem] flex flex-col gap-3 group hover:border-[#E81414]/30 transition-all ${className}`}>
+        <div className={`p-6 md:p-10 border border-white/10 bg-black rounded-2xl md:rounded-[2.5rem] flex flex-col gap-3 group hover:bg-[#E81414] hover:text-black hover:border-[#E81414] transition-all duration-500 ${className}`}>
             <div className="flex justify-between items-start">
-                <span className="text-[9px] md:text-[10px] tracking-[0.6em] text-white/30 uppercase font-black">
+                <span className="text-[9px] md:text-[10px] tracking-[0.6em] text-white/30 group-hover:text-black/50 uppercase font-black transition-colors duration-500">
                     {label}
                 </span>
                 {icon && (
-                    <div className="text-[#E81414] opacity-40">
+                    <div className="text-[#E81414] opacity-40 group-hover:text-black group-hover:opacity-60 transition-colors duration-500">
                         {typeof icon === 'function' ? React.createElement(icon as any) : icon}
                     </div>
                 )}
             </div>
             {value !== undefined && (
-                <span className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white ">
+                <span className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white group-hover:text-black transition-colors duration-500">
                     {value}
                 </span>
             )}
@@ -50,7 +50,7 @@ export const MetaCard = ({
                     className={`flex items-center gap-2 mt-auto pt-2 border-t border-white/5 ${onSubClick ? 'cursor-pointer hover:text-white transition-colors' : ''}`}
                 >
                     {subIcon && <div className="text-[#E81414] opacity-50">{subIcon}</div>}
-                    <span className="text-[9px] tracking-[0.2em] font-black uppercase text-white/20 truncate">
+                    <span className="text-[9px] tracking-[0.2em] font-black uppercase text-white/20 group-hover:text-black/50 transition-colors duration-500 truncate">
                         {sub || subValue}
                     </span>
                 </div>

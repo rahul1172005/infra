@@ -37,28 +37,28 @@ export default function DomainsPage() {
                         title={domain.name}
                         subtitle={`${domain.id} // ${domain.type}`}
                         tag="WESTEROS SECURED"
-                        icon={<GOTIcon type={domain.iconType as any} size={48} scale={1.6} x={0} y={0} className="text-[#E81414]" />}
-                        className="group/domain cursor-pointer hover:border-[#E81414]/30 transition-all duration-500"
+                        icon={<GOTIcon type={domain.iconType as any} size={48} scale={1.6} x={0} y={0} className="text-[#E81414] group-hover/domain:text-black transition-colors duration-500" />}
+                        className="group/domain cursor-pointer hover:bg-[#E81414] hover:border-[#E81414] transition-all duration-500"
                     >
                         <div className="p-6 sm:p-8 md:p-12 space-y-8 sm:space-y-12">
                             <div className="space-y-4">
                                 <div className="flex items-center gap-3 sm:gap-4">
                                     <div className="h-[2px] w-8 sm:w-12 bg-[#E81414] shrink-0" />
-                                    <span className="text-[9px] sm:text-[10px] tracking-widest sm:tracking-[0.5em] font-black uppercase text-white/30 truncate">PROVINCE CLASSIFICATION</span>
+                                    <span className="text-[9px] sm:text-[10px] tracking-widest sm:tracking-[0.5em] font-black uppercase text-white/30 group-hover/domain:text-black/50 transition-colors duration-500 truncate">PROVINCE CLASSIFICATION</span>
                                 </div>
-                                <h3 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase text-white group-hover/domain:translate-x-4 transition-transform duration-700 leading-none">
+                                <h3 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter uppercase text-white group-hover/domain:text-black group-hover/domain:translate-x-4 transition-all duration-700 leading-none">
                                     {domain.name}
                                 </h3>
                             </div>
 
                             <div className="grid grid-cols-2 gap-8 sm:gap-12 py-6 sm:py-10 relative">
                                 <div className="space-y-3 sm:space-y-4">
-                                    <span className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/20 truncate block">ACTIVE DECREES</span>
-                                    <p className="text-3xl sm:text-4xl md:text-5xl font-black text-white tabular-nums tracking-tighter">{domain.activeChallenges.toString().padStart(2, '0')}</p>
+                                    <span className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/20 group-hover/domain:text-black/50 transition-colors duration-500 truncate block">ACTIVE DECREES</span>
+                                    <p className="text-3xl sm:text-4xl md:text-5xl font-black text-white group-hover/domain:text-black transition-colors duration-500 tabular-nums tracking-tighter">{domain.activeChallenges.toString().padStart(2, '0')}</p>
                                 </div>
                                 <div className="space-y-3 sm:space-y-4">
-                                    <span className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/20 truncate block">SYNC STATUS</span>
-                                    <p className={`text-xl sm:text-2xl md:text-3xl font-black tabular-nums transition-colors tracking-widest ${domain.status === 'SYNCING' ? 'text-[#E81414] animate-pulse' : 'text-white'}`}>{domain.status}</p>
+                                    <span className="text-[8px] sm:text-[9px] tracking-widest sm:tracking-[0.4em] font-black uppercase text-white/20 group-hover/domain:text-black/50 transition-colors duration-500 truncate block">SYNC STATUS</span>
+                                    <p className={`text-xl sm:text-2xl md:text-3xl font-black tabular-nums tracking-widest transition-colors duration-500 ${domain.status === 'SYNCING' ? 'text-[#E81414] group-hover/domain:text-black animate-pulse' : 'text-white group-hover/domain:text-black'}`}>{domain.status}</p>
                                 </div>
                             </div>
 
@@ -66,7 +66,7 @@ export default function DomainsPage() {
                                 variant="primary"
                                 size="lg"
                                 fullWidth
-                                className="h-16 sm:h-20 text-[10px] sm:text-[12px] tracking-widest sm:tracking-[0.8em] font-black group-hover:bg-white group-hover:text-black transition-all"
+                                className="h-16 sm:h-20 text-[10px] sm:text-[12px] tracking-widest sm:tracking-[0.8em] font-black group-hover:bg-white group-hover:text-black group-hover/domain:bg-black group-hover/domain:text-white transition-all"
                                 icon={<GOTIcon type="zap" size={24} className="sm:w-8 sm:h-8" scale={1.6} x={0} y={0} />}
                             >
                                 CLAIM PROVINCE
@@ -86,15 +86,15 @@ export default function DomainsPage() {
                     ].map((item, i) => {
 
                         return (
-                            <div key={i} className="p-10 md:p-14 lg:p-20 space-y-8 md:space-y-12 group hover:bg-white/[0.02] transition-all cursor-default relative overflow-hidden">
+                            <div key={i} className="p-10 md:p-14 lg:p-20 space-y-8 md:space-y-12 group hover:bg-[#E81414] transition-colors duration-500 cursor-default relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-20 h-20 bg-[#E81414]/5 -translate-y-1/2 translate-x-1/2 rounded-full blur-2xl group-hover:bg-[#E81414]/10 transition-colors" />
                                 <div className="flex items-center gap-8 relative z-10">
                                     <div className="flex items-center justify-center">
-                                        <GOTIcon type={item.iconType as any} size={40} scale={1.6} x={0} y={0} className="text-[#E81414]" />
+                                        <GOTIcon type={item.iconType as any} size={40} scale={1.6} x={0} y={0} className="text-[#E81414] group-hover:text-black transition-colors duration-500" />
                                     </div>
-                                    <h4 className="text-3xl font-black tracking-[0.3em] uppercase text-white leading-none">{item.title}</h4>
+                                    <h4 className="text-3xl font-black tracking-[0.3em] uppercase text-white group-hover:text-black transition-colors duration-500 leading-none">{item.title}</h4>
                                 </div>
-                                <p className="text-[12px] tracking-[0.2em] font-black uppercase leading-[2] text-white/30 group-hover:text-white/60 transition-colors relative z-10">
+                                <p className="text-[12px] tracking-[0.2em] font-black uppercase leading-[2] text-white/30 group-hover:text-black/70 transition-colors duration-500 relative z-10">
                                     {item.desc}
                                 </p>
                             </div>

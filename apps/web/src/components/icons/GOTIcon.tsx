@@ -1,7 +1,9 @@
 import React from 'react';
 
+export type GOTIconType = 'trophy' | 'shield' | 'zap' | 'lock' | 'bell' | 'eye' | 'globe' | 'hand' | 'targaryen' | 'wolf' | 'dragon' | 'rose' | 'lion' | 'kraken' | 'sun' | string;
+
 export type GOTIconProps = {
-  type?: 'trophy' | 'shield' | 'zap' | 'lock' | 'bell' | 'eye' | 'globe' | 'hand' | 'targaryen';
+  type?: GOTIconType;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
   className?: string;
   variant?: 'white' | 'black' | 'none';

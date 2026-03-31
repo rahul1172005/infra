@@ -480,28 +480,28 @@ export default function AnalyticsPage() {
                                     {filteredData.map(team => (
                                         <div
                                             key={team.id}
-                                            className="group relative p-4 md:p-6 bg-[#020202] border border-white/[0.06] rounded-xl hover:border-[#E81414]/20 transition-colors duration-200"
+                                            className="group relative p-4 md:p-6 bg-[#020202] border border-white/[0.06] rounded-xl hover:bg-[#E81414] transition-colors duration-500"
                                         >
                                             <div className="space-y-4">
                                                 <div>
-                                                    <p className="text-[7px] text-white/20 font-black tracking-widest font-mono mb-1">{team.id}</p>
-                                                    <p className="text-[13px] font-black text-white uppercase tracking-tight leading-tight truncate">{team.team}</p>
-                                                    <p className="text-[7px] font-black tracking-[0.3em] text-white/15 uppercase mt-1">{team.sector}</p>
+                                                    <p className="text-[7px] text-white/20 group-hover:text-black/60 font-black tracking-widest font-mono mb-1 transition-colors duration-500">{team.id}</p>
+                                                    <p className="text-[13px] font-black text-white group-hover:text-black uppercase tracking-tight leading-tight truncate transition-colors duration-500">{team.team}</p>
+                                                    <p className="text-[7px] font-black tracking-[0.3em] text-white/15 group-hover:text-black/50 uppercase mt-1 transition-colors duration-500">{team.sector}</p>
                                                 </div>
 
-                                                <div className="border-t border-white/5 pt-3 grid grid-cols-2 gap-3">
+                                                <div className="border-t border-white/5 group-hover:border-black/10 pt-3 grid grid-cols-2 gap-3 transition-colors duration-500">
                                                     <div>
-                                                        <span className="text-[7px] text-white/15 font-black uppercase block mb-1">XP RESERVE</span>
-                                                        <p className="text-base font-black text-white  tabular-nums">{team.points.toLocaleString()}</p>
+                                                        <span className="text-[7px] text-white/15 group-hover:text-black/50 font-black uppercase block mb-1 transition-colors duration-500">XP RESERVE</span>
+                                                        <p className="text-base font-black text-white group-hover:text-black tabular-nums transition-colors duration-500">{team.points.toLocaleString()}</p>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className="text-[7px] text-white/15 font-black uppercase block mb-1">SYNC%</span>
-                                                        <p className="text-base font-black text-white/40  tabular-nums">{Math.floor(team.sync)}%</p>
+                                                        <span className="text-[7px] text-white/15 group-hover:text-black/50 font-black uppercase block mb-1 transition-colors duration-500">SYNC%</span>
+                                                        <p className="text-base font-black text-white/40 group-hover:text-black/80 tabular-nums transition-colors duration-500">{Math.floor(team.sync)}%</p>
                                                     </div>
                                                 </div>
 
-                                                <div className="h-[2px] w-full bg-white/[0.04] rounded-full overflow-hidden">
-                                                    <div className="h-full bg-[#E81414] rounded-full transition-all" style={{ width: `${team.sync}%`, opacity: 0.6 }} />
+                                                <div className="h-[2px] w-full bg-white/[0.04] group-hover:bg-black/10 rounded-full overflow-hidden transition-colors duration-500">
+                                                    <div className="h-full bg-[#E81414] group-hover:bg-black rounded-full transition-all duration-500" style={{ width: `${team.sync}%`, opacity: 0.6 }} />
                                                 </div>
 
                                                 <div className="grid grid-cols-2 gap-2 pt-1">

@@ -111,16 +111,16 @@ export default function DashboardPage() {
                 {/* Secondary Stats - Col Span 4 */}
                 <div className="xl:col-span-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-8">
                     {/* Alpha Clan Dominance */}
-                    <div className="p-12 md:p-14 bg-[#E81414] text-white flex flex-col justify-between relative overflow-hidden rounded-[2.5rem] min-h-[300px] shadow-2xl shadow-black/20 border-none">
+                    <div className="p-12 md:p-14 bg-[#E81414] text-white flex flex-col justify-between relative overflow-hidden rounded-[2.5rem] min-h-[300px] shadow-2xl shadow-black/20 border-none group cursor-pointer hover:bg-black transition-colors duration-500">
                         <DotGrid opacity="opacity-[0.1]" />
-                        <div className="space-y-8 relative z-10">
+                        <div className="space-y-8 relative z-10 transition-colors duration-500 group-hover:text-white">
                             <span className="text-[10px] tracking-[0.3em] font-black uppercase opacity-60 flex items-center gap-3">
                                 <GOTIcon type="trophy" size={28} scale={1.6} x={0} y={0} />
                                 TARGARYEN DOMINANCE
                             </span>
                             <h4 className="text-4xl md:text-6xl font-black tracking-tight uppercase leading-[1.2]">
                                 {topTeam ? `${topTeam.name}` : 'SCANNING...'}
-                                <br /><span className="text-black/30">IN LEAD</span>
+                                <br /><span className="text-black/30 group-hover:text-white/50 transition-colors duration-500">IN LEAD</span>
                             </h4>
                         </div>
                     </div>
@@ -168,23 +168,23 @@ export default function DashboardPage() {
                     <div
                         key={i}
                         onClick={() => window.location.href = mod.href}
-                        className={`cursor-pointer group relative h-[250px] p-10 flex flex-col justify-between border transition-all duration-500 rounded-[2rem] overflow-hidden ${mod.accent ? 'bg-white border-white text-black' : 'bg-black border-white/10 hover:bg-white/5 text-white shadow-2xl shadow-black/50 hover:border-white/20'}`}
+                        className={`cursor-pointer group relative h-[250px] p-10 flex flex-col justify-between border transition-all duration-500 rounded-[2rem] overflow-hidden ${mod.accent ? 'bg-white border-white text-black hover:bg-[#E81414] hover:border-[#E81414]' : 'bg-black border-white/10 hover:bg-[#E81414] text-white hover:text-black shadow-2xl shadow-black/50 hover:border-[#E81414]'}`}
                     >
                         <DotGrid opacity={mod.accent ? "opacity-[0.05]" : "opacity-[0.03]"} />
                         <div className="flex justify-between items-start relative z-10 w-full">
-                            <div className="flex items-center justify-start text-[#E81414]">
+                            <div className="flex items-center justify-start text-[#E81414] group-hover:text-black transition-colors duration-500">
                                 {React.cloneElement(mod.icon as React.ReactElement<GOTIconProps>, { scale: 1.6, x: 0, y: 0 })}
                             </div>
                         </div>
 
                         <div className="space-y-6 relative z-10 mt-auto pt-6">
                             <div className="space-y-2">
-                                <p className={`text-xs md:text-sm tracking-[0.2em] font-black uppercase opacity-60 ${mod.accent ? 'text-black' : 'text-white'}`}>{mod.title}</p>
-                                <p className={`text-2xl md:text-3xl font-black uppercase tracking-tight leading-tight ${mod.accent ? 'text-black' : 'text-white'}`}>{mod.val}</p>
+                                <p className={`text-xs md:text-sm tracking-[0.2em] font-black uppercase opacity-60 transition-colors duration-500 ${mod.accent ? 'text-black' : 'text-white group-hover:text-black'}`}>{mod.title}</p>
+                                <p className={`text-2xl md:text-3xl font-black uppercase tracking-tight leading-tight transition-colors duration-500 ${mod.accent ? 'text-black' : 'text-white group-hover:text-black'}`}>{mod.val}</p>
                             </div>
                             <div className="flex items-center gap-4">
-                                <div className={`h-[2px] w-8 rounded-full ${mod.accent ? 'bg-black' : 'bg-[#E81414]'}`} />
-                                <p className={`text-[9px] tracking-[0.1em] font-black uppercase opacity-50 ${mod.accent ? 'text-black' : 'text-white'}`}>{mod.sub}</p>
+                                <div className={`h-[2px] w-8 rounded-full transition-colors duration-500 ${mod.accent ? 'bg-black' : 'bg-[#E81414] group-hover:bg-black'}`} />
+                                <p className={`text-[9px] tracking-[0.1em] font-black uppercase opacity-50 transition-colors duration-500 ${mod.accent ? 'text-black' : 'text-white group-hover:text-black'}`}>{mod.sub}</p>
                             </div>
                         </div>
                     </div>
@@ -206,7 +206,7 @@ export default function DashboardPage() {
                         { time: '12:01', event: 'PROVINCE UPDATE: RED KEEP INFRASTRUCTURE', points: '0', status: 'ACTIVE' },
                         { time: '09:30', event: 'SIGMA HOUSE: COMPLETED DNS RECON', points: '+320 COINS', status: 'VERIFIED' },
                     ].map((log, i) => (
-                        <div key={i} className="px-6 md:px-10 py-6 md:py-10 flex items-center justify-between hover:bg-white/5 transition-all duration-300 group cursor-pointer text-white gap-6 md:gap-10">
+                        <div key={i} className="px-6 md:px-10 py-6 md:py-10 flex items-center justify-between hover:bg-[#E81414] transition-all duration-300 group cursor-pointer text-white gap-6 md:gap-10">
                             <div className="flex items-center gap-6 md:gap-10 min-w-0">
                                 <div className="hidden sm:flex flex-col items-center gap-1 border-r border-white/10 group-hover:border-black/20 pr-10 min-w-[100px]">
                                     <span className="text-[11px] font-black tracking-widest text-[#E81414] group-hover:text-black">{log.time}</span>
@@ -220,7 +220,7 @@ export default function DashboardPage() {
                             <div className="flex items-center gap-4 md:gap-10 shrink-0">
                                 <div className="flex flex-col items-end">
                                     <span className="text-lg md:text-3xl font-black tracking-tighter tabular-nums group-hover:text-black">{log.points !== '0' ? log.points : '--'}</span>
-                                    {log.points !== '0' && <span className="text-[8px] tracking-[0.4em] font-black uppercase opacity-40 group-hover:opacity-100">REWARD</span>}
+                                    {log.points !== '0' && <span className="text-[8px] tracking-[0.4em] font-black uppercase opacity-40 group-hover:opacity-100 group-hover:text-black transition-colors duration-500">REWARD</span>}
                                 </div>
                             </div>
                         </div>
