@@ -8,6 +8,8 @@ import { DotGrid } from '@/components/ui/DotGrid';
 import { GoogleIcon } from '@/components/ui/GoogleIcon';
 import dynamic from 'next/dynamic';
 import EnterButtons from '@/components/landing/EnterButtons';
+import { useEffect } from 'react';
+import { useMusicStore } from '@/lib/store/useMusicStore';
 
 const MistWind = dynamic(() => import('@/components/effects/MistWind'), { ssr: false });
 const FallingParticles = dynamic(() => import('@/components/effects/FallingParticles'), { ssr: false });
@@ -17,6 +19,32 @@ interface WelcomeScreenProps {
 }
 
 export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
+  useEffect(() => {
+    const startMusic = () => {
+      const store = useMusicStore.getState();
+      if (!store.isPlaying) store.setPlaying(true);
+      
+      // Clean up listeners after first trigger
+      document.removeEventListener('click', startMusic);
+      document.removeEventListener('keydown', startMusic);
+      document.removeEventListener('touchstart', startMusic);
+    };
+
+    // Fallback listeners for strict browser autoplay policies
+    document.addEventListener('click', startMusic, { once: true });
+    document.addEventListener('keydown', startMusic, { once: true });
+    document.addEventListener('touchstart', startMusic, { once: true });
+
+    // Attempt to start immediately in case browser allows it (user might have navigated here)
+    startMusic();
+
+    return () => {
+      document.removeEventListener('click', startMusic);
+      document.removeEventListener('keydown', startMusic);
+      document.removeEventListener('touchstart', startMusic);
+    };
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 1 }}
@@ -36,6 +64,9 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
         <img
           src="/image11.png"
           alt="Background"
+          fetchPriority="high"
+          loading="eager"
+          decoding="sync"
           className="w-full h-full object-cover md:object-contain bg-image-layer-1"
         />
       </div>
@@ -45,6 +76,9 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
         <img
           src="/Home.png"
           alt="Home Top Layer"
+          fetchPriority="high"
+          loading="eager"
+          decoding="sync"
           className="w-full h-full object-contain home-image-layer-top"
         />
       </div>
@@ -110,6 +144,9 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
               <img
                 src="/logo.png"
                 alt="Zapsters Logo"
+                fetchPriority="high"
+                loading="eager"
+                decoding="sync"
                 className="w-full h-full object-contain"
                 style={{
                   transform: 'scale(3.0) translate(0px, -5px)',
@@ -159,7 +196,7 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
           }}>
           <div className="shrink-0" style={{ transform: 'translate(-10px, 15.5px) scale(3.80)' }}>
             <div className="w-24 h-28 lg:w-28 lg:h-28">
-              <img src="/logo.png" alt="Zapsters Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0)' }} />
+              <img src="/logo.png" alt="Zapsters Logo" fetchPriority="high" loading="eager" decoding="sync" className="w-full h-full object-contain" style={{ filter: 'brightness(0)' }} />
             </div>
           </div>
           <h1 className="font-black uppercase tracking-tighter text-black"

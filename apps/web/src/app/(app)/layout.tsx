@@ -3,15 +3,17 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { useMusicStore } from '@/lib/store/useMusicStore';
+import { Music } from 'lucide-react';
 
 // Google Icon SVG
 const GoogleIcon = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M47.532 24.552c0-1.636-.147-3.2-.42-4.704H24.48v9.02h12.972c-.564 2.964-2.244 5.48-4.764 7.164v5.952h7.704c4.512-4.152 7.14-10.272 7.14-17.432z" fill="#4285F4"/>
-    <path d="M24.48 48c6.48 0 11.916-2.148 15.888-5.82l-7.704-5.952c-2.148 1.44-4.896 2.292-8.184 2.292-6.3 0-11.628-4.248-13.536-9.96H3.012v6.156C6.972 42.876 15.144 48 24.48 48z" fill="#34A853"/>
-    <path d="M10.944 28.56A14.4 14.4 0 0 1 10.2 24c0-1.584.276-3.12.744-4.56v-6.156H3.012A23.952 23.952 0 0 0 .48 24c0 3.852.924 7.5 2.532 10.716l7.932-6.156z" fill="#FBBC05"/>
-    <path d="M24.48 9.492c3.54 0 6.72 1.212 9.216 3.6l6.888-6.888C36.384 2.34 30.96 0 24.48 0 15.144 0 6.972 5.124 3.012 13.284l7.932 6.156c1.908-5.712 7.236-9.948 13.536-9.948z" fill="#EA4335"/>
-  </svg>
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M47.532 24.552c0-1.636-.147-3.2-.42-4.704H24.48v9.02h12.972c-.564 2.964-2.244 5.48-4.764 7.164v5.952h7.704c4.512-4.152 7.14-10.272 7.14-17.432z" fill="#4285F4" />
+        <path d="M24.48 48c6.48 0 11.916-2.148 15.888-5.82l-7.704-5.952c-2.148 1.44-4.896 2.292-8.184 2.292-6.3 0-11.628-4.248-13.536-9.96H3.012v6.156C6.972 42.876 15.144 48 24.48 48z" fill="#34A853" />
+        <path d="M10.944 28.56A14.4 14.4 0 0 1 10.2 24c0-1.584.276-3.12.744-4.56v-6.156H3.012A23.952 23.952 0 0 0 .48 24c0 3.852.924 7.5 2.532 10.716l7.932-6.156z" fill="#FBBC05" />
+        <path d="M24.48 9.492c3.54 0 6.72 1.212 9.216 3.6l6.888-6.888C36.384 2.34 30.96 0 24.48 0 15.144 0 6.972 5.124 3.012 13.284l7.932 6.156c1.908-5.712 7.236-9.948 13.536-9.948z" fill="#EA4335" />
+    </svg>
 );
 
 // Game of Thrones Lore for navigation
@@ -22,10 +24,6 @@ const GOT_LORE = {
     WESTEROS: 'TARGARYEN',
     ARENA: 'IRON THRONE',
 };
-
-// Decorative elements removed as per user request
-
-// Japanese circular seal decoration removed
 
 const NAV_GROUPS = [
     {
@@ -58,9 +56,6 @@ const NAV_GROUPS = [
 function NavContent({ pathname, onClose, userProfile }: { pathname: string; onClose?: () => void; userProfile: any }) {
     return (
         <div className="flex flex-col h-full bg-black border-r-2 border-white/10 relative overflow-hidden">
-
-            {/* Background watermarks removed */}
-
             {/* Header / Logo */}
             <div className="h-20 border-b-2 border-white/10 flex items-center px-8 bg-black group hover:bg-white transition-all duration-300 relative z-10">
                 <Link href="/" onClick={onClose} className="flex items-center gap-4">
@@ -97,7 +92,7 @@ function NavContent({ pathname, onClose, userProfile }: { pathname: string; onCl
                                         className={`flex items-center gap-5 px-5 py-4 text-[11px] tracking-[0.3em] font-black uppercase transition-all rounded-full
  ${active
                                                 ? 'bg-white text-black'
-                                                : 'text-white/40 hover:text-white hover:bg-white/5'
+                                                : 'text-white/40 hover:text-black hover:bg-white'
                                             }`}
                                     >
                                         <span className="flex-1 truncate">{label}</span>
@@ -109,11 +104,8 @@ function NavContent({ pathname, onClose, userProfile }: { pathname: string; onCl
                 ))}
             </div>
 
-            {/* Decoration removed */}
-
             {/* User Footer */}
             <div className="p-4 md:p-6 relative z-10 space-y-3">
-                {/* Google Sign In button */}
                 <Link
                     href="/auth/login"
                     onClick={onClose}
@@ -122,7 +114,7 @@ function NavContent({ pathname, onClose, userProfile }: { pathname: string; onCl
                     <GoogleIcon size={15} />
                     <span className="text-[10px] tracking-[0.3em] font-black uppercase text-white/50 group-hover:text-white transition-colors">SIGN IN WITH GOOGLE</span>
                 </Link>
-                <div 
+                <div
                     onClick={() => {
                         window.location.href = '/profile';
                     }}
@@ -136,7 +128,7 @@ function NavContent({ pathname, onClose, userProfile }: { pathname: string; onCl
                         )}
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-white text-[11px] tracking-[0.05em] font-black uppercase truncate group-hover:text-[#E81414] transition-colors">{userProfile.name}</p>
+                        <p className="text-white text-[11px] tracking-[0.05em] font-black uppercase group-hover:text-[#E81414] transition-colors leading-tight">{userProfile.name}</p>
                         <p className="text-[#E81414] text-[9px] tracking-[0.2em] font-black uppercase mt-0.5">{userProfile.class}</p>
                     </div>
                 </div>
@@ -157,6 +149,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         initials: 'RS'
     });
 
+    const { isOpen, toggleOpen, isPlaying } = useMusicStore();
+
     useEffect(() => {
         const loadProfile = () => {
             const up = localStorage.getItem('user_profile');
@@ -170,7 +164,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         avatar: parsed.avatar || null,
                         initials: (parsed.name || 'H T').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
                     });
-                } catch (e) {}
+                } catch (e) { }
             }
         };
 
@@ -214,11 +208,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col min-h-screen min-w-0 overflow-x-hidden">
 
-                {/* Global Header — fixed, no overflow-hidden so dropdowns show */}
+                {/* Global Header */}
                 <header className="fixed top-0 left-0 right-0 h-20 border-b border-white/10 flex items-center justify-between px-6 xl:px-10 bg-black z-[100] shrink-0">
-
-                    {/* Header watermark removed */}
-
                     <div className="flex items-center gap-6 xl:gap-8">
                         {/* Desktop Logo */}
                         <Link href="/" className="hidden lg:flex items-center gap-3 border-r border-white/10 pr-6 xl:pr-8 shrink-0 group/logo">
@@ -284,28 +275,53 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </nav>
                     </div>
 
-                    <div className="flex items-center gap-3 xl:gap-5 shrink-0 pl-4">
+                    <div className="flex items-center gap-2 sm:gap-3 xl:gap-5 shrink-0 pl-1 sm:pl-4">
+                        {/* Music Toggle Button */}
+                        <button
+                            onClick={toggleOpen}
+                            className={`flex items-center justify-center gap-3 px-3 sm:px-4 h-10 border rounded-full text-[9px] font-black uppercase tracking-[0.2em] transition-all group shrink-0 ${isOpen ? 'bg-[#E81414] border-[#E81414] text-white' : 'border-white/10 text-white/50 hover:text-white hover:border-white/30'}`}
+                        >
+                            <div className={`w-3.5 h-3.5 flex items-center justify-center shrink-0`}>
+                                <img
+                                    src="/logo.png"
+                                    alt=""
+                                    className="w-full h-full object-contain brightness-0 invert"
+                                    style={{
+                                        transform: 'scale(3) translateX(0px) translateY(0px)' // CUSTOM SCALE AND POS FOR DASHBOARD
+                                    }}
+                                />
+                            </div>
+                            <span className="hidden lg:inline">SONIC</span>
+                            {isPlaying && (
+                                <div className="flex gap-0.5 items-end h-3 mb-0.5">
+                                    <div className="w-0.5 bg-current animate-[music-bar_0.8s_ease-in-out_infinite]" />
+                                    <div className="w-0.5 bg-current animate-[music-bar_1.2s_ease-in-out_infinite]" />
+                                    <div className="w-0.5 bg-current animate-[music-bar_1.0s_ease-in-out_infinite]" />
+                                </div>
+                            )}
+                        </button>
+
                         {/* Google Sign In button — desktop */}
                         <Link
                             href="/auth/login"
-                            className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/15 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-white/50 hover:text-white hover:border-white/40 transition-all whitespace-nowrap"
+                            className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/15 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-white/50 transition-none whitespace-nowrap"
                         >
                             <GoogleIcon size={14} />
                             <span className="hidden lg:inline">SIGN IN</span>
                         </Link>
-                        <div 
+                        <div
                             onClick={() => router.push('/profile')}
                             className="hidden sm:flex items-center border-l border-white/10 pl-4 xl:pl-6 h-10 gap-4 cursor-pointer group hover:text-white text-white/40 transition-colors"
                         >
-                            <div className="w-9 h-9 bg-white flex items-center justify-center shrink-0 rounded-full group-hover:bg-[#E81414] transition-colors shadow-none group-hover:shadow-[0_0_15px_#E81414] text-black group-hover:text-white font-black text-xs overflow-hidden">
+                            <div className="w-9 h-9 bg-white flex items-center justify-center shrink-0 rounded-full text-black font-black text-xs overflow-hidden">
                                 {userProfile.avatar ? (
                                     <img src={userProfile.avatar} alt="P" className="w-full h-full object-cover" />
                                 ) : (
                                     userProfile.initials
                                 )}
                             </div>
-                            <div className="hidden xl:flex flex-col items-start translate-y-0.5">
-                                <span className="text-[10px] tracking-[0.1em] font-black uppercase text-white truncate max-w-[120px]">{userProfile.name}</span>
+                            <div className="hidden xl:flex flex-col items-start translate-y-0.5 min-w-0">
+                                <span className="text-[10px] tracking-[0.1em] font-black uppercase text-white whitespace-nowrap">{userProfile.name}</span>
                                 <span className="text-[8px] tracking-[0.1em] font-black uppercase text-[#E81414]">{userProfile.class}</span>
                             </div>
                         </div>
@@ -314,12 +330,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                 {/* Page Viewport */}
                 <main className="flex-1 relative bg-black pt-20">
-                    {/* No glowing effects, only sharp industrial dot grid */}
                     <div className="absolute inset-0 dot-grid opacity-[0.05]" />
-
-                    {/* Global Japanese decorative corner elements */}
-                    {/* Background decorations removed */}
-
                     <div className="relative z-10 p-3 sm:p-4 md:p-10 lg:p-14 xl:p-20 max-w-[1800px] mx-auto">
                         {children}
                     </div>

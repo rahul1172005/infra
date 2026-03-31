@@ -30,10 +30,10 @@ export function Button({
   const baseStyles = 'inline-flex items-center justify-center font-black uppercase tracking-[0.3em] transition-all rounded-full whitespace-nowrap active:scale-95 disabled:opacity-50 disabled:pointer-events-none group relative overflow-hidden';
 
   const variants = {
-    primary: 'bg-white text-black hover:bg-[#E81414] hover:text-white border-2 border-transparent',
+    primary: 'bg-white text-black hover:bg-neutral-100 border-2 border-transparent',
     secondary: 'bg-[#E81414] text-white hover:bg-white hover:text-black border-2 border-transparent',
     outline: 'border-2 border-white/10 text-white hover:border-white hover:bg-white/5',
-    danger: 'bg-transparent border-2 border-[#E81414]/40 text-[#E81414] hover:bg-[#E81414] hover:text-white',
+    danger: 'bg-transparent border-2 border-[#E81414]/40 text-[#E81414] hover:bg-[#E81414]/10 transition-colors',
     ghost: 'text-white/40 hover:text-white transition-colors',
   };
 

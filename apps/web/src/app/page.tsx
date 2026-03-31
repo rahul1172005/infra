@@ -87,6 +87,15 @@ export default function Home() {
                   <p className="text-white/10 text-[10px] tracking-[0.6em] font-black uppercase">VALYRIAN FIRE AND BLOOD</p>
                   <div className="h-0.5 w-12 bg-[#E81414] opacity-50" />
                 </div>
+                <button
+                  onClick={() => {
+                    typeof window !== 'undefined' && sessionStorage.removeItem('skipZapstersWelcome');
+                    typeof window !== 'undefined' && (window.location.href = '/');
+                  }}
+                  className="mt-[-1rem] px-6 py-2 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-white/40 hover:bg-white hover:text-black hover:border-white transition-all inline-flex items-center gap-2 relative z-20"
+                >
+                  <span>HOME</span>
+                </button>
               </div>
 
               <div className="flex flex-col lg:flex-row items-center justify-center gap-8 max-w-6xl mx-auto border-t border-white/10 pt-8 md:pt-10">
