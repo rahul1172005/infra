@@ -2,30 +2,25 @@
 
 import React from 'react';
 import { DotGrid } from './DotGrid';
-import { SurikenIcon } from '@/components/icons/SurikenIcon';
 
 interface StatCardProps {
     title: string;
     value: string;
-    icon?: any;
+    icon?: React.ReactNode | React.ElementType;
     color?: string;
     variant?: 'oversight' | 'industrial';
     className?: string;
     scale?: number;
-    x?: number;
-    y?: number;
 }
 
 export const StatCard = ({
     title,
     value,
     icon,
-    color = 'text-white',
+    color,
     variant = 'oversight',
     className = '',
-    scale = 1.2,
-    x = 20,
-    y = -20
+    scale = 1.2
 }: StatCardProps) => {
     const isOversight = variant === 'oversight';
     const isLongValue = value.length > 8;
@@ -69,7 +64,7 @@ export const StatCard = ({
                     <div
                         className={`
                             flex-shrink-0 flex items-center justify-center transition-all duration-300 
-                            ${isOversight ? 'text-[#E81414] group-hover:text-black' : 'text-black'}
+                            ${isOversight ? 'text-white group-hover:text-white' : 'text-black'}
                         `}
                         style={{
                             transform: `scale(${scale === 1.2 ? 1 : scale})`

@@ -29,13 +29,13 @@ export default function Navbar() {
           <Link href="#protocols" className="text-white/60 hover:text-black hover:bg-white px-4 py-2 rounded-full transition-all">THE EDICTS</Link>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-6">
+        <div className="flex items-center gap-2 md:gap-6">
           {/* Music Toggle Button (Clean - No Hover Effect) */}
           <button
             onClick={toggleOpen}
-            className={`flex items-center justify-center gap-3 px-4 md:px-6 h-[44px] md:h-auto md:py-3 border rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-none group shrink-0 ${isOpen ? 'bg-[#E81414] border-[#E81414] text-white' : 'border-white/10 text-white/60'}`}
+            className={`flex items-center justify-center gap-2 md:gap-3 px-3 md:px-6 h-[40px] md:h-auto md:py-3 border rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-none group shrink-0 ${isOpen ? 'bg-[#E81414] border-[#E81414] text-white' : 'border-white/10 text-white/60'}`}
           >
-            <div className={`w-4 h-4 flex items-center justify-center shrink-0`}>
+            <div className={`w-3.5 h-3.5 md:w-4 md:h-4 flex items-center justify-center shrink-0`}>
               <img
                 src="/logo.png"
                 alt=""
@@ -55,23 +55,22 @@ export default function Navbar() {
             )}
           </button>
 
-          <Link href="/auth/login" className="hidden sm:block">
+          <Link href="/auth/login" className="hidden lg:block">
             <Button
               variant="outline"
               size="md"
               className=""
               icon={() => <GoogleIcon size={18} />}
             >
-              <span className="hidden md:inline">SIGN IN</span>
-              <span className="md:hidden">LOGIN</span>
+              <span>SIGN IN</span>
             </Button>
           </Link>
 
-          <Link href="/dashboard">
+          <Link href="/dashboard" className="shrink-0">
             <Button
               variant="primary"
-              size="md"
-              className="hover:bg-white/90 hover:text-black"
+              size="sm"
+              className="md:px-6 md:py-3 md:text-[10px] hover:bg-white/90 hover:text-black"
             >
               <span className="hidden sm:inline">CLAIM THE THRONE</span>
               <span className="sm:hidden">ENTER</span>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Target, Zap, Clock, Trophy } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 import { GOTIcon, GOTIconType } from '@/components/icons/GOTIcon';
 import { Button } from '@/components/ui/Button';
@@ -117,26 +117,22 @@ export default function ChallengesPage() {
                 { 
                     title: "TRIALS COMPLETED", 
                     value: "196", 
-                    icon: Trophy, 
-                    color: "text-[#E81414]" 
+                    color: "text-white" 
                 },
                 { 
                     title: "SUCCESS RATE", 
                     value: "82.4%", 
-                    icon: Target, 
-                    color: "text-[#E81414]" 
+                    color: "text-white" 
                 },
                 { 
                     title: "GLOBAL RANK", 
                     value: "TOP 5%", 
-                    icon: (props: any) => <GOTIcon type="dragon" size="sm" scale={1.2} x={-4} y={0} {...props} />, 
                     color: "text-white" 
                 },
                 { 
                     title: "TOTAL XP GAIN", 
                     value: "48,200", 
-                    icon: Zap, 
-                    color: "text-[#E81414]" 
+                    color: "text-white" 
                 }
             ]} variant="oversight" />
 
@@ -151,10 +147,6 @@ export default function ChallengesPage() {
                             ${cat.special ? 'bg-[#E81414]/5 border-[#E81414]/30 hover:bg-[#E81414]' : 'bg-black/40 border-white/10 hover:bg-[#E81414]'}
                             `}
                         >
-                            {/* Background Logo Watermark */}
-                            <div className="absolute -right-12 -bottom-16 opacity-[0.04] group-hover:opacity-[0.10] transition-opacity duration-500 pointer-events-none z-0">
-                                <GOTIcon variant="white" size={240} scale={1.2} x={0} y={0} />
-                            </div>
 
                             {/* Header Section */}
                             <div className="w-full flex justify-between items-start mb-8 relative z-10">
@@ -259,7 +251,7 @@ export default function ChallengesPage() {
                                     </div>
                                     <div className="space-y-1.5 min-w-0">
                                         <div className="flex items-center gap-3">
-                                            <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white/30 group-hover:text-black/50 transition-colors duration-500">{run.id} // {run.type}</span>
+                                            <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white/30 group-hover:text-black/50 transition-colors duration-500">{run.id} {"//"} {run.type}</span>
                                         </div>
                                         <h4 className="text-base md:text-lg font-black uppercase tracking-tight text-white group-hover:text-black transition-colors duration-500 truncate">{run.title}</h4>
                                     </div>
@@ -269,7 +261,7 @@ export default function ChallengesPage() {
                                         <Clock className="w-3.5 h-3.5 text-white/20 group-hover:text-black/40 transition-colors" />
                                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 group-hover:text-black/60 transition-colors duration-500">{run.time}</span>
                                     </div>
-                                    <div className={`px-5 py-2.5 rounded-full border text-[9px] font-black uppercase tracking-[0.3em] transition-colors duration-500 tabular-nums ${run.status === 'COMPLETED' ? 'bg-[#E81414]/5 border-[#E81414]/20 text-[#E81414] group-hover:bg-black/10 group-hover:border-black/20 group-hover:text-black' : 'bg-white/5 border-white/10 text-white/40 group-hover:bg-black/10 group-hover:border-black/20 group-hover:text-black'}`}>
+                                    <div className="px-5 py-2.5 rounded-full border text-[9px] font-black uppercase tracking-[0.3em] transition-colors duration-500 tabular-nums bg-white/5 border-white/10 text-white/40 group-hover:bg-black/10 group-hover:border-black/20 group-hover:text-black">
                                         {run.reward}
                                     </div>
                                 </div>
@@ -282,7 +274,7 @@ export default function ChallengesPage() {
                     title="ACTIVE BOUNTIES"
                     tag="PRIORITY"
                     padding="p-8 md:p-12"
-                    icon={<Zap className="w-8 h-8 text-[#E81414]" />}
+                    icon={<GOTIcon variant="white" size="sm" scale={1.2} x={0} y={0} />}
                 >
                     <div className="space-y-8 h-full flex flex-col justify-center">
                         <div>

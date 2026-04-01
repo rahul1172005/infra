@@ -7,7 +7,7 @@ interface StatGridProps {
     stats: {
         title: string;
         value: string;
-        icon?: any;
+        icon?: React.ReactNode | React.ElementType;
         color?: string;
     }[];
     variant?: 'oversight' | 'industrial';
