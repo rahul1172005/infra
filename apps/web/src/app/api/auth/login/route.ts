@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
         }
 
-        const jwtSecret = process.env.JWT_SECRET || 'fallback_secret_zapsters';
+        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
         const sessionToken = jwt.sign(
             { sub: user.id, email: user.email, role: user.role },
             jwtSecret,

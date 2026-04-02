@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const jwtSecret = process.env.JWT_SECRET || 'fallback_secret_zapsters';
+        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
         const decoded = jwt.verify(token, jwtSecret) as { sub: string; email: string };
 
         const user = await prisma.user.findUnique({
@@ -48,7 +48,7 @@ export async function PATCH(req: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const jwtSecret = process.env.JWT_SECRET || 'fallback_secret_zapsters';
+        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
         const decoded = jwt.verify(token, jwtSecret) as { sub: string; email: string };
 
         const body = await req.json();

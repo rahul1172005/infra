@@ -13,7 +13,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         }
 
         const token = authHeader.split(' ')[1];
-        const jwtSecret = process.env.JWT_SECRET || 'fallback_secret_zapsters';
+        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
         const decoded: any = jwt.verify(token, jwtSecret);
 
         if (decoded.role !== 'ADMIN') {
