@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { PrismaService } from './prisma/prisma.service';
 import { AuthService } from './auth/auth.service';
 import { TeamService } from './team/team.service';
 import { TeamController } from './team/team.controller';
@@ -18,18 +17,27 @@ import { TournamentService } from './tournament/tournament.service';
 import { JudgeService } from './judge/judge.service';
 import { MatchmakingService } from './matchmaking/matchmaking.service';
 import { CtfService } from './ctf/ctf.service';
+import { PrismaModule } from './prisma/prisma.module';
+import { ScoreboardModule } from './scoreboard/scoreboard.module';
+import { AuthController } from './auth/auth.controller';
+import { LeaderboardController } from './leaderboard/leaderboard.controller';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { RolesGuard } from './auth/roles.guard';
 
 @Module({
     imports: [
+        PrismaModule,
+        ScoreboardModule,
         JwtModule.register({
             secret: process.env.JWT_SECRET || 'zapsters_super_secret_jwt',
             signOptions: { expiresIn: '1d' },
         }),
     ],
-    controllers: [TeamController],
+    controllers: [TeamController, AuthController, LeaderboardController],
     providers: [
-        PrismaService,
         AuthService,
+        JwtAuthGuard,
+        RolesGuard,
         TeamService,
         LeaderboardService,
         ScoreGateway,

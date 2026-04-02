@@ -3,12 +3,12 @@ import { Activity, ShieldAlert, Binary } from'lucide-react';
 import Link from'next/link';
 
 const services = [
- {
- icon: <Activity className="w-5 h-5 text-[#FFD700]"/>,
- title: "NETWORK SECURITY",
- description: "SAFEGUARD YOUR NETWORK INFRASTRUCTURE AGAINST UNAUTHORIZED ACCESS AND ATTACKS.",
- href: "/arena"
- },
+  {
+  icon: <Activity className="w-5 h-5 text-[#FFD700]"/>,
+  title: "NETWORK SECURITY",
+  description: "SAFEGUARD YOUR NETWORK INFRASTRUCTURE AGAINST UNAUTHORIZED ACCESS AND ATTACKS.",
+  href: "/dashboard"
+  },
  {
  icon: <ShieldAlert className="w-5 h-5 text-[#FFD700]"/>,
  title: "SECURITY AUDITS",

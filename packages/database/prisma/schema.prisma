@@ -5,24 +5,37 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Set DATABASE_URL in Vercel Environment Variables to a hosted Postgres URL
-  // e.g. Neon (neon.tech) or Supabase — SQLite is NOT supported on Vercel
+  // Set DATABASE_URL in environment for Neon PostgreSQL
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  PLAYER
+}
+
 model User {
-  id            String   @id @default(uuid())
+  id            String   @id @default(cuid())
   name          String
+  nickname      String?
   email         String   @unique
-  password      String
-  role          String   @default("STUDENT")
+  password      String?
+  googleId      String?  @unique @map("google_id")
+  picture       String?  @map("avatar")
+  role          UserRole @default(PLAYER)
   xp            Int      @default(0)
   level         Int      @default(1)
-  mmr           Int      @default(1000) // Matchmaking Rating for 1v1 / Battle
-  teamId        String?
-  team          Team?    @relation(fields: [teamId], references: [id])
+  mmr           Int      @default(1000)
+  
+  teamOwned     Team[]   @relation("TeamOwner")
+  teamMemberships TeamMember[]
+  
   submissions   Submission[]
-  createdAt     DateTime @default(now())
+  fullName      String?
+  house         String?
+  teamId        String?  @map("team_id")
+  currentTeam   Team?    @relation("CurrentTeam", fields: [teamId], references: [id])
+  createdAt     DateTime @default(now()) @map("created_at")
 
   // Phase 2 Relations
   clientProjects   Project[] @relation("ClientProjects")
@@ -36,17 +49,39 @@ model User {
 }
 
 model Team {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  members   User[]
-  score     Int      @default(0)
-  mmr       Int      @default(1000) // Matchmaking Rating for groups
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  name        String   @unique
+  image       String?
+  ownerId     String   @map("owner_id")
+  owner       User     @relation("TeamOwner", fields: [ownerId], references: [id])
+  maxMembers  Int      @default(3) @map("max_members")
+  score       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  members     TeamMember[]
+  currentMembers User[]    @relation("CurrentTeam")
 }
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  teamId    String   @map("team_id")
+  userId    String   @map("user_id")
+  joinedAt  DateTime @default(now()) @map("joined_at")
+
+  team      Team     @relation(fields: [teamId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([teamId, userId])
+}
+
+
 
 model Contest {
   id          String   @id @default(uuid())
   title       String
+  description String?
+  tag         String?  // e.g. "SEASON 1", "ELITE TRIAL"
+  imageUrl    String?
   domain      String
   startTime   DateTime
   endTime     DateTime
@@ -58,7 +93,11 @@ model Challenge {
   id          String   @id @default(uuid())
   title       String
   description String
-  maxScore    Int
+  category    String   @default("GENERAL") // AI, CODING, CYBER, UIUX
+  difficulty  String   @default("MEDIUM")  // EASY, MEDIUM, HARD, EXTREME
+  icon        String?  // GOTIcon type
+  maxScore    Int      @default(1000)
+  isActive    Boolean  @default(true)
   contestId   String
   contest     Contest  @relation(fields: [contestId], references: [id])
   submissions Submission[]

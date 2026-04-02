@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { GoogleIcon } from '@/components/ui/GoogleIcon';
 import { Button } from '@/components/ui/Button';
+import { useAuthStore } from '@/lib/store/useAuthStore';
 
 interface EnterButtonsProps {
   onEnter: () => void;
@@ -13,26 +14,31 @@ interface EnterButtonsProps {
 }
 
 export default function EnterButtons({ onEnter, className = '', variant = 'mobile' }: EnterButtonsProps) {
+  const { isAuthenticated } = useAuthStore();
+
   if (variant === 'mobile') {
     return (
       <div className={`flex flex-col gap-3 w-full ${className}`}>
-        <Button
-          onClick={onEnter}
-          size="lg"
-          className="w-full"
-        >
-          ENTER
-        </Button>
-        <Link href="/auth/login">
+        <Link href="/dashboard" className="w-full">
           <Button
-            variant="outline"
             size="lg"
             className="w-full"
-            icon={() => <GoogleIcon />}
           >
-            SIGN IN WITH GOOGLE
+            {isAuthenticated ? 'CONTINUE TO REALM' : 'ENTER'}
           </Button>
         </Link>
+        {!isAuthenticated && (
+          <Link href="/auth/login">
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full"
+              icon={() => <GoogleIcon />}
+            >
+              SIGN IN WITH GOOGLE
+            </Button>
+          </Link>
+        )}
       </div>
     );
   }
@@ -40,22 +46,25 @@ export default function EnterButtons({ onEnter, className = '', variant = 'mobil
   if (variant === 'desktop') {
     return (
       <div className={`flex flex-col gap-3 items-end shrink-0 ${className}`}>
-        <Button
-          onClick={onEnter}
-          size="lg"
-          className="px-12"
-        >
-          ENTER
-        </Button>
-        <Link href="/auth/login">
+        <Link href="/dashboard">
           <Button
-            variant="outline"
-            size="md"
-            icon={() => <GoogleIcon />}
+            size="lg"
+            className="px-12"
           >
-            SIGN IN WITH GOOGLE
+            {isAuthenticated ? 'CONTINUE TO REALM' : 'ENTER'}
           </Button>
         </Link>
+        {!isAuthenticated && (
+          <Link href="/auth/login">
+            <Button
+              variant="outline"
+              size="md"
+              icon={() => <GoogleIcon />}
+            >
+              SIGN IN WITH GOOGLE
+            </Button>
+          </Link>
+        )}
       </div>
     );
   }
@@ -65,19 +74,21 @@ export default function EnterButtons({ onEnter, className = '', variant = 'mobil
     <div className={`flex flex-col sm:flex-row lg:flex-col gap-3 w-full lg:w-auto ${className}`}>
       <Link href="/dashboard" className="flex-1 lg:flex-none">
         <Button size="xl" className="w-full">
-          INITIALIZE SESSION
+          {isAuthenticated ? 'CONTINUE TO REALM' : 'INITIALIZE SESSION'}
         </Button>
       </Link>
-      <Link href="/auth/login" className="flex-1 lg:flex-none">
-        <Button
-          variant="outline"
-          size="xl"
-          className="w-full"
-          icon={() => <GoogleIcon />}
-        >
-          SIGN IN WITH GOOGLE
-        </Button>
-      </Link>
+      {!isAuthenticated && (
+        <Link href="/auth/login" className="flex-1 lg:flex-none">
+          <Button
+            variant="outline"
+            size="xl"
+            className="w-full"
+            icon={() => <GoogleIcon />}
+          >
+            SIGN IN WITH GOOGLE
+          </Button>
+        </Link>
+      )}
     </div>
   );
 }

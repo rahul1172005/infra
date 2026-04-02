@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { GOTIcon } from '@/components/icons/GOTIcon';
 import Link from 'next/link';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useAuthStore } from '@/lib/store/useAuthStore';
+import { useRouter } from 'next/navigation';
 
 const DotGrid = () => (
     <div className="absolute inset-0 dot-grid opacity-[0.05] pointer-events-none" />
@@ -12,7 +15,77 @@ const DotGrid = () => (
 
 
 export default function RegisterPage() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const { login } = useAuthStore();
+    const router = useRouter();
+
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        try {
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, name })
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.user) {
+                if (login) login(data.user, data.access_token);
+                router.push('/dashboard');
+            } else {
+                alert(data.message || 'Registration failed');
+            }
+        } catch (err) {
+            console.error('Registration error:', err);
+            alert('Connection failure');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setIsLoading(true);
+            try {
+                // Requirement 3 & 9: Use our local Next.js API route
+                const response = await fetch('/api/auth/google', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: tokenResponse.access_token }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    console.log('--- REGISTRATION/LOGIN SUCCESSFUL ---', result.user.email);
+                    if (login) login(result.user, result.access_token);
+                    router.push('/');
+                } else {
+                    console.error('CRITICAL: Registration failed:', result.message || 'Unknown error');
+                    alert(`Initialization failed: ${result.message || 'Verification error'}`);
+                }
+            } catch (err) {
+                console.error('CRITICAL: Fetch failed for Google registration:', {
+                    error: err,
+                    message: err instanceof Error ? err.message : String(err)
+                });
+                alert('Connection error during initialization');
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        onError: () => {
+            console.error('Google Registration Failed');
+            setIsLoading(false);
+        }
+    });
 
     return (
         <div className="min-h-screen bg-black text-white flex selection:bg-[#E81414] selection:text-white relative overflow-hidden">
@@ -93,10 +166,11 @@ export default function RegisterPage() {
 
                     {/* Google Sign In — Primary */}
                     <button
-                        className="w-full flex items-center justify-center gap-4 px-8 py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.5em] hover:bg-[#E81414] hover:text-white transition-all group rounded-full shadow-xl"
-                        onClick={() => { /* TODO: Google Auth */ }}
+                        className="w-full flex items-center justify-center gap-4 px-8 py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.5em] hover:bg-[#E81414] hover:text-white transition-all group rounded-full shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={() => googleLogin()}
+                        disabled={isLoading}
                     >
-                        REGISTER WITH GOOGLE
+                        {isLoading ? 'INITIATING...' : 'REGISTER WITH GOOGLE'}
                     </button>
 
                     {/* Divider */}
@@ -107,13 +181,16 @@ export default function RegisterPage() {
                     </div>
 
                     {/* Registration Form */}
-                    <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+                    <form className="space-y-8" onSubmit={handleRegister}>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div className="space-y-4">
                                 <label className="text-[9px] font-black uppercase tracking-[0.5em] text-white/40 ml-1">HOUSE TITLE</label>
                                 <div className="relative group">
                                     <input 
                                         type="text" 
+                                        required
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                         placeholder="TITLE" 
                                         className="w-full bg-black border border-white/10 focus:border-white/40 py-5 px-10 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full" 
                                     />
@@ -124,6 +201,9 @@ export default function RegisterPage() {
                                 <div className="relative group">
                                     <input 
                                         type="email" 
+                                        required
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
                                         placeholder="NODE ADDR" 
                                         className="w-full bg-black border border-white/10 focus:border-white/40 py-5 px-10 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full" 
                                     />
@@ -137,6 +217,9 @@ export default function RegisterPage() {
                             <div className="relative group">
                                 <input 
                                     type={showPassword ? 'text' : 'password'} 
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••••••" 
                                     className="w-full bg-black border border-white/10 focus:border-white/40 py-5 px-10 pr-16 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full" 
                                 />
@@ -162,8 +245,12 @@ export default function RegisterPage() {
                         </div>
 
                         {/* Submit */}
-                        <button className="w-full bg-white text-black font-black uppercase tracking-[0.5em] text-[11px] py-6 flex items-center justify-center gap-4 hover:bg-[#E81414] hover:text-white transition-all rounded-full active:scale-[0.98] shadow-2xl">
-                            INITIALIZE SQUIRE
+                        <button 
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full bg-white text-black font-black uppercase tracking-[0.5em] text-[11px] py-6 flex items-center justify-center gap-4 hover:bg-[#E81414] hover:text-white transition-all rounded-full active:scale-[0.98] shadow-2xl disabled:opacity-50"
+                        >
+                            {isLoading ? 'INITIATING...' : 'INITIALIZE SQUIRE'}
                         </button>
                     </form>
 

@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useMusicStore } from '@/lib/store/useMusicStore';
-import { Music } from 'lucide-react';
+import { Music, XCircle } from 'lucide-react';
+import { useAuthStore } from '@/lib/store/useAuthStore';
 
 // Google Icon SVG
 const GoogleIcon = ({ size = 16 }: { size?: number }) => (
@@ -25,35 +26,7 @@ const GOT_LORE = {
     ARENA: 'IRON THRONE',
 };
 
-const NAV_GROUPS = [
-    {
-        group: 'COMMAND',
-        items: [
-            { href: '/dashboard', label: 'DASHBOARD' },
-            { href: '/workspace', label: 'WORKSPACE' },
-            { href: '/analytics', label: 'ANALYTICS' },
-            { href: '/challenges', label: 'CHALLENGES' },
-        ]
-    },
-    {
-        group: 'OPERATIONS',
-        items: [
-            { href: '/teams', label: 'HOUSES' },
-            { href: '/operations/scores', label: 'BATTLE SCORES' },
-            { href: '/domains', label: 'DOMAINS' },
-            { href: '/leaderboard', label: 'LEADERBOARD' },
-        ]
-    },
-    {
-        group: 'SYSTEM',
-        items: [
-            { href: '/settings', label: 'SETTINGS' },
-            { href: '/profile', label: 'PROFILE' },
-        ]
-    }
-];
-
-function NavContent({ pathname, onClose, userProfile }: { pathname: string; onClose?: () => void; userProfile: any }) {
+function NavContent({ pathname, onClose, userProfile, isAuthenticated, logout, user, dynamicNavGroups }: { pathname: string; onClose?: () => void; userProfile: any; isAuthenticated: boolean; logout: () => void; user: any; dynamicNavGroups: any[] }) {
     return (
         <div className="flex flex-col h-full bg-black border-r-2 border-white/10 relative overflow-hidden">
             {/* Header / Logo */}
@@ -75,7 +48,7 @@ function NavContent({ pathname, onClose, userProfile }: { pathname: string; onCl
 
             {/* Navigation Scroll Area */}
             <div className="flex-1 overflow-y-auto pt-10 px-6 space-y-12 no-scrollbar relative z-10">
-                {NAV_GROUPS.map(({ group, items }) => (
+                {dynamicNavGroups.map(({ group, items }) => (
                     <div key={group}>
                         <div className="flex items-center gap-3 mb-6 pl-2">
                             <p className="text-white/20 text-[10px] tracking-[0.6em] uppercase font-black">{group}</p>
@@ -90,7 +63,7 @@ function NavContent({ pathname, onClose, userProfile }: { pathname: string; onCl
                                         href={href}
                                         onClick={onClose}
                                         className={`flex items-center gap-5 px-5 py-4 text-[11px] tracking-[0.3em] font-black uppercase transition-all rounded-full
- ${active
+                                            ${active
                                                 ? 'bg-white text-black'
                                                 : 'text-white/40 hover:text-black hover:bg-white'
                                             }`}
@@ -106,14 +79,16 @@ function NavContent({ pathname, onClose, userProfile }: { pathname: string; onCl
 
             {/* User Footer */}
             <div className="p-4 md:p-6 relative z-10 space-y-3">
-                <Link
-                    href="/auth/login"
-                    onClick={onClose}
-                    className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-white/10 rounded-[2rem] hover:border-white/30 transition-all group"
-                >
-                    <GoogleIcon size={15} />
-                    <span className="text-[10px] tracking-[0.3em] font-black uppercase text-white/50 group-hover:text-white transition-colors">SIGN IN WITH GOOGLE</span>
-                </Link>
+                {!isAuthenticated ? (
+                    <Link
+                        href="/auth/login"
+                        onClick={onClose}
+                        className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-white/10 rounded-[2rem] hover:border-white/30 transition-all group"
+                    >
+                        <GoogleIcon size={15} />
+                        <span className="text-[10px] tracking-[0.3em] font-black uppercase text-white/50 group-hover:text-white transition-colors">SIGN IN WITH GOOGLE</span>
+                    </Link>
+                ) : (
                 <div
                     onClick={() => {
                         window.location.href = '/profile';
@@ -129,9 +104,9 @@ function NavContent({ pathname, onClose, userProfile }: { pathname: string; onCl
                     </div>
                     <div className="flex-1 min-w-0">
                         <p className="text-white text-[11px] tracking-[0.05em] font-black uppercase group-hover:text-[#E81414] transition-colors leading-tight">{userProfile.name}</p>
-                        <p className="text-[#E81414] text-[9px] tracking-[0.2em] font-black uppercase mt-0.5">{userProfile.class}</p>
                     </div>
                 </div>
+                )}
             </div>
         </div>
     );
@@ -141,44 +116,76 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const pathname = usePathname();
     const router = useRouter();
     const [open, setOpen] = useState(false);
-    const [userProfile, setUserProfile] = useState({
-        name: 'HOUSE TARGARYEN',
-        house: 'TARGARYEN',
-        class: 'DRAGONBORN',
-        avatar: null as string | null,
-        initials: 'RS'
-    });
+    const { user, isAuthenticated, logout, login } = useAuthStore();
+    
+    useEffect(() => {
+        if (isAuthenticated && user?.id) {
+            const fetchProfile = async () => {
+                try {
+                    const response = await fetch('/api/auth/me', {
+                        headers: {
+                            'Authorization': `Bearer ${useAuthStore.getState().token}`
+                        }
+                    });
+                    if (response.ok) {
+                        const fullUser = await response.json();
+                        // Update the store with full data (level, xp, mmr, etc)
+                        login(fullUser, useAuthStore.getState().token as string);
+                    } else if (response.status === 401) {
+                        logout();
+                    }
+                } catch (err) {
+                    console.error('Failed to sync profile:', err);
+                }
+            };
+            fetchProfile();
+        }
+    }, [isAuthenticated, user?.id]);
+
+    // Profile formatting for UI
+    const userProfile = {
+        name: user?.nickname || user?.name || 'ZAPSTER',
+        class: user?.role || 'RECRUIT',
+        avatar: user?.picture || null,
+        initials: (user?.nickname || user?.name || 'Z P').split(' ').filter(Boolean).map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
+    };
+
+    const dynamicNavGroups = [
+        {
+            group: 'COMMAND',
+            items: [
+                { href: '/dashboard', label: 'DASHBOARD' },
+                { href: '/workspace', label: 'WORKSPACE' },
+                { href: '/analytics', label: 'ANALYTICS' },
+                { href: '/challenges', label: 'CHALLENGES' },
+            ]
+        },
+        {
+            group: 'OPERATIONS',
+            items: [
+                { href: '/teams', label: 'HOUSES' },
+                { href: '/leaderboard', label: 'LEADERBOARD' },
+                ...(user?.role === 'ADMIN' ? [
+                    { href: '/operations/scores', label: 'BATTLE SCORES' },
+                ] : []),
+                { href: '/domains', label: 'DOMAINS' },
+            ]
+        },
+        {
+            group: 'SYSTEM',
+            items: [
+                { href: '/settings', label: 'SETTINGS' },
+                { href: '/profile', label: 'PROFILE' },
+                ...(user?.role === 'ADMIN' ? [
+                    { href: '/admin', label: 'FORBIDDEN CITADEL' },
+                ] : []),
+            ]
+        }
+    ];
 
     const { isOpen, toggleOpen, isPlaying } = useMusicStore();
 
-    useEffect(() => {
-        const loadProfile = () => {
-            const up = localStorage.getItem('user_profile');
-            if (up) {
-                try {
-                    const parsed = JSON.parse(up);
-                    setUserProfile({
-                        name: parsed.name || 'HOUSE TARGARYEN',
-                        house: parsed.house || 'TARGARYEN',
-                        class: parsed.class || 'DRAGONBORN',
-                        avatar: parsed.avatar || null,
-                        initials: (parsed.name || 'H T').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
-                    });
-                } catch (e) { }
-            }
-        };
-
-        loadProfile();
-
-        const handleSync = () => {
-            loadProfile();
-        };
-
-        window.addEventListener('profile_update', handleSync);
-        return () => window.removeEventListener('profile_update', handleSync);
-    }, []);
-
-    const currentLabel = NAV_GROUPS.flatMap(g => g.items).find(i => i.href === pathname)?.label ?? 'System';
+    const currentLabel = dynamicNavGroups.flatMap(g => g.items).find(i => i.href === pathname)?.label ?? 'System';
 
     return (
         <div className="min-h-screen flex bg-black text-white selection:bg-[#E81414] selection:text-white flex-col font-['Game of Thrones']">
@@ -193,7 +200,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             {/* Mobile Sidebar Drawer */}
             <aside className={`fixed top-0 left-0 h-full w-72 z-50 transition-transform duration-500 ease-out lg:hidden bg-black shadow-none border-r-2 border-white/10
- ${open ? 'translate-x-0' : '-translate-x-full'}`}>
+                ${open ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div className="absolute top-6 right-6 lg:hidden z-10">
                     <button
                         onClick={() => setOpen(false)}
@@ -202,7 +209,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         ✕
                     </button>
                 </div>
-                <NavContent pathname={pathname} onClose={() => setOpen(false)} userProfile={userProfile} />
+                <NavContent pathname={pathname} onClose={() => setOpen(false)} userProfile={userProfile} isAuthenticated={isAuthenticated} logout={logout} user={user} dynamicNavGroups={dynamicNavGroups} />
             </aside>
 
             {/* Main Content Area */}
@@ -242,7 +249,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                         {/* Desktop Navigation Links (Dropdown) */}
                         <nav className="hidden lg:flex items-center gap-1">
-                            {NAV_GROUPS.map((navGroup) => {
+                            {dynamicNavGroups.map((navGroup) => {
                                 const isActiveGroup = navGroup.items.some(i => i.href === pathname);
                                 return (
                                     <div key={navGroup.group} className="relative group/dropdown">
@@ -301,30 +308,32 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             )}
                         </button>
 
-                        {/* Google Sign In button — desktop */}
-                        <Link
-                            href="/auth/login"
-                            className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/15 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-white/50 transition-none whitespace-nowrap"
-                        >
-                            <GoogleIcon size={14} />
-                            <span className="hidden lg:inline">SIGN IN</span>
-                        </Link>
-                        <div
-                            onClick={() => router.push('/profile')}
-                            className="hidden sm:flex items-center border-l border-white/10 pl-4 xl:pl-6 h-10 gap-4 cursor-pointer group hover:text-white text-white/40 transition-colors"
-                        >
-                            <div className="w-9 h-9 bg-white flex items-center justify-center shrink-0 rounded-full text-black font-black text-xs overflow-hidden">
-                                {userProfile.avatar ? (
-                                    <img src={userProfile.avatar} alt="P" className="w-full h-full object-cover" />
-                                ) : (
-                                    userProfile.initials
-                                )}
+                        {/* Google Sign In / Profile Identity Area */}
+                        {!isAuthenticated ? (
+                            <Link
+                                href="/auth/login"
+                                className="hidden md:flex items-center gap-2 px-4 py-2 border border-white/15 rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-white/50 transition-none whitespace-nowrap hover:text-white hover:border-white/30 transition-colors"
+                            >
+                                <GoogleIcon size={14} />
+                                <span className="hidden lg:inline">SIGN IN</span>
+                            </Link>
+                        ) : (
+                            <div
+                                onClick={() => router.push('/profile')}
+                                className="hidden lg:flex items-center gap-4 px-5 py-2 border border-white/10 rounded-full cursor-pointer hover:bg-white/5 transition-all group"
+                            >
+                                <span className="text-[10px] font-black uppercase tracking-[0.1em] text-white/60 truncate max-w-[100px]">
+                                    {user?.nickname || user?.name?.split(' ')[0] || 'ZAPSTER'}
+                                </span>
+                                <div className="w-9 h-9 bg-white/10 flex items-center justify-center shrink-0 rounded-full text-black font-black text-xs overflow-hidden border border-white/10 transition-all group-hover:border-white/30">
+                                    {user?.picture ? (
+                                        <img src={user.picture} alt="P" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span className="text-[9px] text-white/40">{user?.name?.[0] || 'Z'}</span>
+                                    )}
+                                </div>
                             </div>
-                            <div className="hidden xl:flex flex-col items-start translate-y-0.5 min-w-0">
-                                <span className="text-[10px] tracking-[0.1em] font-black uppercase text-white whitespace-nowrap">{userProfile.name}</span>
-                                <span className="text-[8px] tracking-[0.1em] font-black uppercase text-[#E81414]">{userProfile.class}</span>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </header>
 

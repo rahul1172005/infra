@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { GOTIcon } from '@/components/icons/GOTIcon';
 import Link from 'next/link';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useAuthStore } from '@/lib/store/useAuthStore';
+import { useRouter } from 'next/navigation';
 
 /* ── Decorative Elements ─────────────────────────────────────────── */
 const DotGrid = () => (
@@ -13,7 +16,76 @@ const DotGrid = () => (
 
 
 export default function LoginPage() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const { login } = useAuthStore();
+    const router = useRouter();
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.user) {
+                if (login) login(data.user, data.access_token);
+                router.push('/dashboard');
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            alert('Connection failure');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            setIsLoading(true);
+            try {
+                // Requirement 3 & 9: Use our local Next.js API route for security & session
+                const response = await fetch('/api/auth/google', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: tokenResponse.access_token }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    console.log('--- LOGIN SUCCESSFUL ---', result.user.email);
+                    if (login) login(result.user, result.access_token);
+                    router.push('/');
+                } else {
+                    console.error('CRITICAL: Login failed:', result.message || 'Unknown error');
+                    alert(`Login failed: ${result.message || 'Verification error'}`);
+                }
+            } catch (err) {
+                console.error('CRITICAL: Fetch failed for Google login:', {
+                    error: err,
+                    message: err instanceof Error ? err.message : String(err)
+                });
+                alert('Connection error. Check your internet or if the server is running.');
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        onError: (error) => {
+            console.error('Google Login Error:', error);
+            setIsLoading(false);
+        },
+    });
 
     return (
         <div className="min-h-screen bg-black text-white flex selection:bg-[#E81414] selection:text-white relative overflow-hidden">
@@ -95,10 +167,11 @@ export default function LoginPage() {
 
                     {/* Google Sign In — Primary */}
                     <button
-                        className="w-full flex items-center justify-center gap-4 px-8 py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.5em] hover:bg-[#E81414] hover:text-white transition-all group rounded-full shadow-xl"
-                        onClick={() => { /* TODO: Google Auth */ }}
+                        className="w-full flex items-center justify-center gap-4 px-8 py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.5em] hover:bg-[#E81414] hover:text-white transition-all group rounded-full shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={() => googleLogin()}
+                        disabled={isLoading}
                     >
-                        SIGN IN WITH GOOGLE
+                        {isLoading ? 'INITIATING...' : 'SIGN IN WITH GOOGLE'}
                     </button>
 
                     {/* Divider */}
@@ -109,14 +182,17 @@ export default function LoginPage() {
                     </div>
 
                     {/* Credential Form */}
-                    <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
+                    <form className="space-y-10" onSubmit={handleLogin}>
                         {/* Email */}
                         <div className="space-y-4">
                             <label className="text-[9px] font-black uppercase tracking-[0.5em] text-white/40 ml-1">HOUSE ALIAS</label>
                             <div className="relative group">
                                 <input
                                     type="text"
-                                    placeholder="ENTER HOUSE EMAIL OR TITLE"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="ENTER HOUSE ALIAS OR TITLE"
                                     className="w-full bg-black border border-white/10 focus:border-white/40 py-5 px-10 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full"
                                 />
                             </div>
@@ -128,6 +204,9 @@ export default function LoginPage() {
                             <div className="relative group">
                                 <input
                                     type={showPassword ? 'text' : 'password'}
+                                    required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••••••"
                                     className="w-full bg-black border border-white/10 focus:border-white/40 py-5 px-10 pr-16 text-white placeholder:text-white/20 outline-none transition-all text-[11px] font-black tracking-widest uppercase rounded-full"
                                 />
@@ -142,8 +221,12 @@ export default function LoginPage() {
                         </div>
 
                         {/* Submit */}
-                        <button className="w-full bg-white text-black font-black uppercase tracking-[0.5em] text-[11px] py-6 flex items-center justify-center gap-4 hover:bg-[#E81414] hover:text-white transition-all rounded-full active:scale-[0.98] shadow-2xl">
-                            INITIATE ACCESS
+                        <button 
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full bg-white text-black font-black uppercase tracking-[0.5em] text-[11px] py-6 flex items-center justify-center gap-4 hover:bg-[#E81414] hover:text-white transition-all rounded-full active:scale-[0.98] shadow-2xl disabled:opacity-50"
+                        >
+                            {isLoading ? 'INITIATING...' : 'INITIATE ACCESS'}
                         </button>
                     </form>
 

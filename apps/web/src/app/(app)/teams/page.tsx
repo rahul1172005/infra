@@ -1,13 +1,13 @@
 'use client';
-
-import { useEffect, useState } from 'react';
-
+import { useState, useEffect } from 'react';
 import { GOTIcon } from '@/components/icons/GOTIcon';
 import { Button } from '@/components/ui/Button';
 import { DotGrid } from '@/components/ui/DotGrid';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { HUDCard } from '@/components/ui/HUDCard';
 import { MetaCard } from '@/components/ui/MetaCard';
+import { useAuthStore } from '@/lib/store/useAuthStore';
+import { UserRole } from '@zapsters/database';
 
 // Mode → member count mapping
 const MODE_SIZES: Record<string, number> = {
@@ -31,7 +31,7 @@ const DEFAULT_FORM = {
 export default function TeamsPage() {
     const [groups, setGroups] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeHouse, setActiveHouse] = useState<string | null>(null);
+    const { user, token } = useAuthStore();
 
     // Create Modal State
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -46,124 +46,130 @@ export default function TeamsPage() {
     const handleModeChange = (mode: string) => {
         const count = MODE_SIZES[mode] ?? 1;
         const names = Array.from({ length: count }, (_, i) => formData.memberNames[i] ?? '');
-        setFormData(prev => ({ ...prev, mode, memberNames: names }));
+        setFormData((prev: typeof DEFAULT_FORM) => ({ ...prev, mode, memberNames: names }));
     };
 
     const handleCustomSize = (val: number) => {
         const clamped = Math.max(1, Math.min(20, val));
         const names = Array.from({ length: clamped }, (_, i) => formData.memberNames[i] ?? '');
-        setFormData(prev => ({ ...prev, customSize: clamped, memberNames: names }));
+        setFormData((prev: typeof DEFAULT_FORM) => ({ ...prev, customSize: clamped, memberNames: names }));
     };
 
     const handleMemberName = (idx: number, val: string) => {
         const updated = [...formData.memberNames];
         updated[idx] = val;
-        setFormData(prev => ({ ...prev, memberNames: updated }));
+        setFormData((prev: typeof DEFAULT_FORM) => ({ ...prev, memberNames: updated }));
     };
 
     // ── data fetching ─────────────────────────────────────────
     const fetchTeams = async () => {
+        if (!token) return;
         setLoading(true);
-        let apiTeams: any[] = [];
         try {
-            const res = await fetch('http://localhost:5000/teams');
-            if (res.ok) apiTeams = await res.json();
-        } catch {
-            console.warn('Backend offline, using local registry');
+            const res = await fetch('/api/teams', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setGroups(data);
+            }
+        } catch (err) {
+            console.error('Failed to fetch teams:', err);
+        } finally {
+            setLoading(false);
         }
-
-        const localTeamsStr = localStorage.getItem('persistent_teams');
-        const localTeams = localTeamsStr ? JSON.parse(localTeamsStr) : [];
-
-        const combined = [...apiTeams];
-        localTeams.forEach((lt: any) => {
-            if (!combined.find(ct => ct.name === lt.name)) combined.push(lt);
-        });
-
-        setGroups(combined);
-        setLoading(false);
     };
 
     useEffect(() => {
-        fetchTeams();
-        const profile = localStorage.getItem('user_profile');
-        if (profile) {
-            const p = JSON.parse(profile);
-            setActiveHouse(p.house || null);
-        }
-    }, []);
+        if (token) fetchTeams();
+    }, [token]);
 
     // ── actions ───────────────────────────────────────────────
     const handleCreate = async () => {
-        if (!formData.name.trim()) return;
-        const nameNormalized = formData.name.toUpperCase();
-        const memberCount = getMemberCount();
+        if (!formData.name.trim()) {
+            alert('❌ UNIT DESIGNATION IS REQUIRED');
+            return;
+        }
+        if (!token) {
+            alert('❌ UNAUTHORIZED: PLEASE LOGIN AGAIN');
+            return;
+        }
+        
+        try {
+            console.log('Deploying Unit:', formData.name, 'Size:', getMemberCount());
+            const res = await fetch('/api/teams', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    maxMembers: getMemberCount(),
+                }),
+            });
 
-        const newTeam = {
-            id: 'local-' + Date.now(),
-            name: nameNormalized,
-            score: 0,
-            _count: { members: memberCount },
-            metadata: {
-                mode: formData.mode,
-                customSize: formData.customSize,
-                memberNames: formData.memberNames.slice(0, memberCount),
-                leaderName: formData.leaderName,
-                email: formData.email,
-                phone: formData.phone,
-            },
-        };
-
-        const localTeamsStr = localStorage.getItem('persistent_teams');
-        const localTeams = localTeamsStr ? JSON.parse(localTeamsStr) : [];
-        localTeams.push(newTeam);
-        localStorage.setItem('persistent_teams', JSON.stringify(localTeams));
-
-        setFormData({ ...DEFAULT_FORM });
-        setIsCreateModalOpen(false);
-        fetchTeams();
-        alert('✅ TEAM CREATED SUCCESSFULLY');
+            if (res.ok) {
+                const result = await res.json();
+                setFormData({ ...DEFAULT_FORM });
+                setIsCreateModalOpen(false);
+                fetchTeams();
+                alert('✅ HOUSE ESTABLISHED SUCCESSFULLY');
+            } else {
+                const error = await res.json();
+                console.error('Establishment Failed:', error);
+                alert(`❌ FAILED: ${error.message || 'STATION SYNC ERROR'}`);
+            }
+        } catch (err) {
+            console.error('Network Error:', err);
+            alert('❌ NETWORK FAILURE: DATABASE OFFLINE OR UNREACHABLE');
+        }
     };
 
     const handleDelete = async (id: string, e: any) => {
         e.stopPropagation();
-        if (!confirm('Delete this team?')) return;
+        if (!confirm('DISMANTLE THIS HOUSE?') || !token) return;
 
-        if (!id.startsWith('local-')) {
-            try { await fetch(`http://localhost:5000/teams/${id}`, { method: 'DELETE' }); } catch {}
+        try {
+            const res = await fetch(`/api/teams/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                fetchTeams();
+                alert('✅ HOUSE DISMANTLED');
+            } else {
+                alert('❌ UNAUTHORIZED OR OPERATION FAILED');
+            }
+        } catch (err) {
+            console.error('Delete failed:', err);
+            alert('❌ NETWORK FAILURE');
         }
-
-        const localTeamsStr = localStorage.getItem('persistent_teams');
-        if (localTeamsStr) {
-            const filtered = JSON.parse(localTeamsStr).filter((t: any) => t.id !== id);
-            localStorage.setItem('persistent_teams', JSON.stringify(filtered));
-        }
-        fetchTeams();
     };
 
     const handlePoints = async (id: string, amount: number, e: any) => {
         e.stopPropagation();
+        if (!token) return;
 
-        if (!id.startsWith('local-')) {
-            try {
-                await fetch(`http://localhost:5000/teams/${id}/points`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ points: amount }),
-                });
-            } catch {}
-        }
-
-        const localTeamsStr = localStorage.getItem('persistent_teams');
-        if (localTeamsStr) {
-            const localTeams = JSON.parse(localTeamsStr);
-            const team = localTeams.find((t: any) => t.id === id);
-            if (team) {
-                team.score = Math.max(0, team.score + amount);
-                localStorage.setItem('persistent_teams', JSON.stringify(localTeams));
+        try {
+            const res = await fetch(`/api/teams/${id}/score/adjust`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ amount }),
+            });
+            if (res.ok) {
+                fetchTeams();
+                alert(`✅ POINTS LOGGED: ${amount > 0 ? '+' : ''}${amount}`);
+            } else {
+                alert('❌ SYNC FAILED');
             }
+        } catch (err) {
+            console.error('Score adjust failed:', err);
+            alert('❌ NETWORK FAILURE');
         }
-        fetchTeams();
     };
 
     // ── render ────────────────────────────────────────────────
@@ -199,8 +205,10 @@ export default function TeamsPage() {
                                     NO HOUSES IDENTIFIED IN THE SEVEN KINGDOMS
                                 </div>
                             )}
-                            {!loading && groups.map((group, idx) => {
-                                const isLoyal = activeHouse === group.name;
+                            {!loading && groups.map((group: any, idx: number) => {
+                                const isLoyal = user?.teamId === group.id;
+                                const isAdmin = user?.role === UserRole.ADMIN;
+                                const isOwner = group.ownerId === user?.id;
                                 const teamMode = group.metadata?.mode || 'SQUAD';
                                 return (
                                     <div
@@ -232,7 +240,7 @@ export default function TeamsPage() {
                                                 <div className="flex items-center gap-4">
                                                     <GOTIcon size={16} scale={1.6} x={0} y={0} />
                                                     <span className="text-[10px] tracking-[0.2em] font-black uppercase text-white/40">
-                                                        {group._count?.members || 0} MEMBERS
+                                                        {group.members?.length || 0} MEMBERS
                                                     </span>
                                                 </div>
                                             </div>
@@ -242,30 +250,34 @@ export default function TeamsPage() {
                                         <div className="flex items-center gap-10 w-full md:w-auto justify-between md:justify-end">
                                             <div className="flex flex-col items-end">
                                                 <span className="text-2xl md:text-4xl font-black text-[#E81414] group-hover:text-black tabular-nums transition-colors duration-500">
-                                                    {group.score.toLocaleString()}
+                                                    {(group.score ?? 0).toLocaleString()}
                                                 </span>
                                                 <span className="text-[9px] tracking-[0.3em] font-black uppercase text-white/20 group-hover:text-black/40 transition-colors duration-500">STRENGTH</span>
                                             </div>
 
                                             <div className="flex gap-4">
-                                                <Button
-                                                    variant="primary"
-                                                    size="sm"
-                                                    onClick={(e) => handlePoints(group.id, 100, e)}
-                                                    className="h-11 px-8 text-[10px] font-black tracking-[0.2em] rounded-2xl bg-[#E81414] hover:bg-[#ff1a1a] border-none flex items-center gap-3"
-                                                    icon={<GOTIcon type="zap" size={24} scale={1.2} x={0} y={0} />}
-                                                >
-                                                    ADD POINT
-                                                </Button>
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={(e) => handleDelete(group.id, e)}
-                                                    className="h-11 px-8 text-[10px] font-black tracking-[0.2em] rounded-2xl text-[#E81414] border-[#E81414]/40 hover:bg-[#E81414]/10 transition-all flex items-center gap-3"
-                                                    icon={<GOTIcon type="hand" size={24} scale={1.2} x={0} y={0} />}
-                                                >
-                                                    DELETE TEAM
-                                                </Button>
+                                                {isAdmin && (
+                                                    <Button
+                                                        variant="primary"
+                                                        size="sm"
+                                                        onClick={(e) => handlePoints(group.id, 100, e)}
+                                                        className="h-11 px-8 text-[10px] font-black tracking-[0.2em] rounded-2xl bg-[#E81414] hover:bg-[#ff1a1a] border-none flex items-center gap-3"
+                                                        icon={<GOTIcon type="zap" size={24} scale={1.2} x={0} y={0} />}
+                                                    >
+                                                        ADD POINT
+                                                    </Button>
+                                                )}
+                                                {(isAdmin || isOwner) && (
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={(e) => handleDelete(group.id, e)}
+                                                        className="h-11 px-8 text-[10px] font-black tracking-[0.2em] rounded-2xl text-[#E81414] border-[#E81414]/40 hover:bg-[#E81414]/10 transition-all flex items-center gap-3"
+                                                        icon={<GOTIcon type="hand" size={24} scale={1.2} x={0} y={0} />}
+                                                    >
+                                                        DELETE TEAM
+                                                    </Button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

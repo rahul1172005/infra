@@ -2,7 +2,8 @@ export interface User {
     id: string;
     email: string;
     name: string;
-    role: 'SUPER_ADMIN' | 'MENTOR' | 'STUDENT';
+    teamId?: string;
+    role: 'SUPER_ADMIN' | 'MENTOR' | 'STUDENT' | 'ADMIN' | 'PLAYER';
     xpPoints: number;
     level: number;
     rankTier: string;

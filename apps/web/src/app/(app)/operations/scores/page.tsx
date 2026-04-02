@@ -1,8 +1,10 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import { HUDCard } from '@/components/ui/HUDCard';
 import { Save, Plus, Database, TrendingUp, Users } from 'lucide-react';
+import { useAuthStore } from '@/lib/store/useAuthStore';
+import { useRouter } from 'next/navigation';
+import { UserRole } from '@zapsters/database';
 
 interface Team {
     id?: string;
@@ -15,74 +17,64 @@ export default function BattleScoresPage() {
     const [teams, setTeams] = useState<Team[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const { user, token, isAuthenticated } = useAuthStore();
+    const router = useRouter();
 
     useEffect(() => {
-        const fetchTeams = async () => {
-            let apiTeams: any[] = [];
-            try {
-                const res = await fetch('http://localhost:5000/teams');
-                if (res.ok) {
-                    apiTeams = await res.json();
-                }
-            } catch (err) {
-                console.warn('Backend offline, using local registry');
-            }
-
-            // Sync with local teams
-            const localTeamsStr = localStorage.getItem('persistent_teams');
-            const localTeams = localTeamsStr ? JSON.parse(localTeamsStr) : [];
-            
-            const combined = [...apiTeams];
-            localTeams.forEach((lt: any) => {
-                const idx = combined.findIndex(ct => ct.name === lt.name);
-                if (idx !== -1) {
-                    combined[idx] = lt; // Local override
-                } else {
-                    combined.push(lt);
-                }
-            });
-
-            setTeams(combined.sort((a,b) => b.score - a.score));
-            setLoading(false);
-        };
+        if (!isAuthenticated || user?.role !== UserRole.ADMIN) {
+            router.push('/dashboard');
+            return;
+        }
         fetchTeams();
-    }, []);
+    }, [isAuthenticated, user, router]);
 
-    const handleScoreChange = (name: string, newScore: number) => {
-        setTeams(prev => prev.map(t => t.name === name ? { ...t, score: newScore } : t));
+    const fetchTeams = async () => {
+        if (!token) return;
+        setLoading(true);
+        try {
+            const res = await fetch('/api/teams', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setTeams(data.sort((a: any, b: any) => b.score - a.score));
+            }
+        } catch (err) {
+            console.error('Failed to fetch teams:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleScoreChange = (id: string, newScore: number) => {
+        setTeams(prev => prev.map(t => t.id === id ? { ...t, score: newScore } : t));
     };
 
     const handleSave = async (team: Team) => {
+        if (!team.id || !token) return;
         setSaving(true);
         
-        // 1. Update in Local Storage
-        const localTeamsStr = localStorage.getItem('persistent_teams');
-        let localTeams = localTeamsStr ? JSON.parse(localTeamsStr) : [];
-        
-        const idx = localTeams.findIndex((lt: any) => lt.name === team.name);
-        if (idx !== -1) {
-            localTeams[idx] = team;
-        } else {
-            localTeams.push(team);
-        }
-        localStorage.setItem('persistent_teams', JSON.stringify(localTeams));
+        try {
+            const res = await fetch(`/api/teams/${team.id}/score/set`, {
+                method: 'PATCH',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ score: team.score })
+            });
 
-        // 2. Try to update Backend API if ID exists
-        if (team.id) {
-            try {
-                await fetch(`http://localhost:5000/teams/${team.id}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ score: team.score })
-                });
-            } catch (err) {
-                console.warn('Backend update failed, kept in local registry');
+            if (res.ok) {
+                alert(`✅ SCORE SYNCED FOR ${team.name}`);
+            } else {
+                alert('❌ SYNC FAILED');
             }
+        } catch (err) {
+            console.error('Update failed:', err);
+            alert('❌ NETWORK FAILURE');
+        } finally {
+            setSaving(false);
         }
-
-        setSaving(false);
-        // Dispatch update event for navbar/dashboard
-        window.dispatchEvent(new Event('profile_update'));
     };
 
     if (loading) return (
@@ -131,15 +123,15 @@ export default function BattleScoresPage() {
                                     <p className="text-white/20 text-[7px] sm:text-[8px] tracking-[0.2em] sm:tracking-[0.3em] font-black text-left sm:text-right uppercase">CURRENT SCORE</p>
                                     <input 
                                         type="number" 
-                                        value={team.score}
-                                        onChange={(e) => handleScoreChange(team.name, parseInt(e.target.value) || 0)}
+                                        value={team.score ?? 0}
+                                        onChange={(e) => handleScoreChange(team.id || '', parseInt(e.target.value) || 0)}
                                         className="w-24 sm:w-32 bg-white/5 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-xl sm:text-2xl font-black text-right focus:border-[#E81414] focus:outline-none transition-all"
                                     />
                                 </div>
                                 <button 
                                     onClick={() => handleSave(team)}
                                     disabled={saving}
-                                    className="p-3 sm:p-4 bg-white hover:bg-[#E81414] text-black hover:text-white rounded-xl transition-all border-none mt-4 sm:mt-0"
+                                    className="p-3 sm:p-4 bg-white hover:bg-[#E81414] text-black hover:text-white rounded-xl transition-all border-none mt-4 sm:mt-0 flex items-center justify-center min-w-[56px]"
                                 >
                                     <Save size={20} className="sm:w-6 sm:h-6" />
                                 </button>

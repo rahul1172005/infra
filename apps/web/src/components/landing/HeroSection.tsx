@@ -22,7 +22,7 @@ export function HeroSection() {
  <Link href="/dashboard"className="bg-[#FFD700] text-black font-bold text-xs px-6 py-3 tracking-widest uppercase hover:bg-white hover:text-black transition-colors rounded-sm border border-[#FFD700]">
  BOOST SECURITY
  </Link>
- <Link href="/arena"className="bg-transparent text-[#FFD700] font-bold text-xs px-6 py-3 tracking-widest uppercase hover:bg-[#FFD700]/10 transition-colors rounded-sm border border-[#FFD700]">
+  <Link href="/dashboard"className="bg-transparent text-[#FFD700] font-bold text-xs px-6 py-3 tracking-widest uppercase hover:bg-[#FFD700]/10 transition-colors rounded-sm border border-[#FFD700]">
  ABOUT CIPHER
  </Link>
  </div>

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { AuthProvider } from '@/components/providers/AuthProvider';
 import { MusicProvider } from '@/components/providers/MusicProvider';
 
 export const metadata: Metadata = {
@@ -35,7 +36,9 @@ export default function RootLayout({
         suppressHydrationWarning
         style={{ fontFamily: "'Game of Thrones', 'Adieu', sans-serif" }}
       >
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <MusicProvider />
       </body>
     </html>

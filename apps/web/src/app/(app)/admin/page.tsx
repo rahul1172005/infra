@@ -9,8 +9,20 @@ import { Button } from '@/components/ui/Button';
 import { ActionCard } from '@/components/ui/ActionCard';
 import { adminConfig } from '@/configs/admin';
 import { Shield, Users } from 'lucide-react';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { UserRole } from '@zapsters/database';
 
 export default function AdminPage() {
+    const { user, isAuthenticated } = useAuthStore();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!isAuthenticated || user?.role !== UserRole.ADMIN) {
+            router.push('/dashboard');
+        }
+    }, [isAuthenticated, user, router]);
     const logs = [
         { time: "09:21:42", category: "AUTH", message: "ROOT IDENTIFIER SYNCED FROM 192.168.1.1", type: "default" },
         { time: "09:22:15", category: "KERNEL", message: "DB SHARD SEQUENCE 04 INITIATED", type: "accent" },

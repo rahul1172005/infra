@@ -5,9 +5,13 @@ import { Music } from 'lucide-react';
 import { GoogleIcon } from '@/components/icons/GoogleIcon';
 import { Button } from '@/components/ui/Button';
 import { useMusicStore } from '@/lib/store/useMusicStore';
+import { useAuthStore } from '@/lib/store/useAuthStore';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const { isPlaying, isOpen, toggleOpen } = useMusicStore();
+  const { isAuthenticated, user } = useAuthStore();
+  const router = useRouter();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/5">
@@ -30,7 +34,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2 md:gap-6">
-          {/* Music Toggle Button (Clean - No Hover Effect) */}
+          {/* Music Toggle Button */}
           <button
             onClick={toggleOpen}
             className={`flex items-center justify-center gap-2 md:gap-3 px-3 md:px-6 h-[40px] md:h-auto md:py-3 border rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-none group shrink-0 ${isOpen ? 'bg-[#E81414] border-[#E81414] text-white' : 'border-white/10 text-white/60'}`}
@@ -41,7 +45,7 @@ export default function Navbar() {
                 alt=""
                 className="w-full h-full object-contain brightness-0 invert"
                 style={{
-                  transform: 'scale(3) translateX(0px) translateY(0px)' // CUSTOM SCALE AND POS FOR NAVBAR
+                  transform: 'scale(3) translateX(0px) translateY(0px)'
                 }}
               />
             </div>
@@ -55,16 +59,35 @@ export default function Navbar() {
             )}
           </button>
 
-          <Link href="/auth/login" className="hidden lg:block">
-            <Button
-              variant="outline"
-              size="md"
-              className=""
-              icon={() => <GoogleIcon size={18} />}
+          {!isAuthenticated ? (
+            <Link href="/auth/login" className="hidden lg:block">
+              <Button
+                variant="outline"
+                size="md"
+                className=""
+                icon={() => <GoogleIcon size={18} />}
+              >
+                <span>SIGN IN</span>
+              </Button>
+            </Link>
+          ) : (
+            <div
+              onClick={() => router.push('/profile')}
+              className="hidden lg:flex items-center gap-4 px-5 py-2 border border-white/10 rounded-full cursor-pointer hover:bg-white/5 transition-all group"
             >
-              <span>SIGN IN</span>
-            </Button>
-          </Link>
+              <span className="text-[10px] font-black uppercase tracking-[0.1em] text-white/60 truncate max-w-[100px]">
+                {user?.nickname || user?.name?.split(' ')[0] || 'ZAPSTER'}
+              </span>
+              <div className="w-9 h-9 bg-white/10 flex items-center justify-center shrink-0 rounded-full text-black font-black text-xs overflow-hidden border border-white/10 transition-all group-hover:border-white/30">
+
+                {user?.picture ? (
+                  <img src={user.picture} alt="P" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-[9px] text-white/40">{user?.name?.[0] || 'Z'}</span>
+                )}
+              </div>
+            </div>
+          )}
 
           <Link href="/dashboard" className="shrink-0">
             <Button

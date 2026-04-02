@@ -8,7 +8,7 @@
     ],
     "scripts": {
         "build": "npm run build -w @zapsters/types && npm run build -w @zapsters/database && npm run build -w @zapsters/api && npm run build -w web",
-        "dev": "concurrently \"npm run dev -w @zapsters/api\" \"npm run dev -w web\"",
+        "dev": "concurrently \"npm run dev -w @zapsters/api > api.log 2>&1\" \"npm run dev -w web\"",
         "lint": "npm run lint --workspaces --if-present",
         "test": "npm run test --workspaces --if-present"
     },
