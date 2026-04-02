@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import { MusicProvider } from '@/components/providers/MusicProvider';
+import { GoogleProvider } from '@/components/providers/GoogleProvider';
 
 export const metadata: Metadata = {
   title: "Zapsters — The Iron Throne",
@@ -36,9 +37,11 @@ export default function RootLayout({
         suppressHydrationWarning
         style={{ fontFamily: "'Game of Thrones', 'Adieu', sans-serif" }}
       >
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <GoogleProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </GoogleProvider>
         <MusicProvider />
       </body>
     </html>
