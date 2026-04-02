@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { ActionCard } from '@/components/ui/ActionCard';
 import { adminConfig } from '@/configs/admin';
 import { Shield, Users } from 'lucide-react';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useAuthStore } from '@/lib/store/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { UserRole } from '@zapsters/database';

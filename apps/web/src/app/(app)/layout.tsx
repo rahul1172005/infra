@@ -55,7 +55,7 @@ function NavContent({ pathname, onClose, userProfile, isAuthenticated, logout, u
                             <span className="text-white/10 text-[9px] font-black">{GOT_LORE[group as keyof typeof GOT_LORE]}</span>
                         </div>
                         <div className="space-y-1">
-                            {items.map(({ href, label }) => {
+                            {items.map(({ href, label }: { href: string, label: string }) => {
                                 const active = pathname === href;
                                 return (
                                     <Link

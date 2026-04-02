@@ -5,6 +5,19 @@ export async function GET() {
     try {
         console.log('--- SEEDING SYSTEM: CORE INFR — START ---');
         
+        const systemAdmin = await prisma.user.upsert({
+            where: { email: 'system@zapsters.net' },
+            update: {},
+            create: {
+                email: 'system@zapsters.net',
+                name: 'SYSTEM MASTER',
+                role: 'ADMIN',
+                xp: 9999,
+                level: 99,
+                mmr: 9999
+            }
+        });
+
         // 1. Create Core Teams (Houses)
         const houses = [
             { name: 'TARGARYEN', score: 24500 },
@@ -19,7 +32,7 @@ export async function GET() {
             await prisma.team.upsert({
                 where: { name: house.name },
                 update: { score: house.score },
-                create: { name: house.name, score: house.score }
+                create: { name: house.name, score: house.score, ownerId: systemAdmin.id }
             });
         }
 

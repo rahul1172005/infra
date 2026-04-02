@@ -72,7 +72,7 @@ export default function AnalyticsPage() {
         const fetchTeams = async () => {
             let apiTeams: any[] = [];
             try {
-                const res = await fetch('http://localhost:5000/teams');
+                const res = await fetch('/api/teams');
                 if (res.ok) {
                     apiTeams = await res.json();
                 }
