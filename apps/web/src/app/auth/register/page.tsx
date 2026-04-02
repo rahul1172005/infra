@@ -4,9 +4,14 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { GOTIcon } from '@/components/icons/GOTIcon';
 import Link from 'next/link';
-import { useGoogleLogin } from '@react-oauth/google';
 import { useAuthStore } from '@/lib/store/useAuthStore';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const GoogleLoginButton = dynamic(
+    () => import("../login/GoogleLoginButton"),
+    { ssr: false }
+);
 
 const DotGrid = () => (
     <div className="absolute inset-0 dot-grid opacity-[0.05] pointer-events-none" />
@@ -50,42 +55,7 @@ export default function RegisterPage() {
         }
     };
 
-    const googleLogin = useGoogleLogin({
-        onSuccess: async (tokenResponse) => {
-            setIsLoading(true);
-            try {
-                // Requirement 3 & 9: Use our local Next.js API route
-                const response = await fetch('/api/auth/google', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: tokenResponse.access_token }),
-                });
 
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    console.log('--- REGISTRATION/LOGIN SUCCESSFUL ---', result.user.email);
-                    if (login) login(result.user, result.access_token);
-                    router.push('/');
-                } else {
-                    console.error('CRITICAL: Registration failed:', result.message || 'Unknown error');
-                    alert(`Initialization failed: ${result.message || 'Verification error'}`);
-                }
-            } catch (err) {
-                console.error('CRITICAL: Fetch failed for Google registration:', {
-                    error: err,
-                    message: err instanceof Error ? err.message : String(err)
-                });
-                alert('Connection error during initialization');
-            } finally {
-                setIsLoading(false);
-            }
-        },
-        onError: () => {
-            console.error('Google Registration Failed');
-            setIsLoading(false);
-        }
-    });
 
     return (
         <div className="min-h-screen bg-black text-white flex selection:bg-[#E81414] selection:text-white relative overflow-hidden">
@@ -165,13 +135,11 @@ export default function RegisterPage() {
                     </div>
 
                     {/* Google Sign In — Primary */}
-                    <button
-                        className="w-full flex items-center justify-center gap-4 px-8 py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.5em] hover:bg-[#E81414] hover:text-white transition-all group rounded-full shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                        onClick={() => googleLogin()}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'INITIATING...' : 'REGISTER WITH GOOGLE'}
-                    </button>
+                    <GoogleLoginButton 
+                        isLoading={isLoading} 
+                        setIsLoading={setIsLoading} 
+                        label="REGISTER WITH GOOGLE" 
+                    />
 
                     {/* Divider */}
                     <div className="flex items-center gap-6">

@@ -6,10 +6,14 @@ import { useRouter } from 'next/navigation';
 
 export default function GoogleLoginButton({
   isLoading,
-  setIsLoading
+  setIsLoading,
+  label = 'SIGN IN WITH GOOGLE',
+  loadingLabel = 'INITIATING...',
 }: {
   isLoading: boolean;
   setIsLoading: (val: boolean) => void;
+  label?: string;
+  loadingLabel?: string;
 }) {
     const { login } = useAuthStore();
     const router = useRouter();
@@ -56,7 +60,7 @@ export default function GoogleLoginButton({
             onClick={() => googleLogin()}
             disabled={isLoading}
         >
-            {isLoading ? 'INITIATING...' : 'SIGN IN WITH GOOGLE'}
+            {isLoading ? loadingLabel : label}
         </button>
     );
 }
