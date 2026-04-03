@@ -77,7 +77,7 @@ export const StatCard = ({
 
             <h3 className={`
                 ${isVeryLongValue ? 'text-lg md:text-2xl' : isLongValue ? 'text-xl md:text-4xl' : 'text-2xl md:text-6xl'} 
-                font-black tracking-tighter leading-none mt-auto relative z-10 transition-all duration-500 group-hover:-translate-y-1 uppercase
+                font-black tracking-[0.08em] leading-[1.2] mt-auto relative z-10 transition-all duration-500 group-hover:-translate-y-1 uppercase
                 ${isOversight ? 'text-white group-hover:text-black' : 'text-black'}
             `}>
                 {value}
