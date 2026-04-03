@@ -9,7 +9,7 @@ export const adminConfig = {
     ],
     header: {
         title: "SYSTEM",
-        accentTitle: "OVERWATCH.",
+        accentTitle: "OVERWATCH",
         topLabel: "ROOT SUPERVISOR CMD",
         status: {
             label: "OVERWATCH STATUS",
