@@ -23,8 +23,12 @@ export default function Home() {
 
   useEffect(() => {
     setIsMounted(true);
-    if (sessionStorage.getItem('skipZapstersWelcome') === 'true') {
-      setEntered(true);
+    try {
+      if (sessionStorage.getItem('skipZapstersWelcome') === 'true') {
+        setEntered(true);
+      }
+    } catch (e) {
+      console.warn('Session storage not available', e);
     }
   }, []);
 
@@ -39,8 +43,25 @@ export default function Home() {
     return () => { document.body.style.overflow = ''; };
   }, [entered, isMounted]);
 
+  // Scroll to top AFTER DOM settles when entering home page
+  useEffect(() => {
+    if (!entered || !isMounted) return;
+    // Double requestAnimationFrame ensures we run after paint
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
+    });
+  }, [entered, isMounted]);
+
   const handleEnter = () => {
-    sessionStorage.setItem('skipZapstersWelcome', 'true');
+    try {
+      sessionStorage.setItem('skipZapstersWelcome', 'true');
+    } catch (e) {
+      console.warn('Session storage not available', e);
+    }
     setEntered(true);
   };
 
@@ -54,7 +75,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <div className={`min-h-screen bg-black text-white selection:bg-[#E81414] selection:text-white overflow-x-hidden transition-opacity duration-1000 ${entered ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+      <div className={`min-h-screen bg-black text-white selection:bg-[#E81414] selection:text-white overflow-x-hidden transition-opacity duration-700 ${entered ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'}`} aria-hidden={!entered}>
         <Scanlines />
         <Navbar />
 

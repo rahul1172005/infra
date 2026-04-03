@@ -19,26 +19,23 @@ export default function EnterButtons({ onEnter, className = '', variant = 'mobil
   if (variant === 'mobile') {
     return (
       <div className={`flex flex-col gap-3 w-full ${className}`}>
-        <Link href="/dashboard" className="w-full">
+        <Button
+          size="lg"
+          className="w-full"
+          onClick={onEnter}
+        >
+          {isAuthenticated ? 'CONTINUE TO REALM' : 'ENTER'}
+        </Button>
+        <Link href="/auth/login">
           <Button
+            variant="outline"
             size="lg"
             className="w-full"
+            icon={() => <GoogleIcon />}
           >
-            {isAuthenticated ? 'CONTINUE TO REALM' : 'ENTER'}
+            SIGN IN WITH GOOGLE
           </Button>
         </Link>
-        {!isAuthenticated && (
-          <Link href="/auth/login">
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full"
-              icon={() => <GoogleIcon />}
-            >
-              SIGN IN WITH GOOGLE
-            </Button>
-          </Link>
-        )}
       </div>
     );
   }
@@ -54,17 +51,15 @@ export default function EnterButtons({ onEnter, className = '', variant = 'mobil
             {isAuthenticated ? 'CONTINUE TO REALM' : 'ENTER'}
           </Button>
         </Link>
-        {!isAuthenticated && (
-          <Link href="/auth/login">
-            <Button
-              variant="outline"
-              size="md"
-              icon={() => <GoogleIcon />}
-            >
-              SIGN IN WITH GOOGLE
-            </Button>
-          </Link>
-        )}
+        <Link href="/auth/login">
+          <Button
+            variant="outline"
+            size="md"
+            icon={() => <GoogleIcon />}
+          >
+            SIGN IN WITH GOOGLE
+          </Button>
+        </Link>
       </div>
     );
   }
@@ -77,18 +72,16 @@ export default function EnterButtons({ onEnter, className = '', variant = 'mobil
           {isAuthenticated ? 'CONTINUE TO REALM' : 'INITIALIZE SESSION'}
         </Button>
       </Link>
-      {!isAuthenticated && (
-        <Link href="/auth/login" className="flex-1 lg:flex-none">
-          <Button
-            variant="outline"
-            size="xl"
-            className="w-full"
-            icon={() => <GoogleIcon />}
-          >
-            SIGN IN WITH GOOGLE
-          </Button>
-        </Link>
-      )}
+      <Link href="/auth/login" className="flex-1 lg:flex-none">
+        <Button
+          variant="outline"
+          size="xl"
+          className="w-full"
+          icon={() => <GoogleIcon />}
+        >
+          SIGN IN WITH GOOGLE
+        </Button>
+      </Link>
     </div>
   );
 }
