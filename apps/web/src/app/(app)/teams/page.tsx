@@ -192,7 +192,7 @@ export default function TeamsPage() {
                         padding="none"
                         title="ACTIVE HOUSES"
                         tag="REALM STATUS"
-                        icon={<GOTIcon type="globe" size={56} className="opacity-60" scale={1.6} x={0} y={0} />}
+                        icon={<GOTIcon variant="white" size={48} className="opacity-60" scale={1.2} x={0} y={0} />}
                     >
                         <div className="divide-y divide-white/5">
                             {loading && (
@@ -223,9 +223,9 @@ export default function TeamsPage() {
                                             <div className="space-y-2 min-w-0">
                                                 {/* Team name — no truncate, full visibility */}
                                                 <div className="flex items-center gap-3 flex-wrap">
-                                                    <h4 className="text-xl md:text-3xl font-black tracking-tighter uppercase text-white group-hover:text-black transition-colors duration-500 break-all">
-                                                        {group.name}
-                                                    </h4>
+                                                    <h4 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tight uppercase text-white group-hover:text-black transition-colors duration-500 break-words leading-tight">
+                                                         {group.name}
+                                                     </h4>
                                                     {/* Mode tag */}
                                                     <span className="text-[8px] bg-white/10 text-white/60 px-3 py-1 rounded-full font-black tracking-widest border border-white/10 shrink-0">
                                                         {teamMode}
@@ -289,7 +289,7 @@ export default function TeamsPage() {
 
                 {/* Right: Sidebar */}
                 <div className="xl:col-span-4 space-y-12">
-                    <HUDCard title="DECLARE A HOUSE" tag="FOUNDATION" icon={<GOTIcon type="zap" size={56} className="text-[#E81414]" scale={1.6} x={0} y={0} />}>
+                    <HUDCard title="DECLARE A HOUSE" tag="FOUNDATION" icon={<GOTIcon variant="white" size={48} className="opacity-60" scale={1.2} x={0} y={0} />}>
                         <div className="space-y-8 p-6">
                             <p className="text-[11px] tracking-[0.1em] font-black uppercase leading-relaxed text-white/30">
                                 INITIALIZE A NEW TACTICAL UNIT. ALL FIELDS MUST BE VALIDATED BEFORE DEPLOYMENT.
@@ -306,7 +306,7 @@ export default function TeamsPage() {
                         </div>
                     </HUDCard>
 
-                    <HUDCard title="COUNCIL" tag="DECREE" icon={<GOTIcon type="shield" size={56} className="opacity-50" scale={1.6} x={0} y={0} />}>
+                    <HUDCard title="COUNCIL" tag="DECREE" icon={<GOTIcon variant="white" size={48} className="opacity-60" scale={1.2} x={0} y={0} />}>
                         <div className="space-y-6 p-10">
                             <p className="text-[11px] tracking-[0.1em] font-black uppercase leading-relaxed text-white/30">
                                 HOUSES ARE RESTRICTED TO A MAXIMUM OF 20 MEMBERS PER UNIT. PROVINCE SELECTION MUST BE SYNCHRONIZED ACROSS ALL ASSIGNED UNITS BY ROYAL DECREE.

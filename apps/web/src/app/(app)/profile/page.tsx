@@ -249,7 +249,7 @@ export default function ProfilePage() {
                         ) : (
                             <div className="space-y-4">
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-                                    <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter">
+                                    <h2 className="text-4xl md:text-6xl lg:text-8xl font-black uppercase tracking-tight md:tracking-normal leading-[1.1] break-words">
                                         {profile.nickname || profile.name}
                                     </h2>
                                     {profile.role && (
@@ -270,10 +270,10 @@ export default function ProfilePage() {
             </HUDCard>
 
             <StatGrid stats={[
-                { title: "BATTLE RECORD", value: `${profile.matchesWon} WON`, icon: (props: any) => <GOTIcon type="trophy" {...props} scale={1.6} x={0} y={0} />, color: "text-[#E81414]" },
-                { title: "HONOR XP", value: profile.xp.toLocaleString(), icon: (props: any) => <GOTIcon type="zap" {...props} scale={1.6} x={0} y={0} />, color: "text-white" },
-                { title: "SUBMISSIONS", value: profile.submissions.toString(), icon: (props: any) => <GOTIcon type="hand" {...props} scale={1.6} x={0} y={0} />, color: "text-white" },
-                { title: "REALM LEVEL", value: `LVL ${profile.level}`, icon: (props: any) => <GOTIcon type="shield" {...props} scale={1.6} x={0} y={0} />, color: "text-[#E81414]" }
+                { title: "BATTLE RECORD", value: `${profile.matchesWon} WON`, icon: (props: any) => <GOTIcon variant="white" {...props} scale={1.2} x={0} y={0} />, color: "text-[#E81414]" },
+                { title: "HONOR XP", value: profile.xp.toLocaleString(), icon: (props: any) => <GOTIcon variant="white" {...props} scale={1.2} x={0} y={0} />, color: "text-white" },
+                { title: "SUBMISSIONS", value: profile.submissions.toString(), icon: (props: any) => <GOTIcon variant="white" {...props} scale={1.2} x={0} y={0} />, color: "text-white" },
+                { title: "REALM LEVEL", value: `LVL ${profile.level}`, icon: (props: any) => <GOTIcon variant="white" {...props} scale={1.2} x={0} y={0} />, color: "text-[#E81414]" }
             ]} variant="oversight" />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">

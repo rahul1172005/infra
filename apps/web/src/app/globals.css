@@ -47,9 +47,9 @@
   --radius-md: 0.75rem;
   --radius-sm: 0.5rem;
 
-  --font-sans: 'Game of Thrones', 'Adieu', ui-sans-serif, system-ui, sans-serif;
-  --font-title: 'Game of Thrones', 'Adieu', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Game of Thrones', 'Adieu', ui-monospace, monospace;
+  --font-sans: 'Game of Thrones', sans-serif;
+  --font-title: 'Game of Thrones', sans-serif;
+  --font-mono: 'Game of Thrones';
 
   --text-xs: 0.65rem;
   --text-sm: 0.75rem;
@@ -65,18 +65,18 @@
   --text-8xl: 4.5rem;
   --text-9xl: 6rem;
 
-  /* ── Override tracking scale: flip all negative values to positive ── */
-  --tracking-tighter:  0.06em;
-  --tracking-tight:    0.04em;
+  /* ── Override tracking scale: Ensure positive spacing for Game of Thrones font ── */
+  --tracking-tighter:  0.01em;
+  --tracking-tight:    0.025em;
   --tracking-normal:   0.05em;
   --tracking-wide:     0.1em;
   --tracking-wider:    0.15em;
   --tracking-widest:   0.25em;
 
   /* ── Line-height (leading) overrides for generous spacing ── */
-  --leading-none:      1.2;
-  --leading-tight:     1.35;
-  --leading-snug:      1.45;
+  --leading-none:      1.3;
+  --leading-tight:     1.4;
+  --leading-snug:      1.5;
   --leading-normal:    1.6;
   --leading-relaxed:   1.75;
   --leading-loose:     2;
@@ -101,7 +101,7 @@
   body {
     background-color: #000000;
     color: #FFFFFF;
-    font-family: var(--font-title);
+    font-family: 'Game of Thrones', sans-serif;
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
     touch-action: pan-y;
@@ -120,20 +120,22 @@
   h5,
   h6 {
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 400;
     letter-spacing: 0.12em;
     line-height: 1.5;
-    font-family: var(--font-title);
+    font-family: 'Game of Thrones', sans-serif;
   }
 
   p {
     letter-spacing: 0.06em;
     line-height: 1.8;
+    font-family: 'Game of Thrones', sans-serif;
   }
 
   span {
     letter-spacing: inherit;
     line-height: inherit;
+    font-family: inherit;
   }
 
   label {
@@ -163,6 +165,20 @@
 
 /* ── Utility Classes (Minimalist Industrial) ──────────────────────────── */
 @layer utilities {
+  .font-got {
+    font-family: 'Game of Thrones', sans-serif !important;
+    font-variant-numeric: normal !important;
+    font-feature-settings: normal !important;
+  }
+
+  .tabular-nums {
+    font-family: 'Game of Thrones', sans-serif !important;
+    font-weight: 400 !important;
+    font-variant-numeric: normal !important;
+    font-feature-settings: normal !important;
+    letter-spacing: 0.05em !important;
+  }
+
   .dot-grid {
     background-image: radial-gradient(circle, #FFFFFF 0.5px, transparent 0.5px);
     background-size: 24px 24px;
@@ -215,11 +231,17 @@
 
   /* Ensure normal font rendering without feature overrides */
   body,
-  .tabular-nums,
   .font-black,
   .font-bold {
     font-feature-settings: normal !important;
     font-variant-numeric: normal !important;
+  }
+
+  .tabular-nums {
+    font-family: 'Game of Thrones', 'Adieu', sans-serif !important;
+    font-weight: 400 !important;
+    font-variant-numeric: tabular-nums !important;
+    letter-spacing: 0 !important;
   }
 
   /* Utility to hide scrollbars */
@@ -312,5 +334,10 @@
   }
   .playlist-scroll::-webkit-scrollbar-thumb:hover {
     background: rgba(232, 20, 20, 1) !important;
+  }
+
+  /* Domain card icon: stays white always — visible on both dark and red backgrounds */
+  .icon-wrap img {
+    transition: filter 0.5s ease;
   }
 }

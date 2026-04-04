@@ -66,7 +66,7 @@ export const PageHeader = ({
                         </span>
                     )}
                     <h1 className={`
-                        text-2xl sm:text-3xl md:text-5xl lg:text-[5rem] font-black tracking-[0.1em] uppercase leading-[1.2]
+                        text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-black tracking-tight md:tracking-normal uppercase leading-[1.1] break-words
                         ${isOversight ? 'text-white' : 'text-black'}
                     `}>
                         {title}

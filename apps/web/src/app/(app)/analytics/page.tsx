@@ -167,7 +167,7 @@ export default function AnalyticsPage() {
     if (!mounted) return null;
 
     return (
-        <div className="w-full pb-24 bg-[#000000] min-h-screen font-mono relative text-white">
+        <div className="w-full pb-24 bg-[#000000] min-h-screen font-normal relative text-white">
             <div
                 className="fixed inset-0 opacity-[0.025] pointer-events-none"
                 style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}
@@ -242,7 +242,7 @@ export default function AnalyticsPage() {
                                         <div className="h-20 overflow-hidden relative">
                                             <div className="space-y-1 animate-slide-up">
                                                 {commandLogs.map((log, i) => (
-                                                    <div key={i} className="flex justify-between items-center text-[8px] font-black font-mono">
+                                                    <div key={i} className="flex justify-between items-center text-[8px] font-normal tabular-nums">
                                                         <span className="text-white/40">{log.action}</span>
                                                         <span className="text-[#E81414]/40">{log.timestamp}</span>
                                                     </div>
@@ -282,12 +282,12 @@ export default function AnalyticsPage() {
                                     <div className="h-[300px] sm:h-[400px] w-full p-3 sm:p-8">
                                         <div className="flex items-center justify-start gap-4 sm:gap-6 mb-4 sm:mb-8 flex-wrap">
                                             <div>
-                                                <p className="text-white/30 text-[8px] font-black uppercase tracking-widest">Active Nodes</p>
-                                                <p className="text-white font-mono text-base sm:text-lg leading-none mt-1">{filteredData.length}</p>
+                                                <p className="text-white/30 text-[8px] font-normal uppercase tracking-widest">Active Nodes</p>
+                                                <p className="text-white tabular-nums text-base sm:text-lg leading-none mt-1">{filteredData.length}</p>
                                             </div>
                                             <div>
-                                                <p className="text-white/30 text-[8px] font-black uppercase tracking-widest">Avg Pulse</p>
-                                                <p className="text-[#E81414] font-mono text-base sm:text-lg leading-none mt-1">84%</p>
+                                                <p className="text-white/30 text-[8px] font-normal uppercase tracking-widest">Avg Pulse</p>
+                                                <p className="text-[#E81414] tabular-nums text-base sm:text-lg leading-none mt-1">84%</p>
                                             </div>
                                         </div>
 
@@ -430,7 +430,7 @@ export default function AnalyticsPage() {
                                         <div className="space-y-3 py-1">
                                             {chartData.slice(0, 4).map((clan, i) => (
                                                 <div key={i} className="space-y-1">
-                                                    <div className="flex justify-between text-[8px] font-black font-mono">
+                                                    <div className="flex justify-between text-[8px] font-normal tabular-nums">
                                                         <span className="text-white/25 uppercase truncate max-w-[120px]">{clan.team}</span>
                                                         <span className="text-white/50">{Math.floor(clan.velocity)}%</span>
                                                     </div>
@@ -484,7 +484,7 @@ export default function AnalyticsPage() {
                                         >
                                             <div className="space-y-4">
                                                 <div>
-                                                    <p className="text-[7px] text-white/20 group-hover:text-black/60 font-black tracking-widest font-mono mb-1 transition-colors duration-500">{team.id}</p>
+                                                    <p className="text-[7px] text-white/20 group-hover:text-black/60 font-normal tracking-widest mb-1 transition-colors duration-500">{team.id}</p>
                                                     <p className="text-[13px] font-black text-white group-hover:text-black uppercase tracking-tight leading-tight truncate transition-colors duration-500">{team.team}</p>
                                                     <p className="text-[7px] font-black tracking-[0.3em] text-white/15 group-hover:text-black/50 uppercase mt-1 transition-colors duration-500">{team.sector}</p>
                                                 </div>
@@ -540,9 +540,9 @@ export default function AnalyticsPage() {
                                     ) : (
                                         <div className="space-y-3 max-h-[220px] overflow-y-auto no-scrollbar">
                                             {commandLogs.map((log, i) => (
-                                                <div key={i} className="flex gap-5 items-center text-[10px] font-mono">
-                                                    <span className="text-white/10 shrink-0 tabular-nums">[{log.timestamp}]</span>
-                                                    <span className="text-[#E81414] font-black shrink-0">❯❯</span>
+                                                <div key={i} className="flex gap-5 items-center text-[10px] font-normal tabular-nums">
+                                                    <span className="text-white/10 shrink-0">[{log.timestamp}]</span>
+                                                    <span className="text-[#E81414] font-normal shrink-0">❯❯</span>
                                                     <span className="text-white/60 tracking-widest uppercase font-bold flex-1 truncate">{log.action}</span>
                                                     <span className="text-white/15 shrink-0">[SIG OK]</span>
                                                 </div>

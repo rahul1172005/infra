@@ -8,7 +8,7 @@ interface ButtonProps {
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'icon';
   icon?: any;
   className?: string;
   disabled?: boolean;
@@ -42,6 +42,7 @@ export function Button({
     md: 'px-6 py-3 text-[10px] min-h-[44px]',
     lg: 'px-8 py-4 text-[11px] md:text-[12px] min-h-[52px]',
     xl: 'px-10 py-5 text-[12px] md:text-[14px] min-h-[64px]',
+    icon: 'p-0 w-10 h-10 min-h-0',
   };
 
   return (

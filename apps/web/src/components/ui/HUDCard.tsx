@@ -22,6 +22,7 @@ interface HUDCardProps {
     variant?: string;
     group?: boolean;
     actions?: React.ReactNode;
+    style?: React.CSSProperties;
 }
 
 export const HUDCard = ({
@@ -41,10 +42,11 @@ export const HUDCard = ({
     icon,
     variant,
     group,
-    actions
+    actions,
+    style
 }: HUDCardProps) => {
     return (
-        <div className={`bg-black border border-white/10 rounded-[2.5rem] overflow-hidden relative flex flex-col ${className}`}>
+        <div style={style} className={`bg-black border border-white/10 rounded-[2.5rem] overflow-hidden relative flex flex-col ${className}`}>
             {showDotGrid && <DotGrid opacity={dotGridOpacity} />}
             
             {(title || subtitle || statusLabel) && (
@@ -56,10 +58,10 @@ export const HUDCard = ({
                                 {typeof icon === 'function' ? React.createElement(icon as any) : icon}
                             </div>
                         )}
-                        <div className="flex flex-col gap-2">
-                            {tag && <span className="text-[7px] tracking-[0.4em] font-black uppercase text-[#E81414] mb-1">{tag}</span>}
-                             {title && <h3 className="text-xs md:text-sm tracking-[0.3em] md:tracking-[0.4em] font-black uppercase leading-[1.4]">{title}</h3>}
-                             {subtitle && <p className="text-[7px] md:text-[9px] tracking-[0.3em] font-black uppercase text-white/30">{subtitle}</p>}
+                        <div className="flex flex-col gap-1.5 md:gap-2 min-w-0">
+                            <span className="text-[8px] md:text-[10px] tracking-[0.4em] font-black opacity-30 uppercase leading-none">{tag}</span>
+                            <h3 className="text-xl sm:text-2xl md:text-3xl font-black tracking-[0.05em] md:tracking-[0.1em] uppercase leading-snug break-words">{title}</h3>
+                            {subtitle && <p className="text-[7px] md:text-[9px] tracking-[0.3em] font-black uppercase text-white/30">{subtitle}</p>}
                         </div>
                     </div>
                     {(statusLabel || actions) && (

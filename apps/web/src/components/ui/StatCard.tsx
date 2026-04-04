@@ -30,7 +30,7 @@ export const StatCard = ({
         if (!icon) return null;
         if (React.isValidElement(icon)) return icon;
         const IconComponent = icon as React.ElementType;
-        return <IconComponent className="w-6 h-6 md:w-10 md:h-10 transition-all duration-300" strokeWidth={2} />;
+        return <IconComponent className="w-8 h-8 md:w-14 md:h-14 transition-all duration-300" strokeWidth={2} />;
     };
 
     return (
@@ -40,8 +40,8 @@ export const StatCard = ({
                 group transition-all duration-300 relative overflow-hidden h-full 
                 rounded-[2.5rem]
                 ${isOversight
-                    ? 'bg-black border-white/5 hover:bg-[#E81414] hover:border-[#E81414] text-white hover:text-black'
-                    : 'bg-white border-black hover:bg-[#E81414] hover:text-black'}
+                    ? 'bg-black border-white/5 text-white'
+                    : 'bg-white border-black text-black'}
                 ${className}
             `}
         >
@@ -51,7 +51,7 @@ export const StatCard = ({
                 <div className="flex-1 text-left">
                     <span className={`
                         text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] 
-                        transition-all block whitespace-nowrap
+                        transition-all block whitespace-normal break-words
                         ${isOversight
                             ? 'text-white/40 group-hover:text-black group-hover:opacity-100'
                             : 'text-black/40 group-hover:text-black group-hover:opacity-100'}
@@ -77,9 +77,9 @@ export const StatCard = ({
 
             <h3 className={`
                 ${isVeryLongValue ? 'text-lg md:text-2xl' : isLongValue ? 'text-xl md:text-4xl' : 'text-2xl md:text-6xl'} 
-                font-black tracking-[0.08em] leading-[1.2] mt-auto relative z-10 transition-all duration-500 group-hover:-translate-y-1 uppercase
+                font-normal leading-[1.2] mt-auto relative z-10 transition-all duration-500 group-hover:-translate-y-1 uppercase
                 ${isOversight ? 'text-white group-hover:text-black' : 'text-black'}
-            `}>
+            `} style={{ fontFamily: "'Game of Thrones'" }}>
                 {value}
             </h3>
         </div>

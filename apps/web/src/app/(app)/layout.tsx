@@ -32,7 +32,7 @@ function NavContent({ pathname, onClose, userProfile, isAuthenticated, logout, u
             {/* Header / Logo */}
             <div className="h-20 border-b-2 border-white/10 flex items-center px-8 bg-black group hover:bg-white transition-all duration-300 relative z-10">
                 <Link href="/" onClick={onClose} className="flex items-center gap-4">
-                    <div className="w-12 h-12 flex items-center justify-center transition-transform">
+                    <div className="w-16 h-16 flex items-center justify-center transition-transform">
                         <img
                             src="/logo.png"
                             alt="Zapsters Logo"
@@ -40,8 +40,8 @@ function NavContent({ pathname, onClose, userProfile, isAuthenticated, logout, u
                         />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-white group-hover:text-black text-[12px] tracking-[0.5em] font-black uppercase transition-colors ">ZAPSTERS</span>
-                        <span className="text-white/40 group-hover:text-black/30 text-[8px] tracking-[0.3em] font-black transition-colors  mt-0.5">PLATFORM</span>
+                        <span className="text-white text-[12px] tracking-[0.5em] font-black uppercase transition-colors ">ZAPSTERS</span>
+                        <span className="text-white/40 text-[8px] tracking-[0.3em] font-black transition-colors  mt-0.5">PLATFORM</span>
                     </div>
                 </Link>
             </div>
@@ -65,7 +65,7 @@ function NavContent({ pathname, onClose, userProfile, isAuthenticated, logout, u
                                         className={`flex items-center gap-5 px-5 py-4 text-[11px] tracking-[0.3em] font-black uppercase transition-all rounded-full
                                             ${active
                                                 ? 'bg-white text-black'
-                                                : 'text-white/40 hover:text-black hover:bg-white'
+                                                : 'text-white/40'
                                             }`}
                                     >
                                         <span className="flex-1 truncate">{label}</span>
@@ -187,6 +187,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const currentLabel = dynamicNavGroups.flatMap(g => g.items).find(i => i.href === pathname)?.label ?? 'System';
 
+    const isCodingPage = pathname === '/challenges/coding-challenge';
+
     return (
         <div className="min-h-screen flex bg-black text-white selection:bg-[#E81414] selection:text-white flex-col font-['Game of Thrones']">
 
@@ -215,12 +217,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col min-h-screen min-w-0 overflow-x-hidden">
 
-                {/* Global Header */}
+            {/* Global Header */}
+            {!isCodingPage && (
                 <header className="fixed top-0 left-0 right-0 h-20 border-b border-white/10 flex items-center justify-between px-6 xl:px-10 bg-black z-[100] shrink-0">
                     <div className="flex items-center gap-6 xl:gap-8">
                         {/* Desktop Logo */}
                         <Link href="/" className="hidden lg:flex items-center gap-3 border-r border-white/10 pr-6 xl:pr-8 shrink-0 group/logo">
-                            <div className="w-12 h-12 flex items-center justify-center transition-transform">
+                            <div className="w-16 h-16 flex items-center justify-center transition-transform">
                                 <img
                                     src="/logo.png"
                                     alt="Zapsters Logo"
@@ -268,7 +271,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                                         <Link
                                                             key={item.href}
                                                             href={item.href}
-                                                            className={`px-4 py-3 text-[10px] tracking-[0.2em] font-black uppercase transition-all rounded-full flex items-center gap-3 ${active ? 'bg-white text-black' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                                                            className={`px-4 py-3 text-[10px] tracking-[0.2em] font-black uppercase transition-all rounded-full flex items-center gap-3 ${active ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
                                                         >
                                                             <span>{item.label}</span>
                                                         </Link>
@@ -286,7 +289,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         {/* Music Toggle Button */}
                         <button
                             onClick={toggleOpen}
-                            className={`flex items-center justify-center gap-3 px-3 sm:px-4 h-10 border rounded-full text-[9px] font-black uppercase tracking-[0.2em] transition-all group shrink-0 ${isOpen ? 'bg-[#E81414] border-[#E81414] text-white' : 'border-white/10 text-white/50 hover:text-white hover:border-white/30'}`}
+                            className={`flex items-center justify-center gap-3 px-3 sm:px-4 h-10 border rounded-full text-[9px] font-black uppercase tracking-[0.2em] transition-all group shrink-0 ${isOpen ? 'bg-[#E81414] border-[#E81414] text-white' : 'border-white/10 text-white/50'}`}
                         >
                             <div className={`w-3.5 h-3.5 flex items-center justify-center shrink-0`}>
                                 <img
@@ -336,14 +339,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         )}
                     </div>
                 </header>
+            )}
 
-                {/* Page Viewport */}
-                <main className="flex-1 relative bg-black pt-20">
-                    <div className="absolute inset-0 dot-grid opacity-[0.05]" />
-                    <div className="relative z-10 p-3 sm:p-4 md:p-10 lg:p-14 xl:p-20 max-w-[1800px] mx-auto">
-                        {children}
-                    </div>
-                </main>
+            {/* Page Viewport */}
+            <main className={`flex-1 relative bg-black ${!isCodingPage ? 'pt-20' : ''}`}>
+                <div className="absolute inset-0 dot-grid opacity-[0.05]" />
+                <div className={`relative z-10 mx-auto ${!isCodingPage ? 'p-3 sm:p-4 md:p-10 lg:p-14 xl:p-20 max-w-[1800px]' : 'w-full h-full'}`}>
+                    {children}
+                </div>
+            </main>
             </div>
         </div>
     );

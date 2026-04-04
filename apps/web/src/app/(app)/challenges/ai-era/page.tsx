@@ -3,153 +3,142 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Check } from 'lucide-react';
+import { ArrowLeft, Brain, Check } from 'lucide-react';
 import { GOTIcon } from '@/components/icons/GOTIcon';
 
 import { DotGrid } from '@/components/ui/DotGrid';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Button } from '@/components/ui/Button';
 
-const UI_UX_CHALLENGES = [
+const AI_CHALLENGES = [
     {
-        id: 'uiux-001',
+        id: 'ai-001',
         number: '01',
-        title: 'Cybersecurity Student Portfolio UI',
-        subtitle: 'Design a portfolio for a cybersecurity student.',
+        title: 'Human-AI Co-Creation Gauntlet',
+        subtitle: 'Build a system where AI fails first, then human improves it.',
         tasks: [
-            'Threat dashboard visualization',
-            'Skills mapped as security clearance levels',
-            'Projects presented as vulnerabilities fixed',
-            'Immersive dark hacker aesthetic',
-            'Terminal-inspired navigation and UI elements'
+            'Use AI to solve a real problem',
+            'Show where AI fails',
+            'Design human + AI workflow',
+            'Deliver improved final output',
         ],
-        deliverables: ['landing page', 'projects page', 'resume UI', 'contact UI'],
-        whyHard: 'Must balance complex data visualization with a minimalist hacker aesthetic.',
+        examples: [],
+        whyHard: 'Requires failure analysis + redesign',
         xp: '+3,500 XP',
+        difficulty: 'EXTREME',
+    },
+    {
+        id: 'ai-002',
+        number: '02',
+        title: 'The Impossible Prompt Challenge',
+        subtitle: 'Create a task that breaks AI.',
+        tasks: [
+            'Design a problem AI struggles with',
+            'Test it on multiple AI tools',
+            'Show different wrong outputs',
+            'Build solution AI cannot solve',
+        ],
+        examples: ['Cultural humor detection', 'Ambiguous instructions', 'Emotional reasoning'],
+        whyHard: 'Must outsmart AI',
+        xp: '+3,000 XP',
         difficulty: 'HARD',
     },
     {
-        id: 'uiux-002',
-        number: '02',
-        title: 'AI Study Companion App UI',
-        subtitle: 'Design an AI-powered study planner.',
-        tasks: [
-            'AI-driven timetable generator',
-            'Deep focus mode interface',
-            'Active distraction blocker UI',
-            'Learning progress heatmap',
-            'Smart context-aware reminders'
-        ],
-        deliverables: ['dashboard', 'planner', 'analytics', 'AI chat'],
-        whyHard: 'Simplifying high-density AI information for stressed students.',
-        xp: '+3,000 XP',
-        difficulty: 'MEDIUM',
-    },
-    {
-        id: 'uiux-003',
+        id: 'ai-003',
         number: '03',
-        title: 'Startup Founder Dashboard UI',
-        subtitle: 'Design UI for high-growth startup founders.',
+        title: 'Build AI That Uses the Real World',
+        subtitle: 'Design AI that depends on human environment.',
         tasks: [
-            'Real-time growth metrics dashboard',
-            'Burn-rate and funding tracker',
-            'Interactive product roadmap',
-            'Asynchronous team collaboration hub',
-            'Secure investor-ready data view'
+            'Create AI requiring human observation',
+            'Integrate physical interaction context',
+            'Ground decisions in real-world sensing',
         ],
-        deliverables: ['dashboard', 'analytics', 'roadmap', 'team'],
-        whyHard: 'Requires exceptional data hierarchy for high-pressure decision making.',
+        examples: ['AI that improves room lighting', 'AI that analyzes body posture', 'AI that adapts to noise level'],
+        whyHard: "Needs real-world sensing AI can't replicate",
         xp: '+4,000 XP',
         difficulty: 'EXTREME',
     },
     {
-        id: 'uiux-004',
+        id: 'ai-004',
         number: '04',
-        title: 'Gamer Performance Tracker UI',
-        subtitle: 'Design app for competitive e-sports athletes.',
+        title: 'Emotion Intelligence Challenge',
+        subtitle: "Build something AI can't understand well: emotions.",
         tasks: [
-            'In-depth performance statistics',
-            'Reaction time training interface',
-            'Global and regional leaderboards',
-            'Dynamic match history timeline',
-            'Skill-specific training UI'
+            'Detect human emotion accurately',
+            'Adapt UI or workflow dynamically',
+            'Improve decision making via emotion',
         ],
-        deliverables: ['dashboard', 'stats', 'training', 'profile'],
-        whyHard: 'Creating a high-energy visual style that doesn\'t cause fatigue.',
+        examples: ['AI mood-based UI', 'Stress-aware study planner', 'Emotion-driven game'],
+        whyHard: 'Emotional UX design is deeply human',
         xp: '+3,500 XP',
         difficulty: 'HARD',
     },
     {
-        id: 'uiux-005',
+        id: 'ai-005',
         number: '05',
-        title: 'College Student Life OS UI',
-        subtitle: 'Design an all-in-one centralized college app.',
+        title: 'The Ambiguity Challenge',
+        subtitle: 'Design for unclear, vague instructions.',
         tasks: [
-            'Automated attendance tracking',
-            'Dynamic course timetable',
-            'Assignment deadline manager',
-            'Campus events and news feed',
-            'Biometric-secure digital notes'
+            'Handle vague input like "make it better"',
+            'Deliver interpretation logic',
+            'Show multiple outcome branches',
+            'Enable user refinement loop',
         ],
-        deliverables: ['home', 'timetable', 'assignments', 'profile'],
-        whyHard: 'Consolidating multiple disconnected academic tools into one seamless OS.',
+        examples: ['"More modern"', '"Looks wrong"', '"Needs more energy"'],
+        whyHard: 'Requires deep human interpretation',
         xp: '+2,500 XP',
         difficulty: 'MEDIUM',
     },
     {
-        id: 'uiux-006',
+        id: 'ai-006',
         number: '06',
-        title: 'Developer Portfolio Builder UI',
-        subtitle: 'Design a tool that builds developer portfolios.',
+        title: 'Human Judgment Override',
+        subtitle: 'Create AI that knows when to ask humans.',
         tasks: [
-            'One-click GitHub project import',
-            'Customizable project display cards',
-            'Real-time design theme switcher',
-            'PDF-ready resume generator',
-            'Portfolio visitor analytics'
+            'AI attempts solution autonomously',
+            'Detects its own uncertainty',
+            'Escalates to human for input',
+            'Integrates human answer gracefully',
         ],
-        deliverables: ['builder', 'themes', 'preview', 'export'],
-        whyHard: 'Building a robust meta-design system that lets users express themselves.',
+        examples: ['Coding assistant', 'Medical triage UI', 'Decision helper'],
+        whyHard: 'Uncertainty UX is notoriously difficult',
         xp: '+3,000 XP',
         difficulty: 'HARD',
     },
     {
-        id: 'uiux-007',
+        id: 'ai-007',
         number: '07',
-        title: 'Mental Health Support App UI',
-        subtitle: 'Design a calming mental wellness companion.',
+        title: 'AI Hallucination Hunter',
+        subtitle: 'Detect and expose AI lies.',
         tasks: [
-            'Intuitive daily mood tracker',
-            'Immersive guided breathing UI',
-            'Secure private thought journal',
-            'Empathetic AI support companion',
-            'Holistic wellness progress tracker'
+            'Generate AI answers on a topic',
+            'Find factual hallucinations',
+            'Design a hallucination detection system',
+            'Provide correction workflow',
         ],
-        deliverables: ['home', 'mood', 'journal', 'progress'],
-        whyHard: 'Using color theory and micro-animations to actively reduce anxiety.',
+        examples: ['Fact checker UI', 'Citation validator', 'AI truth meter'],
+        whyHard: 'Reasoning + verification at scale',
         xp: '+3,500 XP',
         difficulty: 'HARD',
     },
     {
-        id: 'uiux-008',
+        id: 'ai-008',
         number: '08',
-        title: 'Future Career Explorer App UI',
-        subtitle: 'Design an app helping students navigate career paths.',
+        title: 'AI vs Human Creativity Test',
+        subtitle: 'Design something where humans beat AI.',
         tasks: [
-            'Non-linear career path visualization',
-            'Adaptive skill acquisition roadmap',
-            'Market-accurate salary insights',
-            'Experience-based learning tracker',
-            'Verified industry mentor portal'
+            'Create a puzzle AI cannot solve',
+            'Design something AI cannot generate',
+            'Build UX that AI cannot understand',
         ],
-        deliverables: ['explore', 'roadmap', 'progress', 'profile'],
-        whyHard: 'Visualizing long-term career growth with uncertainty and branching paths.',
+        examples: ['Cultural UI', 'Local language UX', 'Humor-based product'],
+        whyHard: 'Requires original human thinking',
         xp: '+4,500 XP',
         difficulty: 'EXTREME',
     },
 ];
 
-export default function UIUXRealmPage() {
+export default function AIEraPage() {
     const [accepted, setAccepted] = useState<Set<string>>(new Set());
 
     const toggleAccept = (id: string, e: React.MouseEvent) => {
@@ -164,7 +153,7 @@ export default function UIUXRealmPage() {
     };
 
     return (
-        <div className="w-full pb-20 space-y-10 md:space-y-14 relative overflow-hidden text-white font-normal">
+        <div className="w-full pb-20 space-y-10 md:space-y-14 relative overflow-hidden text-white">
             <DotGrid />
 
             {/* Back nav */}
@@ -178,28 +167,28 @@ export default function UIUXRealmPage() {
                     </Button>
                 </Link>
                 <span className="text-[9px] tracking-[0.5em] font-black uppercase text-white/30">
-                    CHALLENGES / UI/UX REALM
+                    CHALLENGES / AI ERA
                 </span>
                 <div className="px-4 py-1.5 rounded-full border border-[#E81414]/40 bg-[#E81414]/10 text-[#E81414] text-[9px] font-black uppercase tracking-[0.3em]">
-                    8 DESIGN TRIALS ACTIVE
+                    8 MISSIONS ACTIVE
                 </div>
             </div>
 
             <PageHeader
-                tag="UI/UX REALM — THE CREATIVE FORGE"
-                title={<>DESIGN <span className="text-[#E81414]">CHALLENGES</span></>}
+                tag="AI ERA — INTELLIGENCE BATTLEGROUND"
+                title={<>AI <span className="text-[#E81414]">CHALLENGES</span></>}
             />
 
             {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-10">
                 {[
-                    { label: 'ACTIVE TRIALS', value: '8' },
-                    { label: 'XP POOL', value: '27,000' },
+                    { label: 'TOTAL MISSIONS', value: '8' },
+                    { label: 'XP POOL', value: '27,500' },
                     { label: 'AVG DIFFICULTY', value: 'HARD' },
                     { label: 'ACCEPTED', value: String(accepted.size) },
                 ].map((s) => (
                     <div key={s.label} className="flex flex-col gap-1 p-5 rounded-2xl border border-white/10 bg-white/[0.03]">
-                        <span className="text-2xl font-normal tabular-nums text-white" style={{ fontFamily: "'Game of Thrones'" }}>{s.value}</span>
+                        <span className="text-2xl font-black tabular-nums text-white">{s.value}</span>
                         <span className="text-[8px] font-black uppercase tracking-[0.4em] text-white/30">{s.label}</span>
                     </div>
                 ))}
@@ -207,7 +196,7 @@ export default function UIUXRealmPage() {
 
             {/* Challenge Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
-                {UI_UX_CHALLENGES.map((ch, i) => {
+                {AI_CHALLENGES.map((ch, i) => {
                     const isAccepted = accepted.has(ch.id);
 
                     return (
@@ -230,7 +219,7 @@ export default function UIUXRealmPage() {
                                             {ch.difficulty}
                                         </span>
                                     </div>
-                                    <span className="text-sm font-normal tabular-nums text-[#E81414] group-hover:text-black transition-colors duration-500" style={{ fontFamily: "'Game of Thrones'" }}>
+                                    <span className="text-sm font-black tabular-nums text-[#E81414] group-hover:text-black transition-colors duration-500">
                                         {ch.xp}
                                     </span>
                                 </div>
@@ -245,22 +234,10 @@ export default function UIUXRealmPage() {
                                     </p>
                                 </div>
 
-                                {/* Deliverables */}
-                                <div className="flex flex-wrap gap-2">
-                                    {ch.deliverables.map((dl, idx) => (
-                                        <span
-                                            key={idx}
-                                            className="text-[8px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md border border-white/10 text-white/40 group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-500"
-                                        >
-                                            {dl}
-                                        </span>
-                                    ))}
-                                </div>
-
                                 {/* Tasks */}
                                 <div>
                                     <p className="text-[8px] font-black uppercase tracking-[0.4em] text-white/25 group-hover:text-black/40 mb-3 transition-colors duration-500">
-                                        CORE FEATURES
+                                        MISSION TASKS
                                     </p>
                                     <ul className="space-y-2">
                                         {ch.tasks.map((task, idx) => (
@@ -274,12 +251,26 @@ export default function UIUXRealmPage() {
                                     </ul>
                                 </div>
 
+                                {/* Examples */}
+                                {ch.examples.length > 0 && (
+                                    <div className="flex flex-wrap gap-2">
+                                        {ch.examples.map((ex, idx) => (
+                                            <span
+                                                key={idx}
+                                                className="text-[9px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg border border-[#E81414]/30 text-[#E81414]/80 bg-[#E81414]/08 group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-500"
+                                            >
+                                                {ex}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+
                                 {/* Why it's hard */}
                                 <div className="flex items-start gap-4 p-5 rounded-xl border border-white/8 bg-white/[0.025] group-hover:border-black/20 group-hover:bg-black group-hover:shadow-2xl transition-all duration-500">
                                     <GOTIcon variant="white" size={24} scale={1.3} x={0} y={0} className="shrink-0 mt-0.5 group-hover:opacity-100" />
                                     <div>
                                         <p className="text-[8px] font-black uppercase tracking-[0.3em] text-white/25 group-hover:text-white/40 mb-1 transition-colors duration-500">
-                                            DESIGN DIFFICULTY
+                                            WHY IT'S HARD
                                         </p>
                                         <p className="text-[11px] text-white/55 group-hover:text-white font-semibold transition-colors duration-500">
                                             {ch.whyHard}
@@ -289,8 +280,8 @@ export default function UIUXRealmPage() {
 
                                 {/* Footer */}
                                 <div className="mt-auto pt-5 border-t border-white/8 group-hover:border-black/20 flex items-center justify-between gap-4 transition-colors duration-500">
-                                    <div className="text-[9px] font-normal uppercase tracking-[0.3em] text-white/20 group-hover:text-black/40 transition-colors duration-500" style={{ fontFamily: "'Game of Thrones'" }}>
-                                        UI/UX #{ch.number}
+                                    <div className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 group-hover:text-black/40 transition-colors duration-500">
+                                        AI ERA #{ch.number}
                                     </div>
 
                                     <button
@@ -307,7 +298,7 @@ export default function UIUXRealmPage() {
                                                 ACCEPTED
                                             </>
                                         ) : (
-                                            'ACCEPT CHALLENGE'
+                                            'ACCEPT'
                                         )}
                                     </button>
                                 </div>
