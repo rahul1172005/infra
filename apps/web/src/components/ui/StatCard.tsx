@@ -79,7 +79,7 @@ export const StatCard = ({
                 ${isVeryLongValue ? 'text-lg md:text-2xl' : isLongValue ? 'text-xl md:text-4xl' : 'text-2xl md:text-6xl'} 
                 font-normal leading-[1.2] mt-auto relative z-10 transition-all duration-500 group-hover:-translate-y-1 uppercase
                 ${isOversight ? 'text-white group-hover:text-black' : 'text-black'}
-            `} style={{ fontFamily: "'Game of Thrones'" }}>
+            `} style={{ fontFamily: "'Game of Thrones'", fontWeight: 900 }}>
                 {value}
             </h3>
         </div>

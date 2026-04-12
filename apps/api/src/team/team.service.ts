@@ -40,7 +40,7 @@ export class TeamService {
 
     async createTeamOfPlayer(ownerId: string, name: string, image?: string, maxMembers: number = 10) {
         // Enforce: one team per owner
-        const existingOwned = await this.prisma.team.findUnique({ where: { ownerId } });
+        const existingOwned = await this.prisma.team.findFirst({ where: { ownerId } });
         if (existingOwned) {
             throw new BadRequestException('You already own a team. Delete it to create a new one.');
         }

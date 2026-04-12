@@ -24,26 +24,31 @@ import {
     Bookmark,
     Box,
     ChevronDown,
-    Check
+    Check,
+    ShieldAlert
 } from 'lucide-react';
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels';
 import Editor from '@monaco-editor/react';
 import { GOTIcon } from '@/components/icons/GOTIcon';
+import { io, Socket } from 'socket.io-client';
+import { useAuthStore } from '@/lib/store/useAuthStore';
 
 import { DotGrid } from '@/components/ui/DotGrid';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Button } from '@/components/ui/Button';
+import { Proctoring } from '@/components/ui/Proctoring';
+import { useCallback } from 'react';
 
 // --- CONFIGURATION ---
 
 const CATEGORIES = [
-    { id: 1, title: 'Category - 1', icon: Terminal, status: 'OPEN', color: '#E81414', xp: '15,000 XP' },
-    { id: 2, title: 'Category - 2', icon: Code2, status: 'OPEN', color: '#ffffff', xp: '12,500 XP' },
-    { id: 3, title: 'Category - 3', icon: Cpu, status: 'OPEN', color: '#ffffff', xp: '18,200 XP' },
-    { id: 4, title: 'Category - 4', icon: Search, status: 'OPEN', color: '#ffffff', xp: '10,000 XP' },
-    { id: 5, title: 'Category - 5', icon: Shield, status: 'OPEN', color: '#ffffff', xp: '20,000 XP' },
-    { id: 6, title: 'Category - 6', icon: Shield, status: 'OPEN', color: '#ffffff', xp: '15,000 XP' },
-    { id: 7, title: 'Category - 7', icon: Zap, status: 'OPEN', color: '#ffffff', xp: '25,000 XP' },
+    { id: 1, title: 'Category - 1', icon: Terminal, status: 'OPEN', color: '#E81414', honor: '10,000HONOR' },
+    { id: 2, title: 'Category - 2', icon: Code2, status: 'OPEN', color: '#ffffff', honor: '10,000HONOR' },
+    { id: 3, title: 'Category - 3', icon: Cpu, status: 'OPEN', color: '#ffffff', honor: '10,000HONOR' },
+    { id: 4, title: 'Category - 4', icon: Search, status: 'OPEN', color: '#ffffff', honor: '10,000HONOR' },
+    { id: 5, title: 'Category - 5', icon: Shield, status: 'OPEN', color: '#ffffff', honor: '10,000HONOR' },
+    { id: 6, title: 'Category - 6', icon: Shield, status: 'OPEN', color: '#ffffff', honor: '10,000HONOR' },
+    { id: 7, title: 'Category - 7', icon: Zap, status: 'OPEN', color: '#ffffff', honor: '10,000HONOR' },
 ];
 
 const LANGUAGES = [
@@ -1302,15 +1307,137 @@ export default function CodeArenaProfessional() {
     const [consoleOutput, setConsoleOutput] = useState<any[]>([]);
     const [activeTab, setActiveTab] = useState<'testcases' | 'console'>('testcases');
     const [selectedTestcase, setSelectedTestcase] = useState(0);
+    const { user } = useAuthStore();
+    const socketRef = useRef<Socket | null>(null);
+    const [isSolvedByTeam, setIsSolvedByTeam] = useState(false);
+
+    // Proctoring states
+    const [attempts, setAttempts] = useState(0);
+    const [proctorStatus, setProctorStatus] = useState<'SAFE' | 'WARNING' | 'VIOLATION'>('SAFE');
+    const [proctorWarning, setProctorWarning] = useState<string | null>(null);
+    const MAX_ATTEMPTS = 7;
 
     const challenge = CHALLENGE_DATA[selectedId];
 
-    // Auto-update boilerplate on language change
+    const updateAttempts = useCallback((newAttempts: number) => {
+        setAttempts(newAttempts);
+    }, [selectedId]);
+
+    // Fetch true backend attempt count
+    useEffect(() => {
+        if (typeof window !== 'undefined' && selectedId) {
+            const fetchAttempts = async () => {
+                const token = useAuthStore.getState().token;
+                if (!token) return;
+                try {
+                    const res = await fetch(`/api/proctor/status?challengeId=${selectedId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        setAttempts(data.attempts || 0);
+                    }
+                } catch {
+                    // Fallback to local storage if API fails
+                    const stored = localStorage.getItem(`challenge_attempts_${selectedId}`);
+                    if (stored) setAttempts(parseInt(stored, 10));
+                }
+            };
+            
+            fetchAttempts();
+            // Poll for attempt updates (e.g., admin unlocks)
+            const interval = setInterval(fetchAttempts, 5000);
+            return () => clearInterval(interval);
+        }
+    }, [selectedId]);
+
+    // Force redirect removed. User is permanently locked out in arena view unless admin pardons them.
+    useEffect(() => {
+        // Keeps user in arena view. UI overlay handles the locked state.
+    }, [attempts, view, MAX_ATTEMPTS]);
+
+    const handleViolation = useCallback(async (type: 'NO_FACE' | 'MULTIPLE_FACES' | 'SUSPICIOUS_MOVEMENT', snapshot: string) => {
+        if (view !== 'arena') return; // Don't trigger violations outside the arena!
+        
+        setProctorStatus('VIOLATION');
+        
+        const msg = `WARNING: ${type.replace('_', ' ')}. PENALTY RECORDED. (ATTEMPT ${attempts + 1}/${MAX_ATTEMPTS})`;
+        setProctorWarning(msg);
+        
+        setConsoleOutput(out => [
+            ...out, 
+            { type: 'error', content: `[PROCTORING] ${msg}` }
+        ]);
+
+        // Optimistic update
+        setAttempts(prev => {
+            const next = prev + 1;
+            if (typeof window !== 'undefined') {
+                localStorage.setItem(`challenge_attempts_${selectedId}`, next.toString());
+            }
+            return next;
+        });
+
+        // Auto reset to WARNING then SAFE if it was temporary
+        setTimeout(() => {
+            setProctorWarning(null);
+            setProctorStatus('WARNING');
+            setTimeout(() => setProctorStatus('SAFE'), 5000);
+        }, 5000);
+
+        // SYNC WITH BACKEND
+        try {
+            const token = useAuthStore.getState().token;
+            if (token) {
+                await fetch('/api/proctor/violation', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify({
+                        challengeId: selectedId,
+                        type,
+                        snapshot
+                    })
+                });
+            }
+        } catch (e) {
+            console.error('Failed to log violation synchronously', e);
+        }
+
+    }, [selectedId, view, attempts]);
+
     useEffect(() => {
         if (BOILERPLATES[language]) {
             setCode(BOILERPLATES[language]);
         }
-    }, [language, selectedId]); // Also reset on challenge change
+    }, [language, selectedId]);
+
+    // Real-time Presence tracking
+    useEffect(() => {
+        if (!socketRef.current) {
+            socketRef.current = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000');
+        }
+
+        if (view === 'arena' && user) {
+            socketRef.current.emit('join_challenge', {
+                userId: user.id,
+                teamId: user.teamId,
+                challengeId: selectedId,
+                status: 'CODING'
+            });
+        }
+
+        return () => {
+            if (socketRef.current && user) {
+                socketRef.current.emit('leave_challenge', {
+                    userId: user.id,
+                    challengeId: selectedId
+                });
+            }
+        };
+    }, [view, selectedId, user]);
 
     const handleRun = () => {
         setIsExecuting(true);
@@ -1329,7 +1456,57 @@ export default function CodeArenaProfessional() {
                 { type: 'result', content: 'Runtime: 21ms | Memory: 32MB', meta: true }
             ]);
             setIsExecuting(false);
-        }, 1800);
+        }, 1200);
+    };
+
+    const handleSubmit = async () => {
+        if (!user || isExecuting) return;
+        
+        if (attempts >= MAX_ATTEMPTS) {
+            setActiveTab('console');
+            setConsoleOutput(prev => [...prev, { type: 'error', content: `[SYSTEM] ACCESS DENIED: MAXIMUM ATTEMPTS (${MAX_ATTEMPTS}) REACHED.` }]);
+            return;
+        }
+
+        setIsExecuting(true);
+        setActiveTab('console');
+        
+        // Count as an attempt
+        setAttempts(prev => {
+            const next = prev + 1;
+            if (typeof window !== 'undefined') {
+                localStorage.setItem(`challenge_attempts_${selectedId}`, next.toString());
+            }
+            setConsoleOutput([{ type: 'info', content: `Submitting solution to core validator... (Attempt ${next}/${MAX_ATTEMPTS})` }]);
+            return next;
+        });
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/submission`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ userId: user.id, challengeId: selectedId, score: 100 })
+            });
+
+            if (res.ok) {
+                setConsoleOutput(prev => [
+                    ...prev,
+                    { type: 'success', content: '✓ MISSION ACCOMPLISHED' },
+                    { type: 'info', content: 'Score synced with global leaderboard.' }
+                ]);
+                setIsSolvedByTeam(true);
+            } else {
+                const err = await res.json();
+                setConsoleOutput(prev => [...prev, { type: 'error', content: `SUBMISSION FAILED: ${err.message}` }]);
+            }
+        } catch (e) {
+            setConsoleOutput(prev => [...prev, { type: 'error', content: 'COMMUNICATION ERROR DETECTED' }]);
+        } finally {
+            setIsExecuting(false);
+        }
     };
 
     const toggleFullscreen = () => {
@@ -1390,9 +1567,14 @@ export default function CodeArenaProfessional() {
                             >
                                 <div className="space-y-6 relative z-10">
                                     <div className="flex justify-between items-start">
-                                        <span className="px-3 py-1 rounded-full text-[8px] font-black border border-[#E81414]/30 bg-[#E81414]/10 text-[#E81414] uppercase tracking-widest transition-colors group-hover:border-black/40 group-hover:bg-black/20 group-hover:text-black">
-                                            {data.difficulty}
-                                        </span>
+                                        <div className="flex flex-col gap-2">
+                                            <span className="px-3 py-1 w-fit rounded-full text-[8px] font-black border border-[#E81414]/30 bg-[#E81414]/10 text-[#E81414] uppercase tracking-widest transition-colors group-hover:border-black/40 group-hover:bg-black/20 group-hover:text-black">
+                                                {data.difficulty}
+                                            </span>
+                                            <span className="text-[10px] font-black text-[#E81414]/60 group-hover:text-black uppercase tracking-[0.2em] transition-colors">
+                                                {data.difficulty.toLowerCase() === 'hard' ? '700' : data.difficulty.toLowerCase() === 'medium' ? '400' : '100'}HONOR
+                                            </span>
+                                        </div>
                                         <div className="flex gap-2">
                                             {data.tags.slice(0, 2).map((tag: string) => (
                                                 <span key={tag} className="text-[8px] font-bold text-white/20 group-hover:text-black/60 uppercase transition-colors">{tag}</span>
@@ -1466,7 +1648,7 @@ export default function CodeArenaProfessional() {
                         items={LANGUAGES}
                         value={language}
                         onChange={setLanguage}
-                        className="bg-white/5 border-white/10 hover:border-white/20 transition-all text-xs font-bold"
+                        className="bg-white/5 border-white/10 hover:border-white/20 transition-all text-xs font-bold font-mono"
                     />
 
                     <div className="h-4 w-px bg-white/10 mx-2" />
@@ -1474,16 +1656,19 @@ export default function CodeArenaProfessional() {
                     <Button
                         onClick={handleRun}
                         disabled={isExecuting}
-                        className="h-9 px-5 bg-white border border-white text-black text-[9px] font-black tracking-widest uppercase hover:bg-white/90 transition-all rounded-lg disabled:opacity-50"
+                        className="h-9 px-5 text-[9px] font-black tracking-widest uppercase transition-all rounded-lg disabled:opacity-50"
                     >
                         {isExecuting ? <RefreshCw className="w-3 h-3 animate-spin mr-2" /> : <Play className="w-3 h-3 mr-2 fill-current" />}
                         RUN CODE
                     </Button>
                     <Button
-                        className="h-9 px-5 bg-[#E81414] border border-[#E81414] text-white text-[9px] font-black tracking-widest uppercase hover:bg-[#c11010] transition-all rounded-lg"
+                        variant="secondary"
+                        onClick={handleSubmit}
+                        disabled={isExecuting || isSolvedByTeam || attempts >= MAX_ATTEMPTS}
+                        className="h-9 px-5 text-[9px] font-black tracking-widest uppercase transition-all rounded-lg disabled:opacity-50"
                     >
                         <ArrowUpRight className="w-3 h-3 mr-2" />
-                        SUBMIT
+                        {isSolvedByTeam ? 'SOLVED' : attempts >= MAX_ATTEMPTS ? 'LOCKED' : 'SUBMIT'}
                     </Button>
                 </div>
 
@@ -1536,6 +1721,7 @@ export default function CodeArenaProfessional() {
                                 <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/30 hover:text-white transition-colors"><Share2 className="w-3.5 h-3.5" /> SHARE</button>
                                 <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/30 hover:text-white transition-colors"><Bookmark className="w-3.5 h-3.5" /> BOOKMARK</button>
                             </div>
+
                         </div>
                     </div>
                 </Panel>
@@ -1608,7 +1794,7 @@ export default function CodeArenaProfessional() {
                         </button>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+                    <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar pb-32">
                         <AnimatePresence mode="wait">
                             {activeTab === 'testcases' ? (
                                 <motion.div key="tc" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
@@ -1666,6 +1852,69 @@ export default function CodeArenaProfessional() {
                     </div>
                 </Panel>
             </PanelGroup>
+
+            {/* Permanent Lockdown Overlay */}
+            {attempts >= MAX_ATTEMPTS && view === 'arena' && (
+                <div className="fixed inset-0 z-[150] bg-black/95 flex flex-col items-center justify-center p-12 backdrop-blur-3xl overflow-hidden">
+                    <div className="absolute inset-0 bg-[#E81414]/10 pointer-events-none mix-blend-screen" />
+                    
+                    {/* Aggressive flashing border */}
+                    <div className="absolute inset-4 border-2 border-[#E81414]/40 animate-pulse pointer-events-none rounded-[3rem]" />
+                    
+                    <ZapstersLogo className="w-24 h-24 mb-8 opacity-80 z-10" />
+                    <h2 className="text-5xl md:text-7xl font-black text-[#E81414] tracking-tighter text-center uppercase drop-shadow-[0_0_20px_rgba(232,20,20,0.5)] z-10">
+                        ACCESS REVOKED
+                    </h2>
+                    <div className="h-px w-64 bg-[#E81414] mx-auto mt-6 z-10" />
+                    <p className="mt-8 text-white/50 text-xs font-black uppercase tracking-[0.3em] max-w-xl text-center leading-relaxed z-10">
+                        Max penalty violations ({MAX_ATTEMPTS}/{MAX_ATTEMPTS}) reached. You have been locked out of this challenge instance. 
+                        Your actions have been permanently logged. Please contact your administrator.
+                    </p>
+                    
+                    <Button 
+                        onClick={() => setView('challenges')}
+                        className="mt-12 px-8 h-12 bg-white/5 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black text-[10px] font-black tracking-widest uppercase transition-all z-10"
+                    >
+                        RETURN TO CHALLENGES
+                    </Button>
+                    
+                    {/* Visual decor */}
+                    <div className="mt-16 grid grid-cols-5 gap-2 opacity-30 z-10">
+                        {[...Array(5)].map((_, i) => (
+                            <div key={i} className="w-8 h-2 bg-[#E81414] animate-pulse" style={{ animationDelay: `${i * 100}ms` }} />
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* FLOATING PROCTORING CAM */}
+            <Proctoring 
+                isActive={view === 'arena' && attempts < MAX_ATTEMPTS}
+                status={proctorStatus}
+                onViolation={handleViolation}
+                attempts={attempts}
+                maxAttempts={MAX_ATTEMPTS}
+            />
+
+            {/* FULL SCREEN PROCTOR WARNING POPUP */}
+            <AnimatePresence>
+                {proctorWarning && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                        className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none p-4"
+                    >
+                        <div className="bg-[#E81414]/20 backdrop-blur-xl border-2 border-[#E81414] p-8 rounded-2xl shadow-2xl flex flex-col items-center max-w-xl text-center">
+                            <ZapstersLogo className="w-20 h-20 mb-6 animate-pulse opacity-90" />
+                            <h2 className="text-2xl font-black text-[#E81414] uppercase tracking-widest mb-2">PROCTORING VIOLATION</h2>
+                            <p className="text-white/80 font-bold uppercase tracking-wider text-sm">
+                                {proctorWarning}
+                            </p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
@@ -1745,7 +1994,7 @@ function CategorySelector({ onSelect, toggleFullscreen }: { onSelect: (id: numbe
                             </div>
                             <div className="space-y-2">
                                 <h3 className="text-2xl font-black uppercase tracking-tight transition-colors group-hover:text-black">{cat.title}</h3>
-                                <p className="text-[10px] font-black text-[#E81414] tracking-[0.4em] uppercase transition-colors group-hover:text-black/80">{cat.xp}</p>
+                                <p className="text-[10px] font-black text-[#E81414] tracking-[0.4em] uppercase transition-colors group-hover:text-black/80">{cat.honor}</p>
                             </div>
                             <Button
                                 onClick={() => onSelect(cat.id)}
@@ -1772,7 +2021,7 @@ function Dropdown({ items, value, onChange, className }: any) {
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl border ${className} shrink-0`}
             >
                 <span>{selected?.icon}</span>
-                <span className="uppercase tracking-widest">{selected?.label}</span>
+                <span className="uppercase tracking-widest font-mono">{selected?.label}</span>
                 <ChevronDown className={`w-3 h-3 text-white/40 transition-transform ${open ? 'rotate-180' : ''}`} />
             </button>
 
@@ -1791,7 +2040,7 @@ function Dropdown({ items, value, onChange, className }: any) {
                                 className="w-full px-5 py-4 text-left text-[10px] font-black uppercase tracking-widest hover:bg-white/10 flex items-center gap-3 transition-colors"
                             >
                                 <span>{it.icon}</span>
-                                <span>{it.label}</span>
+                                <span className="font-mono">{it.label}</span>
                                 {value === it.value && <Check className="ml-auto w-3.5 h-3.5 text-[#E81414]" />}
                             </button>
                         ))}

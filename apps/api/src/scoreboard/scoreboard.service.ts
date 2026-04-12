@@ -56,7 +56,7 @@ export class ScoreboardService {
      */
     async getUserLeaderboard(limit = 100, page = 1) {
         return this.prisma.user.findMany({
-            where: { role: 'STUDENT' }, // Only rank players
+            where: { role: 'PLAYER' }, // Only rank players
             select: {
                 id: true,
                 name: true,
@@ -64,7 +64,8 @@ export class ScoreboardService {
                 picture: true,
                 xp: true,
                 level: true,
-                team: {
+                level: true,
+                currentTeam: {
                     select: { name: true }
                 }
             },
@@ -99,5 +100,41 @@ export class ScoreboardService {
             this.prisma.team.updateMany({ data: { score: 0 } }),
             this.prisma.submission.deleteMany(), // Clear history for reset
         ]);
+    }
+
+    /**
+     * MONITORING: Real-time system activity
+     */
+    async getMonitoringData() {
+        const [activeSessions, latestCompletions, onlineCount] = await Promise.all([
+            this.prisma.activeSession.findMany({
+                include: {
+                    user: { select: { name: true, picture: true, status: true } },
+                    team: { select: { name: true } },
+                    challenge: { select: { title: true } }
+                },
+                orderBy: { joinedAt: 'desc' }
+            }),
+            this.prisma.challengeCompletion.findMany({
+                take: 10,
+                include: {
+                    team: { select: { name: true } },
+                    user: { select: { name: true } },
+                    challenge: { select: { title: true } }
+                },
+                orderBy: { completedAt: 'desc' }
+            }),
+            this.prisma.user.count({
+                where: {
+                    lastActionAt: { gte: new Date(Date.now() - 5 * 60 * 1000) }
+                }
+            })
+        ]);
+
+        return {
+            activeSessions,
+            latestCompletions,
+            onlineCount
+        };
     }
 }

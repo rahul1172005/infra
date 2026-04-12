@@ -33,7 +33,7 @@ export const RadialGauge = ({ value, label, sub, size = 'md' }: RadialGaugeProps
                     />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-xl sm:text-2xl font-black text-white tabular-nums">{Math.floor(value)}<span className="text-xs sm:text-sm text-white/30">%</span></span>
+                    <span className="text-xl sm:text-2xl font-black text-white tabular-nums" style={{ fontFamily: "'Game of Thrones'", fontWeight: 900 }}>{Math.floor(value)}<span className="text-xs sm:text-sm text-white/30">%</span></span>
                     {sub && <span className="text-[6px] sm:text-[7px] font-black tracking-widest text-white/15 uppercase mt-1">{sub}</span>}
                 </div>
             </div>

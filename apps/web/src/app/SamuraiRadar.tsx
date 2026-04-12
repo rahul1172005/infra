@@ -292,7 +292,7 @@ export default function DynastyRadar({ teams: teamsProp = [] }: { teams?: any[] 
       const subSize = Math.max(8, W * 0.009);
       ctx.font = `bold ${subSize}px 'Share Tech Mono', monospace`;
       ctx.fillStyle = "#E81414";
-      ctx.fillText(`${team.score} XP`, lx + (onRight ? 8 : -8), ly + 6);
+      ctx.fillText(`${team.score} HONOR`, lx + (onRight ? 8 : -8), ly + 6);
 
       // Connector Dash
       ctx.strokeStyle = "rgba(255,255,255,0.15)";

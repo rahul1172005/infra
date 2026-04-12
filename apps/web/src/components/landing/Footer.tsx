@@ -14,10 +14,10 @@ export default function Footer() {
             </div>
             ZAPSTERS
           </div>
-          <p className="text-[12px] text-white/30 font-black uppercase tracking-[0.2em] leading-loose max-w-sm">
-            THE DRAGON'S BLOOD FLOWS IN THE VEINS OF THE TRUE HEIR.<br />
-            THE IRON THRONE AWAITS. NO MERCY.<br />
-            FIRE AND BLOOD.
+          <p className="text-[12px] text-white/30 tracking-[0.2em] leading-loose max-w-sm">
+            The dragon's blood flows in the veins of the true heir.<br />
+            The Iron Throne awaits. No mercy.<br />
+            Fire and Blood.
           </p>
         </div>
 

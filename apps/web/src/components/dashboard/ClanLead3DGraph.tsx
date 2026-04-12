@@ -148,25 +148,26 @@ function HUD({
                                     borderRadius: '6px',
                                 }}
                             >
-                                <span className="rank-text" style={{ fontSize: '6px', letterSpacing: '.12em', color: isL ? 'rgba(232,20,20,.55)' : 'rgba(255,255,255,.18)' }}>
+                                <span className="rank-text font-got-num" style={{ fontSize: '7px', letterSpacing: '.12em', color: isL ? 'rgba(232,20,20,.55)' : 'rgba(255,255,255,.18)' }}>
                                     #{i + 1} RANK
                                 </span>
                                 <span
                                     className="team-name"
                                     style={{
-                                        fontFamily: "'Rajdhani', sans-serif",
-                                        fontSize: '10px',
-                                        fontWeight: 700,
+                                        fontFamily: "'Game of Thrones'",
+                                        fontSize: '9px',
+                                        fontWeight: 400,
                                         letterSpacing: '.05em',
                                         color: isL ? '#ff3333' : 'rgba(255,255,255,.8)',
                                         whiteSpace: 'nowrap',
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
+                                        textTransform: 'uppercase'
                                     }}
                                 >
                                     {t.name.replace(/_/g, ' ')}
                                 </span>
-                                <span className="pts-text" style={{ fontSize: '8px', color: isL ? 'rgba(232,20,20,.72)' : 'rgba(255,255,255,.32)' }}>
+                                <span className="pts-text font-got-num" style={{ fontSize: '8px', color: isL ? 'rgba(232,20,20,.72)' : 'rgba(255,255,255,.32)' }}>
                                     {t.pts.toLocaleString()}
                                 </span>
                                 <div
@@ -189,6 +190,7 @@ function HUD({
                                     />
                                 </div>
                                 <span
+                                    className="font-got-num"
                                     style={{
                                         position: 'absolute',
                                         right: '5px',
@@ -227,7 +229,7 @@ function HUD({
                     <div style={{ fontSize: '7.5px', letterSpacing: '.15em', color: 'rgba(255,255,255,.18)', textTransform: 'uppercase' }}>
                         Leader Score
                     </div>
-                    <div className="score-val" style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '30px', fontWeight: 700, color: '#ff2828', lineHeight: 1 }}>
+                    <div className="score-val font-got-num" style={{ fontSize: '30px', color: '#ff2828', lineHeight: 1 }}>
                         {teams[0]?.pts.toLocaleString() || '0'}
                     </div>
                     <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,.05)' }} />
@@ -239,7 +241,7 @@ function HUD({
                     ].map(([k, v]) => (
                         <div key={k} className="stats-row" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px' }}>
                             <span style={{ color: 'rgba(255,255,255,.2)' }}>{k}</span>
-                            <span style={{ color: 'rgba(255,255,255,.5)' }}>{v}</span>
+                            <span className="font-got-num" style={{ color: 'rgba(255,255,255,.5)' }}>{v}</span>
                         </div>
                     ))}
                     <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,.05)' }} />
@@ -249,7 +251,7 @@ function HUD({
                     ].map(([k, v]) => (
                         <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px' }}>
                             <span style={{ color: 'rgba(255,255,255,.2)' }}>{k}</span>
-                            <span style={{ color: 'rgba(255,255,255,.5)' }}>{v}</span>
+                            <span className="font-got-num" style={{ color: 'rgba(255,255,255,.5)' }}>{v}</span>
                         </div>
                     ))}
                     <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,.05)' }} />
@@ -259,7 +261,7 @@ function HUD({
                     {teams.slice(1).map((t, i) => (
                         <div key={`${t.name}-${i}`} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '7.5px' }}>
                              <span style={{ color: 'rgba(255,255,255,.2)', fontSize: '7.5px' }}>{t.name.replace(/_/g, ' ')}</span>
-                            <span style={{ color: 'rgba(255,90,90,.55)', fontSize: '7.5px' }}>-{(teams[0].pts - t.pts).toLocaleString()}</span>
+                            <span className="font-got-num" style={{ color: 'rgba(255,90,90,.55)', fontSize: '7.5px' }}>-{(teams[0].pts - t.pts).toLocaleString()}</span>
                         </div>
                     ))}
                 </div>

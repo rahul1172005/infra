@@ -57,6 +57,10 @@ export class LeaderboardService implements OnModuleInit, OnModuleDestroy {
         });
     }
 
+    async getTopTeams() {
+        return this.getTeamLeaderboard();
+    }
+
     async getPlayerLeaderboard() {
         return this.prisma.user.findMany({
             orderBy: { xp: 'desc' },

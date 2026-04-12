@@ -112,7 +112,7 @@ export default function CybersecurityArena() {
                         <HUDCard title="BOUNTY TARGET" tag="REWARD" className="flex flex-col justify-between" padding="p-6 md:p-10">
                             <div className="space-y-8 flex-1 flex flex-col justify-center">
                                 <div>
-                                    <p className="text-4xl font-black tracking-tighter text-[#E81414] tabular-nums leading-none">+3000 XP</p>
+                                    <p className="text-4xl font-black tracking-tighter text-[#E81414] tabular-nums leading-none">1000HONOR</p>
                                     <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#E81414]/50 mt-3 leading-relaxed">MAXIMUM YIELD</p>
                                 </div>
                                 <Button variant="primary" onClick={startHack} fullWidth className="py-6 text-xs font-black tracking-[0.4em] group bg-[#E81414] hover:bg-black hover:text-[#E81414] border border-[#E81414]">
@@ -172,7 +172,7 @@ export default function CybersecurityArena() {
                         <div className="text-center space-y-6 relative z-10">
                             <LockOpen className="w-24 h-24 mx-auto text-[#E81414] drop-shadow-[0_0_20px_rgba(232,20,20,0.8)]" />
                             <h3 className="text-4xl font-black uppercase tracking-widest text-white text-shadow-lg">SYSTEM BREACHED</h3>
-                            <p className="text-sm font-black tracking-[0.4em] text-white/80 uppercase">Root access acquired. +3000 XP Transferred.</p>
+                            <p className="text-sm font-black tracking-[0.4em] text-white/80 uppercase">Root access acquired. 1000HONOR Transferred.</p>
                             
                             <div className="pt-8">
                                 <Link href="/challenges">

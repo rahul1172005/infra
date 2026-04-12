@@ -90,7 +90,7 @@ export default function SectorCard({
           <h4 className="text-lg font-black tracking-tighter uppercase  group-hover:text-black transition-colors">
             {title}
           </h4>
-          <p className="text-[10px] tracking-widest font-black uppercase text-white/30 group-hover:text-black/70 leading-relaxed transition-colors">
+          <p className="text-[10px] tracking-widest text-white/30 group-hover:text-black/70 leading-relaxed transition-colors">
             {desc}
           </p>
         </div>

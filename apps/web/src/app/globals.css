@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 /** @tailwind base; @tailwind components; @tailwind utilities; */
 @plugin "tailwindcss-animate";
@@ -7,7 +8,19 @@
 @font-face {
   font-family: 'Game of Thrones';
   src: url('/Game of Thrones.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── GOT Numbers (Strictly for all numeric digits) ────────────────────────── */
+@font-face {
+  font-family: 'GOT-Numbers';
+  /* Using Cinzel Decorative & Cinzel as primary numeric proxies for GOT look */
+  src: local('Cinzel Decorative'), local('Cinzel'), url('/Game of Thrones.ttf') format('truetype');
+  /* Digits 0-9, and punctuation like , . + - / : % */
+  unicode-range: U+30-39, U+2C, U+2E, U+2B, U+2D, U+2F, U+3A, U+23, U+25;
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -47,9 +60,11 @@
   --radius-md: 0.75rem;
   --radius-sm: 0.5rem;
 
-  --font-sans: 'Game of Thrones', sans-serif;
+  --font-body: 'Adieu', sans-serif;
+  --font-sans: 'Adieu', sans-serif;
   --font-title: 'Game of Thrones', sans-serif;
-  --font-mono: 'Game of Thrones';
+  --font-numbers: 'Cinzel Decorative', 'Cinzel', 'Game of Thrones', serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   --text-xs: 0.65rem;
   --text-sm: 0.75rem;
@@ -99,18 +114,14 @@
   }
 
   body {
-    background-color: #000000;
-    color: #FFFFFF;
-    font-family: 'Game of Thrones', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: pan-y;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    line-height: 1.7;
-    overflow-x: hidden;
+    background: #000;
+    color: #fff;
+    font-family: 'Adieu', var(--font-body);
+    text-transform: none;
     width: 100%;
+    /* Ensure the special numeric glyphs are preferred by disabling features that might map them back to normal digits */
+    font-variant-numeric: normal;
+    font-feature-settings: normal;
   }
 
   h1,
@@ -127,15 +138,28 @@
   }
 
   p {
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     line-height: 1.8;
-    font-family: 'Game of Thrones', sans-serif;
+    font-family: inherit;
+    text-transform: inherit;
   }
 
   span {
     letter-spacing: inherit;
     line-height: inherit;
     font-family: inherit;
+  }
+
+  /* ── Special font overrides for original titles ── */
+  .font-black.uppercase,
+  .font-black.tracking-widest.uppercase,
+  .font-black.tracking-\[0\.6em\].uppercase {
+    font-family: var(--font-title);
+  }
+
+  /* Ensure h1-h6 always use the title font regardless of classes */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-title) !important;
   }
 
   label {
@@ -171,11 +195,28 @@
     font-feature-settings: normal !important;
   }
 
+  .font-got-num {
+    font-family: 'Cinzel Decorative', serif !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.05em !important;
+    font-variant-numeric: tabular-nums !important;
+  }
+
+  .got-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    font-family: 'Cinzel Decorative', serif !important;
+    font-weight: 900 !important;
+  }
+
   .tabular-nums {
-    font-family: 'Game of Thrones', sans-serif !important;
-    font-weight: 400 !important;
-    font-variant-numeric: normal !important;
-    font-feature-settings: normal !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 700 !important;
+    font-variant-numeric: tabular-nums !important;
     letter-spacing: 0.05em !important;
   }
 
@@ -238,10 +279,8 @@
   }
 
   .tabular-nums {
-    font-family: 'Game of Thrones', 'Adieu', sans-serif !important;
-    font-weight: 400 !important;
+    font-family: 'Cinzel', serif !important;
     font-variant-numeric: tabular-nums !important;
-    letter-spacing: 0 !important;
   }
 
   /* Utility to hide scrollbars */

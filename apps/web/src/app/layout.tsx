@@ -32,11 +32,7 @@ export default function RootLayout({
       <head>
         <link rel="preload" href="/Game of Thrones.ttf" as="font" type="font/ttf" crossOrigin="anonymous"/>
       </head>
-      <body
-        className="antialiased bg-black text-white font-['Game of Thrones']"
-        suppressHydrationWarning
-        style={{ fontFamily: "'Game of Thrones', 'Adieu', sans-serif" }}
-      >
+      <body className="antialiased bg-black text-white" suppressHydrationWarning>
         <GoogleProvider>
           <AuthProvider>
             {children}

@@ -131,7 +131,7 @@ export default function AIQuizArena() {
                         <HUDCard title="DEPLOYMENT" tag="ACTION" className="flex flex-col justify-between" padding="p-6 md:p-10">
                             <div className="space-y-8 flex-1 flex flex-col justify-center">
                                 <div>
-                                    <p className="text-4xl font-black tracking-tighter text-white tabular-nums leading-none">+1000 XP</p>
+                                    <p className="text-4xl font-black tracking-tighter text-white tabular-nums leading-none">1000HONOR</p>
                                     <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mt-3 leading-relaxed">SUCCESS YIELD</p>
                                 </div>
                                 <Button variant="primary" onClick={initiateTrial} fullWidth className="py-6 text-xs font-black tracking-[0.4em] group hover:bg-[#E81414] hover:text-white border border-[#E81414]/30 bg-[#E81414]/10 text-[#E81414]">
@@ -203,7 +203,7 @@ export default function AIQuizArena() {
                                         {score > 0 ? 'SYNAPSE VERIFIED' : 'NEURAL MISMATCH'}
                                     </h3>
                                     <p className="text-sm font-black tracking-[0.3em] text-white/50">
-                                        {score > 0 ? `YIELD SECURED: +${score} XP` : 'YIELD: 0 XP. REVIEW REQUIRED.'}
+                                        {score > 0 ? `YIELD SECURED: ${score}HONOR` : 'YIELD: 0 HONOR. REVIEW REQUIRED.'}
                                     </p>
                                 </div>
                                 <div className="pt-8 relative z-10">

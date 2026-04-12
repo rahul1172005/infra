@@ -123,8 +123,8 @@ export default function Home() {
                 <div className="flex-1 space-y-4 md:space-y-6 text-center lg:text-left">
                   <div className="flex items-center gap-3 justify-center lg:justify-start">
                     <SurikenIcon size="xs" className="opacity-40" />
-                    <p className="text-white/40 text-sm md:text-base lg:text-xl tracking-[0.15em] md:tracking-[0.2em] uppercase font-black leading-[1.8] max-w-2xl">
-                      THE PREMIER CITADEL FOR <span className="text-white">ELITE HOUSES</span>. MANAGE DYNASTIES, CONQUER KINGDOMS, AND SECURE IRON THRONE SUPREMACY
+                    <p className="text-white/40 text-sm md:text-base lg:text-xl leading-[1.8] max-w-2xl">
+                      The premier citadel for <span className="text-white">Elite Houses</span>. Manage dynasties, conquer kingdoms, and secure Iron Throne supremacy.
                     </p>
                   </div>
                   <div className="flex justify-center lg:justify-start gap-6 md:gap-8">
@@ -154,8 +154,8 @@ export default function Home() {
                   </h2>
                 </div>
                 {/* Decorative icon removed */}
-                <p className="max-w-md text-white/40 text-[13px] tracking-wide uppercase font-black leading-loose border-l-0 lg:border-l-2 border-white/10 px-0 lg:pl-8">
-                  ADVANCED ROYAL MODULES FOR HOUSE SYNCHRONIZATION AND QUEST-CRITICAL CODE ANALYSIS.
+                <p className="max-w-md text-white/40 text-[13px] leading-loose border-l-0 lg:border-l-2 border-white/10 px-0 lg:pl-8">
+                  Advanced royal modules for house synchronization and quest-critical code analysis.
                 </p>
               </div>
 

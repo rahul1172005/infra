@@ -42,6 +42,17 @@ export class ScoreboardController {
     }
 
     /**
+     * API: Monitoring Overview
+     * Real-time dashboard for active coding sessions and completions
+     */
+    @Get('monitoring')
+    @UseGuards(RolesGuard)
+    @Roles('ADMIN')
+    async getMonitoring() {
+        return this.scoreboardService.getMonitoringData();
+    }
+
+    /**
      * API: Reset Global Season
      * Requires Admin privileges and has immediate effect on all accounts
      */

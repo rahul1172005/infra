@@ -18,7 +18,7 @@ const DOMAINS = [
         description: 'Master the art of human-centered design. Craft interfaces that blend aesthetics with function and push the boundaries of user experience.',
         href: '/challenges/ui-ux',
         challenges: 8,
-        xp: '27,500',
+        honor: '27,500',
         tag: 'DESIGN SYSTEM',
     },
     {
@@ -28,7 +28,7 @@ const DOMAINS = [
         description: 'Navigate the frontier where human and artificial intelligence collide. Outsmart models that know everything — except what matters.',
         href: '/challenges/ai-era',
         challenges: 8,
-        xp: '27,500',
+        honor: '27,500',
         tag: 'INTELLIGENCE',
     },
     {
@@ -38,7 +38,7 @@ const DOMAINS = [
         description: 'Descend into the logic layers of the machine. Solve high-stakes algorithmic trials and architect systems that survive the heat of execution.',
         href: '/challenges/coding-challenge',
         challenges: 15,
-        xp: '15,000',
+        honor: '15,000',
         tag: 'ARCHITECTURE',
     },
     {
@@ -48,7 +48,7 @@ const DOMAINS = [
         description: 'Enter the battleground of digital warfare. Decode exploits, break firewalls, and outmaneuver adversaries where every byte is a weapon.',
         href: '/challenges/cybersecurity',
         challenges: 7,
-        xp: '20,000',
+        honor: '20,000',
         tag: 'CYBERSECURITY',
     },
 ];
@@ -66,7 +66,7 @@ export default function ChallengesPage() {
             <StatGrid stats={[
                 { title: 'TOTAL DOMAINS', value: '4', color: 'text-white' },
                 { title: 'ACTIVE CHALLENGES', value: '38', color: 'text-white' },
-                { title: 'TOTAL XP POOL', value: '90,000', color: 'text-white' },
+                { title: 'TOTAL HONOR POOL', value: '90,000', color: 'text-white' },
                 { title: 'GLOBAL PARTICIPANTS', value: '1,284', color: 'text-white' },
             ]} variant="oversight" />
 
@@ -133,10 +133,10 @@ export default function ChallengesPage() {
                                         <div className="w-px h-8 bg-white/10 group-hover:bg-black/15 transition-colors duration-500" />
                                         <div className="flex flex-col">
                                             <span className="text-2xl font-black tabular-nums text-[#E81414] group-hover:text-black leading-none transition-colors duration-500">
-                                                {domain.xp}
+                                                {domain.honor}
                                             </span>
                                             <span className="text-[8px] font-black uppercase tracking-[0.4em] text-white/30 group-hover:text-black/50 transition-colors duration-500">
-                                                XP POOL
+                                                HONOR POOL
                                             </span>
                                         </div>
                                     </div>

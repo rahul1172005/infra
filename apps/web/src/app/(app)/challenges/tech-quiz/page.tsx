@@ -119,7 +119,7 @@ export default function TechQuizArena() {
                         <HUDCard title="EXECUTION" tag="YIELD" className="flex flex-col justify-between" padding="p-6 md:p-10">
                             <div className="space-y-8 flex-1 flex flex-col justify-center">
                                 <div>
-                                    <p className="text-4xl font-black tracking-tighter text-white tabular-nums leading-none">+500 XP</p>
+                                    <p className="text-4xl font-black tracking-tighter text-white tabular-nums leading-none">500HONOR</p>
                                     <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mt-3 leading-relaxed">SUCCESS YIELD</p>
                                 </div>
                                 <Button variant="outline" onClick={initiateTrial} fullWidth className="py-6 text-xs font-black tracking-[0.4em] group hover:bg-white hover:text-black border border-white/20 text-white">
@@ -196,7 +196,7 @@ export default function TechQuizArena() {
                                         INFRASTRUCTURE OPTIMIZED
                                     </h3>
                                     <p className="text-xs font-black tracking-[0.3em] text-[#E81414]">
-                                        TOTAL YIELD: +{score} XP SECURED.
+                                        TOTAL YIELD: {score} HONOR SECURED.
                                     </p>
                                 </div>
                                 <div className="pt-8 relative z-10">

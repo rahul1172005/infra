@@ -116,7 +116,7 @@ export default function LeaderboardPage() {
                             ) : clans.map((team, i) => (
                                 <tr key={team.id || i} className="hover:bg-[#E81414] transition-all duration-500 group/row cursor-pointer">
                                     <td className="py-8 px-10">
-                                        <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-black transition-colors duration-500">{(i + 1).toString().padStart(2, '0')}</span>
+                                        <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-black transition-colors duration-500 font-got-num">{(i + 1).toString().padStart(2, '0')}</span>
                                     </td>
                                     <td className="py-8 px-10">
                                         <div className="flex items-center gap-6">
@@ -132,7 +132,7 @@ export default function LeaderboardPage() {
                                     <td className="py-8 px-10">
                                         <div className="flex items-center gap-4">
                                             <GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} className={`${i === 0 ? 'text-[#E81414] group-hover/row:text-black' : 'text-white/20 group-hover/row:text-black'} transition-colors duration-500`} />
-                                            <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-black tabular-nums transition-colors duration-500">{team.score?.toLocaleString() || '0'}</span>
+                                            <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-black font-got-num transition-colors duration-500">{team.score?.toLocaleString() || '0'}</span>
                                         </div>
                                     </td>
                                     <td className="py-8 px-10">

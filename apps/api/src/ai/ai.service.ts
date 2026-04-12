@@ -15,14 +15,18 @@ export class AiService {
         if (!user) throw new Error('User not found');
 
         const allTeams = await this.prisma.team.findMany({
-            include: { members: true }
+            include: { 
+                members: { 
+                    include: { user: true } 
+                } 
+            }
         });
 
         // Smart logic: find teams where average XP complements the user's XP
         // Ideal team aims for a balanced average team XP across the entire contour
         const scoredTeams = allTeams.map(team => {
-            const avgXp = team.members.reduce((sum, u) => sum + u.xp, 0) / (team.members.length || 1);
-            const gap = Math.abs(avgXp - user.xp);
+            const avgXp = team.members.reduce((sum, tm) => sum + (tm.user?.xp || 0), 0) / (team.members.length || 1);
+            const gap = Math.abs(avgXp - (user.xp || 0));
             return { team, compatibilityScore: 10000 - gap };
         }).sort((a, b) => b.compatibilityScore - a.compatibilityScore);
 

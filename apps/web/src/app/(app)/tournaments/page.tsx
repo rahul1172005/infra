@@ -55,7 +55,7 @@ export default function TournamentsArena() {
                                         <div className="p-4 bg-white/5 rounded-xl border border-white/10 flex flex-col items-center justify-center text-center gap-2">
                                             <GOTIcon variant="white" size={24} />
                                             <span className="text-[10px] font-black uppercase tracking-widest text-white/50">CHAMPION'S BOUNTY</span>
-                                            <span className="text-xl font-black text-white">50,000 XP</span>
+                                            <span className="text-xl font-black text-white">50,000 HONOR</span>
                                         </div>
                                         <div className="p-4 bg-white/5 rounded-xl border border-white/10 flex flex-col items-center justify-center text-center gap-2">
                                             <GOTIcon variant="white" size={24} />

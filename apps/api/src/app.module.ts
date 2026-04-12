@@ -3,8 +3,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth/auth.service';
 import { TeamService } from './team/team.service';
 import { TeamController } from './team/team.controller';
+import { SubmissionController } from './submission/submission.controller';
 import { LeaderboardService } from './leaderboard/leaderboard.service';
 import { ScoreGateway } from './socket/score.gateway';
+import { MonitoringGateway } from './socket/monitoring.gateway';
 import { SubmissionService } from './submission/submission.service';
 
 // Phase 2 / 3 Services
@@ -33,7 +35,7 @@ import { RolesGuard } from './auth/roles.guard';
             signOptions: { expiresIn: '1d' },
         }),
     ],
-    controllers: [TeamController, AuthController, LeaderboardController],
+    controllers: [TeamController, AuthController, LeaderboardController, SubmissionController],
     providers: [
         AuthService,
         JwtAuthGuard,
@@ -41,6 +43,7 @@ import { RolesGuard } from './auth/roles.guard';
         TeamService,
         LeaderboardService,
         ScoreGateway,
+        MonitoringGateway,
         SubmissionService,
 
         AiService,

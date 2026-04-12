@@ -85,7 +85,7 @@ export default function ProtocolRow({
           <h3 className="text-xl md:text-3xl font-black text-white tracking-widest uppercase transition-colors group-hover:text-black">
             {title}
           </h3>
-          <p className="text-[10px] tracking-[0.15em] font-black uppercase text-white/15 group-hover:text-black/70 transition-colors">{desc}</p>
+          <p className="text-[10px] tracking-[0.15em] text-white/15 group-hover:text-black/70 transition-colors">{desc}</p>
         </div>
       </div>
     </div>

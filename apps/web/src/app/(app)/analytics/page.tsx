@@ -283,7 +283,7 @@ export default function AnalyticsPage() {
                                         <div className="flex items-center justify-start gap-4 sm:gap-6 mb-4 sm:mb-8 flex-wrap">
                                             <div>
                                                 <p className="text-white/30 text-[8px] font-normal uppercase tracking-widest">Active Nodes</p>
-                                                <p className="text-white tabular-nums text-base sm:text-lg leading-none mt-1">{filteredData.length}</p>
+                                                <p className="text-white font-got-num text-base sm:text-lg leading-none mt-1">{filteredData.length}</p>
                                             </div>
                                             <div>
                                                 <p className="text-white/30 text-[8px] font-normal uppercase tracking-widest">Avg Pulse</p>
@@ -471,7 +471,7 @@ export default function AnalyticsPage() {
                                     ].map(s => (
                                         <div key={s.label} className="bg-white/[0.02] border border-white/5 rounded-xl px-3 py-3 md:px-5 md:py-4">
                                             <p className="text-[6px] md:text-[7px] font-black tracking-[0.4em] text-white/20 uppercase mb-1 md:mb-2">{s.label}</p>
-                                            <p className="text-sm md:text-xl font-black text-white ">{s.value}</p>
+                                            <p className="text-sm md:text-xl font-black text-white font-got-num">{s.value}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -492,11 +492,11 @@ export default function AnalyticsPage() {
                                                 <div className="border-t border-white/5 group-hover:border-black/10 pt-3 grid grid-cols-2 gap-3 transition-colors duration-500">
                                                     <div>
                                                         <span className="text-[7px] text-white/15 group-hover:text-black/50 font-black uppercase block mb-1 transition-colors duration-500">XP RESERVE</span>
-                                                        <p className="text-base font-black text-white group-hover:text-black tabular-nums transition-colors duration-500">{team.points.toLocaleString()}</p>
+                                                        <p className="text-base font-black text-white group-hover:text-black font-got-num transition-colors duration-500">{team.points.toLocaleString()}</p>
                                                     </div>
                                                     <div className="text-right">
                                                         <span className="text-[7px] text-white/15 group-hover:text-black/50 font-black uppercase block mb-1 transition-colors duration-500">SYNC%</span>
-                                                        <p className="text-base font-black text-white/40 group-hover:text-black/80 tabular-nums transition-colors duration-500">{Math.floor(team.sync)}%</p>
+                                                        <p className="text-base font-black text-white/40 group-hover:text-black/80 font-got-num transition-colors duration-500">{Math.floor(team.sync)}%</p>
                                                     </div>
                                                 </div>
 

@@ -175,10 +175,10 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
 
         <div className="mt-auto flex flex-col gap-6 w-full">
           <EnterButtons onEnter={onEnter} variant="mobile" />
-          <p className="text-[10px] text-center font-black uppercase tracking-[0.3em] text-white/70 leading-relaxed max-w-[280px] mx-auto">
-            THE IRON THRONE IS THE SEAT OF POWER IN WESTEROS.<br />
-            CLAIM YOUR BIRTHRIGHT<br />
-            THROUGH FIRE AND BLOOD.
+          <p className="text-[10px] text-center tracking-[0.3em] text-white/70 leading-relaxed max-w-[280px] mx-auto">
+            The Iron Throne is the seat of power in Westeros.<br />
+            Claim your birthright<br />
+            through fire and blood.
           </p>
         </div>
       </div>
@@ -218,9 +218,8 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
             transform: 'translate(0px, -50%) scale(1.1)',
             transformOrigin: 'left center'
           }}>
-          <p className="text-[32px] font-black uppercase leading-[1.1] tracking-tight text-black drop-shadow-sm">
-            THE IRON THRONE IS THE SEAT OF POWER IN WESTEROS.<br />
-
+          <p className="text-[32px] leading-[1.1] tracking-tight text-black drop-shadow-sm">
+            The Iron Throne is the seat of power in Westeros.
           </p>
         </div>
 
@@ -246,14 +245,14 @@ export default function WelcomeScreen({ onEnter }: WelcomeScreenProps) {
           <h2 className="text-[20px] font-black uppercase tracking-widest text-black leading-tight">
             THE PROMISED<br />ARENA
           </h2>
-          <p className="mt-4 text-[9px] font-black uppercase text-black opacity-100"
+          <p className="mt-4 text-[9px] text-black opacity-100"
             style={{
               letterSpacing: '0.4em',
               lineHeight: '2.2',
               transform: 'translate(0px, 0px) scale(1.0)'
             }}>
-            CLAIM YOUR BIRTHRIGHT<br />
-            THROUGH FIRE AND BLOOD.
+            Claim your birthright<br />
+            through fire and blood.
           </p>
         </div>
 

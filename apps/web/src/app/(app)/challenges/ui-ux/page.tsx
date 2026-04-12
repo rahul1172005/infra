@@ -25,7 +25,7 @@ const UI_UX_CHALLENGES = [
         ],
         deliverables: ['landing page', 'projects page', 'resume UI', 'contact UI'],
         whyHard: 'Must balance complex data visualization with a minimalist hacker aesthetic.',
-        xp: '+3,500 XP',
+        honor: '10000HONOR',
         difficulty: 'HARD',
     },
     {
@@ -42,7 +42,7 @@ const UI_UX_CHALLENGES = [
         ],
         deliverables: ['dashboard', 'planner', 'analytics', 'AI chat'],
         whyHard: 'Simplifying high-density AI information for stressed students.',
-        xp: '+3,000 XP',
+        honor: '3000HONOR',
         difficulty: 'MEDIUM',
     },
     {
@@ -59,7 +59,7 @@ const UI_UX_CHALLENGES = [
         ],
         deliverables: ['dashboard', 'analytics', 'roadmap', 'team'],
         whyHard: 'Requires exceptional data hierarchy for high-pressure decision making.',
-        xp: '+4,000 XP',
+        honor: '4000HONOR',
         difficulty: 'EXTREME',
     },
     {
@@ -76,7 +76,7 @@ const UI_UX_CHALLENGES = [
         ],
         deliverables: ['dashboard', 'stats', 'training', 'profile'],
         whyHard: 'Creating a high-energy visual style that doesn\'t cause fatigue.',
-        xp: '+3,500 XP',
+        honor: '10000HONOR',
         difficulty: 'HARD',
     },
     {
@@ -93,7 +93,7 @@ const UI_UX_CHALLENGES = [
         ],
         deliverables: ['home', 'timetable', 'assignments', 'profile'],
         whyHard: 'Consolidating multiple disconnected academic tools into one seamless OS.',
-        xp: '+2,500 XP',
+        honor: '2500HONOR',
         difficulty: 'MEDIUM',
     },
     {
@@ -110,7 +110,7 @@ const UI_UX_CHALLENGES = [
         ],
         deliverables: ['builder', 'themes', 'preview', 'export'],
         whyHard: 'Building a robust meta-design system that lets users express themselves.',
-        xp: '+3,000 XP',
+        honor: '3000HONOR',
         difficulty: 'HARD',
     },
     {
@@ -127,7 +127,7 @@ const UI_UX_CHALLENGES = [
         ],
         deliverables: ['home', 'mood', 'journal', 'progress'],
         whyHard: 'Using color theory and micro-animations to actively reduce anxiety.',
-        xp: '+3,500 XP',
+        honor: '10000HONOR',
         difficulty: 'HARD',
     },
     {
@@ -144,7 +144,7 @@ const UI_UX_CHALLENGES = [
         ],
         deliverables: ['explore', 'roadmap', 'progress', 'profile'],
         whyHard: 'Visualizing long-term career growth with uncertainty and branching paths.',
-        xp: '+4,500 XP',
+        honor: '4500HONOR',
         difficulty: 'EXTREME',
     },
 ];
@@ -194,7 +194,7 @@ export default function UIUXRealmPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-10">
                 {[
                     { label: 'ACTIVE TRIALS', value: '8' },
-                    { label: 'XP POOL', value: '27,000' },
+                    { label: 'HONOR POOL', value: '27,000' },
                     { label: 'AVG DIFFICULTY', value: 'HARD' },
                     { label: 'ACCEPTED', value: String(accepted.size) },
                 ].map((s) => (
@@ -231,7 +231,7 @@ export default function UIUXRealmPage() {
                                         </span>
                                     </div>
                                     <span className="text-sm font-normal tabular-nums text-[#E81414] group-hover:text-black transition-colors duration-500" style={{ fontFamily: "'Game of Thrones'" }}>
-                                        {ch.xp}
+                                        {ch.honor}
                                     </span>
                                 </div>
 

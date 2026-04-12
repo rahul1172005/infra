@@ -94,7 +94,7 @@ export default function DashboardPage() {
                         className="p-10 bg-white/5 hover:bg-[#E81414] border border-white/10 hover:border-[#E81414] rounded-[2rem] flex flex-col items-center justify-center text-center gap-4 min-h-[220px] transition-all duration-500 cursor-default group hover:shadow-2xl hover:shadow-[#E81414]/20"
                     >
                         <span className="text-[12px] tracking-[0.4em] font-black text-white/30 group-hover:text-white/60 uppercase transition-colors">{m.label}</span>
-                        <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal text-white transition-transform group-hover:scale-110 duration-500" style={{ fontFamily: "'Game of Thrones'", lineHeight: '1' }}>{m.val}</span>
+                        <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white transition-transform group-hover:scale-110 duration-500" style={{ fontFamily: "'Game of Thrones'", lineHeight: '1', fontWeight: 900 }}>{m.val}</span>
                     </div>
                 ))}
             </div>
@@ -132,12 +132,12 @@ export default function DashboardPage() {
                             </h4>
                             <div className="pt-4 flex items-center gap-6">
                                 <div className="flex flex-col leading-none">
-                                    <span className="text-4xl font-normal" style={{ fontFamily: "'Game of Thrones'" }}>{topTeam?.score || 0}</span>
+                                    <span className="text-4xl font-black" style={{ fontFamily: "'Game of Thrones'", fontWeight: 900 }}>{topTeam?.score || 0}</span>
                                     <span className="text-[8px] tracking-[0.2em] font-black opacity-40 uppercase">HONOR PTS</span>
                                 </div>
                                 <div className="w-px h-8 bg-white/20" />
                                 <div className="flex flex-col leading-none">
-                                    <span className="text-4xl font-normal" style={{ fontFamily: "'Game of Thrones'" }}>{topTeam?._count?.members || 0}</span>
+                                    <span className="text-4xl font-black" style={{ fontFamily: "'Game of Thrones'", fontWeight: 900 }}>{topTeam?._count?.members || 0}</span>
                                     <span className="text-[8px] tracking-[0.2em] font-black opacity-40 uppercase">LOYALISTS</span>
                                 </div>
                             </div>
@@ -164,8 +164,8 @@ export default function DashboardPage() {
                                 ].map((item) => (
                                     <div key={item.label} className="flex flex-col items-center justify-center gap-1 md:gap-3">
                                         <span 
-                                            className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-normal text-[#E81414] leading-normal" 
-                                            style={{ fontFamily: "'Game of Thrones'" }}
+                                            className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-black text-[#E81414] leading-normal" 
+                                            style={{ fontFamily: "'Game of Thrones'", fontWeight: 900 }}
                                         >
                                             {item.value.toString().padStart(2, '0')}
                                         </span>
@@ -237,7 +237,7 @@ export default function DashboardPage() {
                         >
                             <div className="flex items-center gap-6 md:gap-10 min-w-0 relative z-10">
                                 <div className="hidden sm:flex flex-col items-center gap-1 border-r border-white/10 pr-10 min-w-[140px] group-hover:border-white/20">
-                                    <span className="text-[11px] font-normal tracking-widest text-[#E81414] group-hover:text-white transition-colors duration-300" style={{ fontFamily: "'Game of Thrones'" }}>{formatNum(14 - i)}:00</span>
+                                    <span className="text-[11px] font-black tracking-widest text-[#E81414] group-hover:text-white transition-colors duration-300" style={{ fontFamily: "'Game of Thrones'", fontWeight: 900 }}>{formatNum(14 - i)}:00</span>
                                     <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-white" />
                                 </div>
                                 <div className="space-y-1 min-w-0">
@@ -249,7 +249,7 @@ export default function DashboardPage() {
                             </div>
                             <div className="flex items-center gap-4 md:gap-10 shrink-0 relative z-10">
                                 <div className="flex flex-col items-end">
-                                    <span className="text-lg md:text-3xl font-normal" style={{ fontFamily: "'Game of Thrones'" }}>+{team.score} HONOR</span>
+                                    <span className="text-lg md:text-3xl font-black" style={{ fontFamily: "'Game of Thrones'", fontWeight: 900 }}>+{team.score} HONOR</span>
                                     <span className="text-[8px] tracking-[0.4em] font-black uppercase opacity-40 group-hover:opacity-100 group-hover:text-white transition-colors duration-500">DYNAMIC SCORE</span>
                                 </div>
                             </div>

@@ -218,7 +218,7 @@ export default function TeamsPage() {
                                         {/* Left: Index + Name + Tags */}
                                         <div className="flex items-center gap-8 min-w-0 w-full md:w-auto">
                                             <div className={`w-14 h-14 border border-white/10 flex items-center justify-center transition-all rounded-2xl shrink-0 ${isLoyal ? 'bg-[#E81414] border-[#E81414]' : 'group-hover:bg-black/20'}`}>
-                                                <span className="text-xl font-black text-white group-hover:text-black transition-colors duration-500">{(idx + 1).toString().padStart(2, '0')}</span>
+                                                <span className="text-xl font-black text-white group-hover:text-black transition-colors duration-500 font-got-num">{(idx + 1).toString().padStart(2, '0')}</span>
                                             </div>
                                             <div className="space-y-2 min-w-0">
                                                 {/* Team name — no truncate, full visibility */}
@@ -249,7 +249,7 @@ export default function TeamsPage() {
                                         {/* Right: Score + Actions */}
                                         <div className="flex items-center gap-10 w-full md:w-auto justify-between md:justify-end">
                                             <div className="flex flex-col items-end">
-                                                <span className="text-2xl md:text-4xl font-black text-[#E81414] group-hover:text-black tabular-nums transition-colors duration-500">
+                                                <span className="text-2xl md:text-4xl font-black text-[#E81414] group-hover:text-black transition-colors duration-500 font-got-num">
                                                     {(group.score ?? 0).toLocaleString()}
                                                 </span>
                                                 <span className="text-[9px] tracking-[0.3em] font-black uppercase text-white/20 group-hover:text-black/40 transition-colors duration-500">STRENGTH</span>

@@ -178,6 +178,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { href: '/profile', label: 'PROFILE' },
                 ...(user?.role === 'ADMIN' ? [
                     { href: '/admin', label: 'FORBIDDEN CITADEL' },
+                    { href: '/admin/monitoring', label: 'SITUATION ROOM' },
+                    { href: '/admin/proctoring', label: 'PROCTORING LOGS' },
                 ] : []),
             ]
         }

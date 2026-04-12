@@ -81,7 +81,7 @@ export function ActionCard({
                     <div className={`p-8 md:p-12 border max-w-2xl mx-auto backdrop-blur-sm rounded-[2rem] md:rounded-[2.5rem] transition-colors duration-500 ${
                         isOversight ? 'bg-black border-white/5 group-hover:bg-black/10 group-hover:border-black/20' : 'bg-[#F9F9F9] border-black group-hover:bg-white/20'
                     }`}>
-                        <p className={`text-[14px] md:text-[16px] tracking-wide font-black uppercase leading-relaxed ${
+                        <p className={`text-[14px] md:text-[16px] leading-relaxed ${
                             isOversight ? 'text-white/50 group-hover:text-black/80' : 'text-black group-hover:text-black/80'
                         } transition-colors duration-500`}>
                             {description}

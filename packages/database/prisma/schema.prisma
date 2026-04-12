@@ -26,11 +26,20 @@ model User {
   xp            Int      @default(0)
   level         Int      @default(1)
   mmr           Int      @default(1000)
+
+  // Real-time tracking
+  status            String   @default("IDLE") // IDLE, CODING, VIEWING
+  currentChallengeId String?
+  lastActionAt      DateTime @default(now())
+  pointsContributed Int      @default(0)
   
-  teamOwned     Team[]   @relation("TeamOwner")
+  teamOwned       Team[]   @relation("TeamOwner")
   teamMemberships TeamMember[]
   
-  submissions   Submission[]
+  submissions     Submission[]
+  activeSessions  ActiveSession[]
+  solvedChallenges ChallengeCompletion[]
+  
   fullName      String?
   house         String?
   teamId        String?  @map("team_id")
@@ -60,6 +69,8 @@ model Team {
   
   members     TeamMember[]
   currentMembers User[]    @relation("CurrentTeam")
+  completions    ChallengeCompletion[]
+  activeSessions ActiveSession[]
 }
 
 model TeamMember {
@@ -103,6 +114,8 @@ model Challenge {
   submissions Submission[]
   matches     BattleMatch[]
   flags       CtfFlag[]
+  completions ChallengeCompletion[]
+  activeSessions ActiveSession[]
 }
 
 model Submission {
@@ -269,4 +282,36 @@ model MatchmakingQueue {
   gameMode    String   // BATTLE_ROYALE, 1V1, TEAM_DEATHMATCH
   queuedAt    DateTime @default(now())
   status      String   @default("SEARCHING") // SEARCHING, MATCHED
+}
+
+model ActiveSession {
+  id          String   @id @default(uuid())
+  userId      String
+  teamId      String
+  challengeId String
+  status      String   @default("VIEWING") // CODING, VIEWING
+  joinedAt    DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User      @relation(fields: [userId], references: [id])
+  team        Team      @relation(fields: [teamId], references: [id])
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+
+  @@unique([userId, challengeId])
+}
+
+model ChallengeCompletion {
+  id              String   @id @default(uuid())
+  teamId          String
+  challengeId     String
+  userId          String   // The player who actually solved it
+  pointsEarned    Int
+  timeTaken       Int      // in seconds
+  completedAt     DateTime @default(now())
+
+  team            Team      @relation(fields: [teamId], references: [id])
+  challenge       Challenge @relation(fields: [challengeId], references: [id])
+  user            User      @relation(fields: [userId], references: [id])
+
+  @@unique([teamId, challengeId])
 }

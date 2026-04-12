@@ -24,7 +24,7 @@ const AI_CHALLENGES = [
         ],
         examples: [],
         whyHard: 'Requires failure analysis + redesign',
-        xp: '+3,500 XP',
+        honor: '1000HONOR',
         difficulty: 'EXTREME',
     },
     {
@@ -40,7 +40,7 @@ const AI_CHALLENGES = [
         ],
         examples: ['Cultural humor detection', 'Ambiguous instructions', 'Emotional reasoning'],
         whyHard: 'Must outsmart AI',
-        xp: '+3,000 XP',
+        honor: '700HONOR',
         difficulty: 'HARD',
     },
     {
@@ -55,7 +55,7 @@ const AI_CHALLENGES = [
         ],
         examples: ['AI that improves room lighting', 'AI that analyzes body posture', 'AI that adapts to noise level'],
         whyHard: "Needs real-world sensing AI can't replicate",
-        xp: '+4,000 XP',
+        honor: '1000HONOR',
         difficulty: 'EXTREME',
     },
     {
@@ -70,7 +70,7 @@ const AI_CHALLENGES = [
         ],
         examples: ['AI mood-based UI', 'Stress-aware study planner', 'Emotion-driven game'],
         whyHard: 'Emotional UX design is deeply human',
-        xp: '+3,500 XP',
+        honor: '700HONOR',
         difficulty: 'HARD',
     },
     {
@@ -86,7 +86,7 @@ const AI_CHALLENGES = [
         ],
         examples: ['"More modern"', '"Looks wrong"', '"Needs more energy"'],
         whyHard: 'Requires deep human interpretation',
-        xp: '+2,500 XP',
+        honor: '400HONOR',
         difficulty: 'MEDIUM',
     },
     {
@@ -102,7 +102,7 @@ const AI_CHALLENGES = [
         ],
         examples: ['Coding assistant', 'Medical triage UI', 'Decision helper'],
         whyHard: 'Uncertainty UX is notoriously difficult',
-        xp: '+3,000 XP',
+        honor: '700HONOR',
         difficulty: 'HARD',
     },
     {
@@ -118,7 +118,7 @@ const AI_CHALLENGES = [
         ],
         examples: ['Fact checker UI', 'Citation validator', 'AI truth meter'],
         whyHard: 'Reasoning + verification at scale',
-        xp: '+3,500 XP',
+        honor: '700HONOR',
         difficulty: 'HARD',
     },
     {
@@ -133,7 +133,7 @@ const AI_CHALLENGES = [
         ],
         examples: ['Cultural UI', 'Local language UX', 'Humor-based product'],
         whyHard: 'Requires original human thinking',
-        xp: '+4,500 XP',
+        honor: '1000HONOR',
         difficulty: 'EXTREME',
     },
 ];
@@ -183,7 +183,7 @@ export default function AIEraPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-10">
                 {[
                     { label: 'TOTAL MISSIONS', value: '8' },
-                    { label: 'XP POOL', value: '27,500' },
+                    { label: 'HONOR POOL', value: '27,500' },
                     { label: 'AVG DIFFICULTY', value: 'HARD' },
                     { label: 'ACCEPTED', value: String(accepted.size) },
                 ].map((s) => (
@@ -220,7 +220,7 @@ export default function AIEraPage() {
                                         </span>
                                     </div>
                                     <span className="text-sm font-black tabular-nums text-[#E81414] group-hover:text-black transition-colors duration-500">
-                                        {ch.xp}
+                                        {ch.honor}
                                     </span>
                                 </div>
 

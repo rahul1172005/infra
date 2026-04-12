@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Users, Activity, Terminal, Database } from 'lucide-react';
+import { Shield, Users, Activity, Terminal, Database, Code, Eye } from 'lucide-react';
 import { GOTIcon, type GOTIconProps } from '@/components/icons/GOTIcon';
 import { DotGrid } from '@/components/ui/DotGrid';
 import { PageHeader } from '@/components/ui/PageHeader';
@@ -16,6 +16,10 @@ export default function AdminPage() {
 
     const [mounted, setMounted] = useState(false);
     const [systemStats, setSystemStats] = useState({ totalUsers: 0, totalTeams: 0 });
+    const [monitoringData, setMonitoringData] = useState<{ 
+        activeSessions: any[]; 
+        onlineCount: number; 
+    }>({ activeSessions: [], onlineCount: 0 });
 
     useEffect(() => {
         setMounted(true);
@@ -35,7 +39,20 @@ export default function AdminPage() {
                 }
             } catch (_) { /* silent — show cached */ }
         };
+
+        const fetchMonitoring = async () => {
+            try {
+                const res = await fetch('/api/monitoring');
+                if (res.ok) {
+                    setMonitoringData(await res.json());
+                }
+            } catch (_) {}
+        };
+
         fetchStats();
+        fetchMonitoring();
+        const timer = setInterval(fetchMonitoring, 30000); // 30s update cycle
+        return () => clearInterval(timer);
     }, [isAuthenticated, user, router]);
 
     const logs = [
@@ -47,10 +64,10 @@ export default function AdminPage() {
     ];
 
     const quickActions = [
-        { title: 'RECRUITMENT',  val: 'MANAGE OPERATIVES', sub: 'Global personnel access',  href: '/teams',      icon: <GOTIcon type="globe"   size={80} /> },
-        { title: 'DIAGNOSTICS',  val: 'SYSTEM AUDIT',      sub: 'Kernel fault scanner',     href: '/analytics',  icon: <GOTIcon type="shield"  size={80} /> },
-        { title: 'DATA CORE',    val: 'DB CONSOLE',        sub: 'Shard sequence control',   href: '/operations', icon: <GOTIcon type="lock"    size={80} /> },
-        { title: 'INTEL OPS',    val: 'ANALYTICS',         sub: 'Kingdom-wide analysis',    href: '/analytics',  icon: <GOTIcon type="trophy"  size={80} />, accent: true },
+        { title: 'SITUATION ROOM', val: 'REAL-TIME OPS', sub: 'Live challenge monitoring', href: '/admin/monitoring', icon: <GOTIcon type="shield" size={80} />, accent: true },
+        { title: 'RECRUITMENT',   val: 'MANAGE OPERATIVES', sub: 'Global personnel access', href: '/teams', icon: <GOTIcon type="globe" size={80} /> },
+        { title: 'DIAGNOSTICS',   val: 'SYSTEM AUDIT',      sub: 'Kernel fault scanner',     href: '/analytics', icon: <GOTIcon type="shield" size={80} /> },
+        { title: 'DATA CORE',     val: 'DB CONSOLE',        sub: 'Shard sequence control',   href: '/operations', icon: <GOTIcon type="lock" size={80} /> },
     ];
 
     const statsData = [
@@ -75,7 +92,7 @@ export default function AdminPage() {
                 {statsData.map(({ label, value, Icon }, i) => (
                     <div
                         key={i}
-                        className="p-10 bg-white/5 border border-white/10 rounded-[2rem] flex flex-col justify-between hover:border-[#E81414]/30 transition-all"
+                        className="p-10 bg-white/5 border border-white/10 rounded-[2rem] flex flex-col justify-between hover:border-[#E81414]/30 transition-all shadow-2xl shadow-black/50"
                     >
                         <span className="text-[10px] tracking-[0.4em] font-black text-white/20 uppercase">
                             {label}
@@ -90,65 +107,94 @@ export default function AdminPage() {
                 ))}
             </div>
 
-            {/* System Logs — wrapped in HUDCard to match other page data blocks */}
-            <HUDCard
-                padding="none"
-                title="SYSTEM LOGS"
-                tag="LIVE SYNC"
-                icon={<GOTIcon type="shield" size={64} className="opacity-80" scale={1.6} x={0} y={0} />}
-                statusLabel="OPERATIONAL"
-            >
-                <div className="divide-y divide-white/5">
-                    {logs.map((log, i) => (
-                        <div
-                            key={i}
-                            className={`
-                                px-6 md:px-10 py-5 md:py-8
-                                flex items-center gap-5 md:gap-10
-                                group cursor-pointer
-                                hover:bg-[#E81414] transition-all duration-300
-                                ${log.type === 'critical' ? 'bg-[#E81414]/5 border-l-4 border-l-[#E81414]' : ''}
-                            `}
-                        >
-                            <span className={`
-                                text-[10px] font-black tracking-widest shrink-0 transition-colors duration-300
-                                ${log.type === 'critical'
-                                    ? 'text-[#E81414] group-hover:text-black'
-                                    : 'text-white/20 group-hover:text-black'}
-                            `}>
-                                {log.time}
-                            </span>
-
-                            <span className={`
-                                text-[9px] px-3 py-1 font-black tracking-widest shrink-0 transition-all duration-300
-                                ${log.type === 'critical'
-                                    ? 'border border-[#E81414] text-[#E81414] group-hover:border-black group-hover:text-black'
-                                    : log.type === 'accent'
-                                        ? 'bg-[#E81414] text-white group-hover:bg-black group-hover:text-white'
-                                        : 'bg-white/10 text-white/60 group-hover:bg-black/20 group-hover:text-black'}
-                            `}>
-                                {log.category}
-                            </span>
-
-                            <span className={`
-                                text-[11px] font-black truncate transition-colors duration-300
-                                ${log.type === 'critical'
-                                    ? 'text-[#E81414] group-hover:text-black'
-                                    : 'text-white/40 group-hover:text-black'}
-                            `}>
-                                {log.message}
-                            </span>
-                        </div>
-                    ))}
-
-                    {/* Cursor blink row */}
-                    <div className="px-6 md:px-10 py-8 flex items-center gap-6">
-                        <span className="text-[11px] tracking-[1em] font-black text-white/10">
-                            AWAITING INPUT...
-                        </span>
+            {/* LIVE FIELD FEED — Real-time team monitoring */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                <HUDCard
+                    title="OPERATIVE SPECTATING"
+                    tag="LIVE FEED"
+                    icon={<Activity className="text-[#E81414]" />}
+                    statusLabel={`${monitoringData.activeSessions.length} UNITS IN OPERATION`}
+                >
+                    <div className="divide-y divide-white/5 max-h-[400px] overflow-y-auto custom-scrollbar">
+                        {monitoringData.activeSessions.length === 0 ? (
+                            <div className="p-12 text-center text-white/10 font-black uppercase tracking-[0.4em]">
+                                NO ACTIVE COMBATANTS
+                            </div>
+                        ) : monitoringData.activeSessions.map((session, i) => (
+                            <div key={session.id} className="p-8 flex items-center justify-between group hover:bg-white/5 transition-all">
+                                <div className="flex items-center gap-6">
+                                    <div className="relative">
+                                        <img 
+                                            src={session.user.picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.name}`} 
+                                            className="w-14 h-14 rounded-full border-2 border-white/10" 
+                                            alt="" 
+                                        />
+                                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-black bg-[#E81414] animate-pulse" title="ONLINE" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <div className="text-sm font-black text-white uppercase tracking-wider">{session.user.name}</div>
+                                        <div className="text-[10px] text-[#E81414] font-black tracking-widest uppercase">
+                                            {session.team.name}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="text-right space-y-2">
+                                    <div className="flex items-center gap-2 justify-end">
+                                        {session.status === 'CODING' ? (
+                                            <Code className="w-3 h-3 text-[#E81414] animate-pulse" />
+                                        ) : (
+                                            <Eye className="w-3 h-3 text-white/30" />
+                                        )}
+                                        <div className="text-[11px] font-black text-white/80 uppercase group-hover:text-[#E81414] transition-colors">
+                                            {session.challenge.title}
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-4 justify-end">
+                                        <div className="text-[9px] text-white/20 font-black tracking-widest uppercase">
+                                            {new Date(session.joinedAt).toLocaleTimeString()}
+                                        </div>
+                                        <button 
+                                            onClick={() => window.location.href = `/workspace?spectate=${session.user.id}`}
+                                            className="text-[9px] bg-white/10 hover:bg-[#E81414] text-white py-1 px-3 rounded-full font-black uppercase tracking-widest transition-all"
+                                        >
+                                            SPECTATE
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                </div>
-            </HUDCard>
+                </HUDCard>
+
+                <HUDCard
+                    title="SYSTEM LOGS"
+                    tag="LIVE SYNC"
+                    icon={<Database className="text-[#E81414]" />}
+                    statusLabel="OPERATIONAL"
+                >
+                    <div className="divide-y divide-white/5">
+                        {logs.map((log, i) => (
+                            <div
+                                key={i}
+                                className={`
+                                    px-8 py-6
+                                    flex items-center gap-8
+                                    group cursor-pointer
+                                    hover:bg-[#E81414] transition-all duration-300
+                                    ${log.type === 'critical' ? 'bg-[#E81414]/5 border-l-4 border-l-[#E81414]' : ''}
+                                `}
+                            >
+                                <span className="text-[10px] font-black tracking-widest text-white/20 group-hover:text-black">
+                                    {log.time}
+                                </span>
+                                <span className="text-[11px] font-black truncate text-white/40 group-hover:text-black">
+                                    {log.message}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </HUDCard>
+            </div>
 
             {/* Quick Actions — exact same card pattern as Dashboard */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
