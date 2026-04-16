@@ -91,7 +91,7 @@ export default function DashboardPage() {
                 ].map((m, i) => (
                     <div 
                         key={i} 
-                        className="p-10 bg-white/5 hover:bg-[#E81414] border border-white/10 hover:border-[#E81414] rounded-[2rem] flex flex-col items-center justify-center text-center gap-4 min-h-[220px] transition-all duration-500 cursor-default group hover:shadow-2xl hover:shadow-[#E81414]/20"
+                        className="p-12 bg-white/5 hover:bg-[#E81414] border border-white/10 hover:border-[#E81414] rounded-[2rem] flex flex-col items-center justify-center text-center gap-4 min-h-[240px] transition-all duration-500 cursor-default group hover:shadow-2xl hover:shadow-[#E81414]/20"
                     >
                         <span className="text-[12px] tracking-[0.4em] font-black text-white/30 group-hover:text-white/60 uppercase transition-colors">{m.label}</span>
                         <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white transition-transform group-hover:scale-110 duration-500" style={{ fontFamily: "'Game of Thrones'", lineHeight: '1', fontWeight: 900 }}>{m.val}</span>
@@ -146,7 +146,7 @@ export default function DashboardPage() {
 
                     {/* Countdown */}
                     <HUDCard
-                        padding="p-4 sm:p-6 md:p-10"
+                        padding="p-8 sm:p-10 md:p-14"
                         title="BATTLE RESET"
                         tag="TEMPORAL SYNC"
                         className="w-full relative bg-black/40"
@@ -194,7 +194,7 @@ export default function DashboardPage() {
                     <div
                         key={i}
                         onClick={() => window.location.href = mod.href}
-                        className={`cursor-pointer group relative min-h-[300px] p-10 flex flex-col justify-between border rounded-[2rem] overflow-hidden transition-all duration-500 active:scale-[0.98] hover:shadow-2xl ${
+                        className={`cursor-pointer group relative min-h-[320px] p-12 flex flex-col justify-between border rounded-[2rem] overflow-hidden transition-all duration-500 active:scale-[0.98] hover:shadow-2xl ${
                             mod.accent 
                             ? 'bg-white border-white text-black hover:bg-[#E81414] hover:border-[#E81414] hover:text-white' 
                             : 'bg-black border-white/10 text-white hover:bg-[#E81414] hover:border-[#E81414] shadow-2xl shadow-black/50'
@@ -233,7 +233,7 @@ export default function DashboardPage() {
                     {teams.slice(0, 5).map((team, i) => (
                         <div 
                             key={i} 
-                            className="px-6 md:px-10 py-6 md:py-10 flex items-center justify-between transition-all duration-500 group cursor-pointer text-white gap-6 md:gap-10 hover:bg-[#E81414] active:bg-[#C01010] active:scale-[0.99] relative overflow-hidden"
+                            className="px-8 md:px-12 py-8 md:py-12 flex items-center justify-between transition-all duration-500 group cursor-pointer text-white gap-6 md:gap-10 hover:bg-[#E81414] active:bg-[#C01010] active:scale-[0.99] relative overflow-hidden"
                         >
                             <div className="flex items-center gap-6 md:gap-10 min-w-0 relative z-10">
                                 <div className="hidden sm:flex flex-col items-center gap-1 border-r border-white/10 pr-10 min-w-[140px] group-hover:border-white/20">

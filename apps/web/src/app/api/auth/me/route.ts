@@ -1,21 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import jwt from 'jsonwebtoken';
+import { getServerSession } from '@/lib/auth-server';
 
 export async function GET(req: NextRequest) {
     try {
-        const authHeader = req.headers.get('Authorization');
-        const token = authHeader?.split(' ')[1];
+        const session = await getServerSession(req);
 
-        if (!token) {
+        if (!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
-        const decoded = jwt.verify(token, jwtSecret) as { sub: string; email: string };
-
         const user = await prisma.user.findUnique({
-            where: { id: decoded.sub || decoded.email }, // Fallback if sub is missing but email exists
+            where: { id: session.sub || (session as any).email },
             include: {
                 currentTeam: true,
                 _count: {
@@ -41,15 +37,11 @@ export async function GET(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
     try {
-        const authHeader = req.headers.get('Authorization');
-        const token = authHeader?.split(' ')[1];
+        const session = await getServerSession(req);
 
-        if (!token) {
+        if (!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
-
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
-        const decoded = jwt.verify(token, jwtSecret) as { sub: string; email: string };
 
         const body = await req.json();
         const { name, nickname, picture, house } = body;
@@ -60,7 +52,7 @@ export async function PATCH(req: NextRequest) {
             // find or create
             let team = await prisma.team.findUnique({ where: { name: teamNameStr } });
             if (!team) {
-                const userId = decoded.sub || decoded.email;
+                const userId = session.sub;
                 team = await prisma.team.create({ data: { name: teamNameStr, ownerId: userId } });
             }
             teamIdToSet = team.id;
@@ -70,7 +62,7 @@ export async function PATCH(req: NextRequest) {
         }
 
         const updatedUser = await prisma.user.update({
-            where: { id: decoded.sub || decoded.email },
+            where: { id: session.sub },
             data: {
                 ...(name && { name }),
                 ...(nickname !== undefined && { nickname }),
@@ -86,6 +78,18 @@ export async function PATCH(req: NextRequest) {
                         matchParticipations: true
                     }
                 }
+            }
+        });
+
+        await prisma.auditLog.create({
+            data: {
+                userId: session.sub,
+                action: 'PROFILE_UPDATE',
+                entityType: 'USER',
+                entityId: session.sub,
+                description: `User ${session.email} updated their profile.`,
+                metadata: { updatedFields: Object.keys(body) },
+                severity: 'INFO'
             }
         });
 

@@ -37,21 +37,24 @@ export const StatCard = ({
         <div
             className={`
                 p-8 md:p-12 border-2 md:border-[3px] flex flex-col justify-between min-h-[140px] md:min-h-[260px] 
-                group transition-all duration-300 relative overflow-hidden h-full 
-                rounded-[2.5rem]
+                group transition-all duration-500 relative overflow-hidden h-full 
+                rounded-[2.5rem] cursor-pointer
                 ${isOversight
                     ? 'bg-black border-white/5 text-white'
                     : 'bg-white border-black text-black'}
                 ${className}
             `}
         >
+            {/* Red hover overlay */}
+            <div className="absolute inset-0 bg-[#E81414] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
+
             <DotGrid opacity={isOversight ? 'opacity-[0.03]' : 'opacity-[0.03]'} />
 
             <div className="flex justify-between items-start relative z-10 gap-x-6">
                 <div className="flex-1 text-left">
                     <span className={`
                         text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] 
-                        transition-all block whitespace-normal break-words
+                        transition-all duration-500 block whitespace-normal break-words
                         ${isOversight
                             ? 'text-white/40 group-hover:text-black group-hover:opacity-100'
                             : 'text-black/40 group-hover:text-black group-hover:opacity-100'}
@@ -63,8 +66,8 @@ export const StatCard = ({
                 {icon && (
                     <div
                         className={`
-                            flex-shrink-0 flex items-center justify-center transition-all duration-300 
-                            ${isOversight ? 'text-white group-hover:text-white' : 'text-black'}
+                            flex-shrink-0 flex items-center justify-center transition-all duration-500 
+                            ${isOversight ? 'text-white group-hover:text-black' : 'text-black'}
                         `}
                         style={{
                             transform: `scale(${scale === 1.2 ? 1 : scale})`

@@ -15,7 +15,7 @@ export class JwtAuthGuard implements CanActivate {
             const payload = await this.jwtService.verifyAsync(
                 token,
                 {
-                    secret: process.env.JWT_SECRET || 'zapsters_super_secret_jwt'
+                    secret: process.env.JWT_SECRET
                 }
             );
             // 💡 Extract user details to the request object so that controllers can use it

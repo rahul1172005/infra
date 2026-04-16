@@ -97,11 +97,11 @@ export default function LeaderboardPage() {
                     <table className="w-full text-left border-collapse min-w-[700px]">
                         <thead>
                             <tr className="bg-white/[0.03] text-white/40 text-[8px] tracking-[0.4em] font-black uppercase border-b border-white/10">
-                                <th className="py-8 px-10">POS</th>
-                                <th className="py-8 px-10">HOUSE IDENTITY</th>
-                                <th className="py-8 px-10">STRENGTH RATING</th>
-                                <th className="py-8 px-10">SOLDIERS</th>
-                                <th className="py-8 px-10 text-right">VELOCITY</th>
+                                <th className="py-10 px-12">POS</th>
+                                <th className="py-10 px-12">HOUSE IDENTITY</th>
+                                <th className="py-10 px-12">STRENGTH RATING</th>
+                                <th className="py-10 px-12">SOLDIERS</th>
+                                <th className="py-10 px-12 text-right">VELOCITY</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
@@ -115,10 +115,10 @@ export default function LeaderboardPage() {
                                 </tr>
                             ) : clans.map((team, i) => (
                                 <tr key={team.id || i} className="hover:bg-[#E81414] transition-all duration-500 group/row cursor-pointer">
-                                    <td className="py-8 px-10">
+                                    <td className="py-10 px-12">
                                         <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-black transition-colors duration-500 font-got-num">{(i + 1).toString().padStart(2, '0')}</span>
                                     </td>
-                                    <td className="py-8 px-10">
+                                    <td className="py-10 px-12">
                                         <div className="flex items-center gap-6">
                                             <div className={`w-14 h-14 ${i === 0 ? 'bg-[#E81414] shadow-lg shadow-[#E81414]/20' : 'bg-white/5 group-hover/row:bg-black/20'} flex items-center justify-center shrink-0 rounded-2xl group-hover/row:scale-110 transition-transform duration-500`}>
                                                 <span className={`${i === 0 ? 'text-white group-hover/row:text-black' : 'text-white/40 group-hover/row:text-black'} text-lg font-black transition-colors duration-500`}>{team.name?.[0] || '?'}</span>
@@ -129,13 +129,13 @@ export default function LeaderboardPage() {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="py-8 px-10">
+                                    <td className="py-10 px-12">
                                         <div className="flex items-center gap-4">
                                             <GOTIcon type="zap" size={32} scale={1.2} x={0} y={0} className={`${i === 0 ? 'text-[#E81414] group-hover/row:text-black' : 'text-white/20 group-hover/row:text-black'} transition-colors duration-500`} />
                                             <span className="text-xl font-black tracking-tighter text-[#E81414] group-hover/row:text-black font-got-num transition-colors duration-500">{team.score?.toLocaleString() || '0'}</span>
                                         </div>
                                     </td>
-                                    <td className="py-8 px-10">
+                                    <td className="py-10 px-12">
                                         <div className="flex items-center gap-4">
                                             <span className="text-[10px] font-black tracking-[0.2em] uppercase transition-colors duration-500">
                                                 <span className="text-[#E81414] group-hover/row:text-black transition-colors duration-500">{team._count?.members || 0}</span>

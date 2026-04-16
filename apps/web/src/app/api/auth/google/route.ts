@@ -3,6 +3,7 @@ import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 import { prisma } from '@/lib/prisma';
+import { auditAction } from '@/lib/auth-server';
 
 const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 
@@ -35,25 +36,31 @@ export async function POST(req: NextRequest) {
             console.warn('WARN: ID Token verification failed, attempting Access Token fallback...', idError);
             
             // Fallback: Use userinfo endpoint (common for access_tokens provided by @react-oauth/google)
+            console.log('DEBUG: Attempting to fetch userinfo from Google with access token...');
             const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`);
+            const responseText = await response.text();
+            console.log('DEBUG: Google UserInfo Raw Response:', response.status, responseText);
+            
             if (!response.ok) {
                 console.error('ERROR: Google Access Token verification failed with status:', response.status);
-                throw new Error('Google token verification failed');
+                throw new Error(`Google token verification failed: ${responseText}`);
             }
-            payload = await response.json();
-            console.log('DEBUG: Google Access Token verified manually via UserInfo endpoint for:', payload?.email);
+            
+            payload = JSON.parse(responseText);
+            console.log('DEBUG: Google Access Token verified manually via UserInfo endpoint for:', payload?.email, 'full payload:', JSON.stringify(payload));
         }
 
         if (!payload || !payload.email || !payload.sub) {
-            console.error('ERROR: Could not extract user info from Google payload');
+            console.error('ERROR: Could not extract user info from Google payload. Payload:', JSON.stringify(payload));
             return NextResponse.json({
                 success: false,
                 error: 'TOKEN_INVALID',
-                message: 'Invalid Google token response'
+                message: 'Invalid Google token response: Missing sub or email'
             }, { status: 401 });
         }
 
         const { email, name, sub: googleId, picture } = payload;
+
 
         // Determine deterministic roles for admins matching the register route
         const adminEmails = process.env.ADMIN_EMAILS?.split(',').map(e => e.trim().toLowerCase()) || [];
@@ -66,14 +73,14 @@ export async function POST(req: NextRequest) {
             update: {
                 googleId,
                 picture,
-                // Last login or other updates would go here
+                lastActionAt: new Date(),
             },
             create: {
                 email,
                 name: name || email.split('@')[0],
                 googleId,
                 picture,
-                role: computedRole as any,
+                role: computedRole === 'ADMIN' ? 'ADMIN' : 'PLAYER',
                 xp: 0,
                 level: 1,
                 mmr: 1000,
@@ -83,7 +90,8 @@ export async function POST(req: NextRequest) {
         console.log('DEBUG: MySQL User persistence successful, ID:', user.id);
 
         // Requirement 8: Session Handling via httpOnly Cookie
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) throw new Error('JWT_SECRET is not configured');
         const sessionToken = jwt.sign(
             { sub: user.id, email: user.email, role: user.role },
             jwtSecret,
@@ -112,6 +120,14 @@ export async function POST(req: NextRequest) {
                 role: user.role
             },
             access_token: sessionToken // Also return for non-cookie fallback clients
+        });
+
+        await auditAction({
+            userId: user.id,
+            action: 'GOOGLE_LOGIN',
+            entityType: 'USER',
+            entityId: user.id,
+            description: `User ${user.email} logged in via Google OAuth`,
         });
 
         res.headers.append('Set-Cookie', cookie);

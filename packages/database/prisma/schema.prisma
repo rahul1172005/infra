@@ -5,177 +5,155 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Set DATABASE_URL in environment for Neon PostgreSQL
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  ADMIN
-  PLAYER
-}
-
 model User {
-  id            String   @id @default(cuid())
-  name          String
-  nickname      String?
-  email         String   @unique
-  password      String?
-  googleId      String?  @unique @map("google_id")
-  picture       String?  @map("avatar")
-  role          UserRole @default(PLAYER)
-  xp            Int      @default(0)
-  level         Int      @default(1)
-  mmr           Int      @default(1000)
-
-  // Real-time tracking
-  status            String   @default("IDLE") // IDLE, CODING, VIEWING
-  currentChallengeId String?
-  lastActionAt      DateTime @default(now())
-  pointsContributed Int      @default(0)
-  
-  teamOwned       Team[]   @relation("TeamOwner")
-  teamMemberships TeamMember[]
-  
-  submissions     Submission[]
-  activeSessions  ActiveSession[]
-  solvedChallenges ChallengeCompletion[]
-  
-  fullName      String?
-  house         String?
-  teamId        String?  @map("team_id")
-  currentTeam   Team?    @relation("CurrentTeam", fields: [teamId], references: [id])
-  createdAt     DateTime @default(now()) @map("created_at")
-
-  // Phase 2 Relations
-  clientProjects   Project[] @relation("ClientProjects")
-  assignedProjects Project[] @relation("AssignedProjects")
-  bids             Bid[]
-  paymentsMade     Payment[] @relation("PaymentsMade")
-  paymentsReceived Payment[] @relation("PaymentsReceived")
-  cheatLogs        CheatLog[]
+  id                  String                @id @default(cuid())
+  name                String
+  nickname            String?
+  email               String                @unique
+  password            String?
+  googleId            String?               @unique @map("google_id")
+  picture             String?               @map("avatar")
+  role                UserRole              @default(PLAYER)
+  xp                  Int                   @default(0)
+  level               Int                   @default(1)
+  mmr                 Int                   @default(1000)
+  fullName            String?
+  house               String?
+  teamId              String?               @map("team_id")
+  createdAt           DateTime              @default(now()) @map("created_at")
+  status              String                @default("IDLE")
+  currentChallengeId  String?
+  lastActionAt        DateTime              @default(now())
+  pointsContributed   Int                   @default(0)
+  activeSessions      ActiveSession[]
+  matchesWon          BattleMatch[]         @relation("MatchesWon")
+  bids                Bid[]
+  solvedChallenges    ChallengeCompletion[]
+  cheatLogs           CheatLog[]
   matchParticipations MatchParticipant[]
-  matchesWon       BattleMatch[] @relation("MatchesWon")
+  notifications       Notification[]
+  paymentsReceived    Payment[]             @relation("PaymentsReceived")
+  paymentsMade        Payment[]             @relation("PaymentsMade")
+  assignedProjects    Project[]             @relation("AssignedProjects")
+  clientProjects      Project[]             @relation("ClientProjects")
+  submissions         Submission[]
+  teamOwned           Team[]                @relation("TeamOwner")
+  joinRequests        TeamJoinRequest[]
+  teamMemberships     TeamMember[]
+  currentTeam         Team?                 @relation("CurrentTeam", fields: [teamId], references: [id])
 }
 
 model Team {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  image       String?
-  ownerId     String   @map("owner_id")
-  owner       User     @relation("TeamOwner", fields: [ownerId], references: [id])
-  maxMembers  Int      @default(3) @map("max_members")
-  score       Int      @default(0)
-  createdAt   DateTime @default(now()) @map("created_at")
-  
-  members     TeamMember[]
-  currentMembers User[]    @relation("CurrentTeam")
-  completions    ChallengeCompletion[]
+  id             String                @id @default(cuid())
+  name           String                @unique
+  image          String?
+  ownerId        String                @map("owner_id")
+  maxMembers     Int                   @default(3) @map("max_members")
+  score          Int                   @default(0)
+  createdAt      DateTime              @default(now()) @map("created_at")
   activeSessions ActiveSession[]
+  completions    ChallengeCompletion[]
+  owner          User                  @relation("TeamOwner", fields: [ownerId], references: [id])
+  joinRequests   TeamJoinRequest[]
+  members        TeamMember[]
+  currentMembers User[]                @relation("CurrentTeam")
 }
 
 model TeamMember {
-  id        String   @id @default(cuid())
-  teamId    String   @map("team_id")
-  userId    String   @map("user_id")
-  joinedAt  DateTime @default(now()) @map("joined_at")
-
-  team      Team     @relation(fields: [teamId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  id       String   @id @default(cuid())
+  teamId   String   @map("team_id")
+  userId   String   @map("user_id")
+  joinedAt DateTime @default(now()) @map("joined_at")
+  team     Team     @relation(fields: [teamId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 
   @@unique([teamId, userId])
 }
 
-
-
 model Contest {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   title       String
   description String?
-  tag         String?  // e.g. "SEASON 1", "ELITE TRIAL"
+  tag         String?
   imageUrl    String?
   domain      String
   startTime   DateTime
   endTime     DateTime
-  isLive      Boolean  @default(false)
+  isLive      Boolean     @default(false)
   challenges  Challenge[]
 }
 
 model Challenge {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  category    String   @default("GENERAL") // AI, CODING, CYBER, UIUX
-  difficulty  String   @default("MEDIUM")  // EASY, MEDIUM, HARD, EXTREME
-  icon        String?  // GOTIcon type
-  maxScore    Int      @default(1000)
-  isActive    Boolean  @default(true)
-  contestId   String
-  contest     Contest  @relation(fields: [contestId], references: [id])
-  submissions Submission[]
-  matches     BattleMatch[]
-  flags       CtfFlag[]
-  completions ChallengeCompletion[]
+  id             String                @id @default(uuid())
+  title          String
+  description    String
+  category       String                @default("GENERAL")
+  difficulty     String                @default("MEDIUM")
+  icon           String?
+  maxScore       Int                   @default(1000)
+  isActive       Boolean               @default(true)
+  contestId      String
   activeSessions ActiveSession[]
+  matches        BattleMatch[]
+  contest        Contest               @relation(fields: [contestId], references: [id])
+  completions    ChallengeCompletion[]
+  flags          CtfFlag[]
+  submissions    Submission[]
 }
 
 model Submission {
-  id           String   @id @default(uuid())
-  userId       String
-  challengeId  String
-  score        Int
-  fileUrl      String?
-  createdAt    DateTime @default(now())
-
-  user         User      @relation(fields: [userId], references: [id])
-  challenge    Challenge @relation(fields: [challengeId], references: [id])
+  id          String    @id @default(uuid())
+  userId      String
+  challengeId String
+  score       Int
+  fileUrl     String?
+  createdAt   DateTime  @default(now())
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 }
 
-// ==========================================
-// PHASE 2: ADVANCED SYSTEMS
-// ==========================================
-
 model Project {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
   budget      Float
-  status      String   @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED
+  status      String    @default("OPEN")
   clientId    String
   assignedTo  String?
-  createdAt   DateTime @default(now())
-
-  client      User     @relation("ClientProjects", fields: [clientId], references: [id])
-  assignee    User?    @relation("AssignedProjects", fields: [assignedTo], references: [id])
+  createdAt   DateTime  @default(now())
   bids        Bid[]
   payments    Payment[]
+  assignee    User?     @relation("AssignedProjects", fields: [assignedTo], references: [id])
+  client      User      @relation("ClientProjects", fields: [clientId], references: [id])
 }
 
 model Bid {
-  id          String   @id @default(uuid())
-  projectId   String
-  userId      String
-  amount      Float
-  proposal    String
-  status      String   @default("PENDING") // PENDING, ACCEPTED, REJECTED
-  createdAt   DateTime @default(now())
-
-  project     Project  @relation(fields: [projectId], references: [id])
-  user        User     @relation(fields: [userId], references: [id])
+  id        String   @id @default(uuid())
+  projectId String
+  userId    String
+  amount    Float
+  proposal  String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Payment {
-  id          String   @id @default(uuid())
-  projectId   String
-  payerId     String
-  payeeId     String
-  amount      Float
-  status      String   @default("PENDING") // PENDING, COMPLETED, FAILED
-  stripeId    String?
-  createdAt   DateTime @default(now())
-
-  project     Project  @relation(fields: [projectId], references: [id])
-  payer       User     @relation("PaymentsMade", fields: [payerId], references: [id])
-  payee       User     @relation("PaymentsReceived", fields: [payeeId], references: [id])
+  id        String   @id @default(uuid())
+  projectId String
+  payerId   String
+  payeeId   String
+  amount    Float
+  status    String   @default("PENDING")
+  stripeId  String?
+  createdAt DateTime @default(now())
+  payee     User     @relation("PaymentsReceived", fields: [payeeId], references: [id])
+  payer     User     @relation("PaymentsMade", fields: [payerId], references: [id])
+  project   Project  @relation(fields: [projectId], references: [id])
 }
 
 model CheatLog {
@@ -183,135 +161,150 @@ model CheatLog {
   userId      String
   contestId   String?
   challengeId String?
-  action      String   // TAB_SWITCH, COPY_PASTE, MULTIPLE_IPS
+  action      String
   details     String?
-  severity    String   @default("LOW") // LOW, MEDIUM, HIGH
+  severity    String   @default("LOW")
   createdAt   DateTime @default(now())
-
   user        User     @relation(fields: [userId], references: [id])
 }
 
 model BattleMatch {
-  id          String   @id @default(uuid())
-  challengeId String
-  status      String   @default("WAITING") // WAITING, IN_PROGRESS, FINISHED
-  winnerId    String?
-  createdAt   DateTime @default(now())
-
-  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  id           String             @id @default(uuid())
+  challengeId  String
+  status       String             @default("WAITING")
+  winnerId     String?
+  createdAt    DateTime           @default(now())
+  challenge    Challenge          @relation(fields: [challengeId], references: [id])
+  winner       User?              @relation("MatchesWon", fields: [winnerId], references: [id])
   participants MatchParticipant[]
-  winner       User?    @relation("MatchesWon", fields: [winnerId], references: [id])
 }
 
 model MatchParticipant {
-  id          String   @id @default(uuid())
-  matchId     String
-  userId      String
-  health      Int      @default(100)
-  score       Int      @default(0)
-  status      String   @default("ALIVE") // ALIVE, ELIMINATED
-
-  match       BattleMatch @relation(fields: [matchId], references: [id])
-  user        User        @relation(fields: [userId], references: [id])
+  id      String      @id @default(uuid())
+  matchId String
+  userId  String
+  health  Int         @default(100)
+  score   Int         @default(0)
+  status  String      @default("ALIVE")
+  match   BattleMatch @relation(fields: [matchId], references: [id])
+  user    User        @relation(fields: [userId], references: [id])
 }
 
-// ==========================================
-// PHASE 3: OPEN SOURCE INSPIRED SUPER-STRUCTURE
-// (Judge0, CTFd, Matchmaking, Tournament Brackets)
-// ==========================================
-
 model TournamentBracket {
-  id            String   @id @default(uuid())
-  tournamentId  String
-  round         Int      // e.g., Quarter-Finals = 3
-  matchNumber   Int
+  id             String    @id @default(uuid())
+  tournamentId   String
+  round          Int
+  matchNumber    Int
   participant1Id String?
   participant2Id String?
-  winnerId      String?
-  status        String   @default("PENDING") // PENDING, LIVE, COMPLETED
-  scheduledTime DateTime?
-  createdAt     DateTime @default(now())
-
-  // Relations mapped via generic ID strings due to dynamic team vs user matches
+  winnerId       String?
+  status         String    @default("PENDING")
+  scheduledTime  DateTime?
+  createdAt      DateTime  @default(now())
 }
 
 model CodeExecutionLog {
   id           String   @id @default(uuid())
   submissionId String
   userId       String
-  languageId   Int      // Judge0 Language ID
+  languageId   Int
   sourceCode   String
   stdin        String?
   expectedOut  String?
   stdout       String?
   stderr       String?
   compileOut   String?
-  status       String   @default("QUEUED") // e.g., PENDING, ACCEPTED, WRONG_ANSWER (from Judge0)
-  time         Float?   // Execution time
-  memory       Int?     // Memory used
+  status       String   @default("QUEUED")
+  time         Float?
+  memory       Int?
   createdAt    DateTime @default(now())
 }
 
 model CtfFlag {
-  id          String   @id @default(uuid())
+  id          String        @id @default(uuid())
   challengeId String
-  flag        String   // The actual flag string (e.g., zapsters{h4ckth3pl4n3t})
+  flag        String
   points      Int
-  isDynamic   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-
-  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  isDynamic   Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  challenge   Challenge     @relation(fields: [challengeId], references: [id])
   captures    FlagCapture[]
 }
 
 model FlagCapture {
-  id          String   @id @default(uuid())
-  flagId      String
-  userId      String
-  teamId      String?
-  capturedAt  DateTime @default(now())
-
-  flag        CtfFlag  @relation(fields: [flagId], references: [id])
+  id         String   @id @default(uuid())
+  flagId     String
+  userId     String
+  teamId     String?
+  capturedAt DateTime @default(now())
+  flag       CtfFlag  @relation(fields: [flagId], references: [id])
 }
 
 model MatchmakingQueue {
-  id          String   @id @default(uuid())
-  userId      String
-  teamId      String?
-  mmr         Int      // Matchmaking rating
-  gameMode    String   // BATTLE_ROYALE, 1V1, TEAM_DEATHMATCH
-  queuedAt    DateTime @default(now())
-  status      String   @default("SEARCHING") // SEARCHING, MATCHED
+  id       String   @id @default(uuid())
+  userId   String
+  teamId   String?
+  mmr      Int
+  gameMode String
+  queuedAt DateTime @default(now())
+  status   String   @default("SEARCHING")
 }
 
 model ActiveSession {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   userId      String
   teamId      String
   challengeId String
-  status      String   @default("VIEWING") // CODING, VIEWING
-  joinedAt    DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  user        User      @relation(fields: [userId], references: [id])
-  team        Team      @relation(fields: [teamId], references: [id])
+  status      String    @default("VIEWING")
+  joinedAt    DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   challenge   Challenge @relation(fields: [challengeId], references: [id])
+  team        Team      @relation(fields: [teamId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 
   @@unique([userId, challengeId])
 }
 
 model ChallengeCompletion {
-  id              String   @id @default(uuid())
-  teamId          String
-  challengeId     String
-  userId          String   // The player who actually solved it
-  pointsEarned    Int
-  timeTaken       Int      // in seconds
-  completedAt     DateTime @default(now())
-
-  team            Team      @relation(fields: [teamId], references: [id])
-  challenge       Challenge @relation(fields: [challengeId], references: [id])
-  user            User      @relation(fields: [userId], references: [id])
+  id           String    @id @default(uuid())
+  teamId       String
+  challengeId  String
+  userId       String
+  pointsEarned Int
+  timeTaken    Int
+  completedAt  DateTime  @default(now())
+  challenge    Challenge @relation(fields: [challengeId], references: [id])
+  team         Team      @relation(fields: [teamId], references: [id])
+  user         User      @relation(fields: [userId], references: [id])
 
   @@unique([teamId, challengeId])
+}
+
+model TeamJoinRequest {
+  id        String   @id @default(cuid())
+  teamId    String   @map("team_id")
+  userId    String   @map("user_id")
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now()) @map("created_at")
+  team      Team     @relation(fields: [teamId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([teamId, userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  type      String
+  title     String
+  message   String
+  metadata  Json?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum UserRole {
+  ADMIN
+  PLAYER
 }

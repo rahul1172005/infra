@@ -16,6 +16,13 @@ export class TeamController {
         return this.teamService.getTeams();
     }
 
+    @Get('admin/detailed')
+    @Roles(UserRole.ADMIN)
+    @UseGuards(RolesGuard)
+    async getTeamsDetailed() {
+        return this.teamService.getTeamsDetailed();
+    }
+
     @Get(':id')
     async getTeamById(@Param('id') id: string) {
         return this.teamService.getTeamById(id);
@@ -40,6 +47,25 @@ export class TeamController {
     @UseGuards(TeamOwnerGuard)
     async deleteTeam(@Param('id') id: string, @Req() req: any) {
         return this.teamService.deleteTeam(id, req.user.sub, req.user.role);
+    }
+
+    @Post(':id/request-join')
+    async requestToJoin(@Param('id') id: string, @Req() req: any) {
+        return this.teamService.requestToJoin(id, req.user.sub);
+    }
+
+    @Get(':id/join-requests')
+    async getJoinRequests(@Param('id') id: string, @Req() req: any) {
+        return this.teamService.getJoinRequestsForTeam(id, req.user.sub);
+    }
+
+    @Post('requests/:requestId/respond')
+    async respondToJoinRequest(
+        @Param('requestId') requestId: string,
+        @Body() body: { accept: boolean },
+        @Req() req: any
+    ) {
+        return this.teamService.respondToJoinRequest(requestId, req.user.sub, body.accept);
     }
 
     @Post(':id/join')
@@ -74,4 +100,3 @@ export class TeamController {
         return this.teamService.resetScore(id);
     }
 }
-

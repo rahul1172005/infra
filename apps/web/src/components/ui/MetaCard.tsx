@@ -28,7 +28,7 @@ export const MetaCard = ({
     subIcon
 }: MetaCardProps) => {
     return (
-        <div className={`p-6 md:p-10 border border-white/10 bg-black rounded-2xl md:rounded-[2.5rem] flex flex-col gap-3 group hover:bg-[#E81414] hover:text-black hover:border-[#E81414] transition-all duration-500 ${className}`}>
+        <div className={`p-8 md:p-12 border border-white/10 bg-black rounded-2xl md:rounded-[2.5rem] flex flex-col gap-3 group hover:bg-[#E81414] hover:text-black hover:border-[#E81414] transition-all duration-500 ${className}`}>
             <div className="flex justify-between items-start">
                 <span className="text-[9px] md:text-[10px] tracking-[0.6em] text-white/30 group-hover:text-black/50 uppercase font-black transition-colors duration-500">
                     {label}

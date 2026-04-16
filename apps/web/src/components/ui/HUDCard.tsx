@@ -50,7 +50,7 @@ export const HUDCard = ({
             {showDotGrid && <DotGrid opacity={dotGridOpacity} />}
             
             {(title || subtitle || statusLabel) && (
-                <div className={`p-6 md:p-10 border-b border-white/10 flex justify-between items-center bg-white/[0.03] text-white relative z-10 ${headerClassName}`}>
+                <div className={`p-8 md:p-12 border-b border-white/10 flex justify-between items-center bg-white/[0.03] text-white relative z-10 ${headerClassName}`}>
                     <div className="flex items-center gap-4 md:gap-6">
                         {showSuriken && !icon && <GOTIcon size="lg" scale={1.2} x={0} y={0} />}
                         {icon && (
@@ -80,12 +80,12 @@ export const HUDCard = ({
                 </div>
             )}
 
-            <div className={`flex-1 relative z-10 ${padding || ''} ${contentClassName}`}>
+            <div className={`flex-1 relative z-10 ${padding === undefined ? 'p-8 md:p-12' : (padding === 'none' ? '' : padding)} ${contentClassName}`}>
                 {children}
             </div>
 
             {footer && (
-                <div className="p-6 md:p-10 bg-white/[0.01] border-t border-white/5 relative z-10">
+                <div className="p-8 md:p-12 bg-white/[0.01] border-t border-white/5 relative z-10">
                     {footer}
                 </div>
             )}

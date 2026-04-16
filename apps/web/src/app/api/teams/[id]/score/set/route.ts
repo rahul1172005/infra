@@ -13,16 +13,31 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         }
 
         const token = authHeader.split(' ')[1];
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) throw new Error('JWT_SECRET not configured');
+        
         const decoded: any = jwt.verify(token, jwtSecret);
 
         if (decoded.role !== 'ADMIN') {
             return NextResponse.json({ message: 'Admin access required' }, { status: 403 });
         }
 
+        const oldTeam = await prisma.team.findUnique({ where: { id } });
         const updated = await prisma.team.update({
             where: { id },
             data: { score: parseInt(score) || 0 }
+        });
+
+        await prisma.auditLog.create({
+            data: {
+                userId: decoded.sub,
+                action: 'TEAM_SCORE_SET',
+                entityType: 'TEAM',
+                entityId: id,
+                description: `Admin ${decoded.email} set score for team ${updated.name} from ${oldTeam?.score} to ${updated.score}`,
+                metadata: { oldScore: oldTeam?.score, newScore: updated.score },
+                severity: 'INFO'
+            }
         });
 
         return NextResponse.json(updated);

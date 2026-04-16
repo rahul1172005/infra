@@ -15,7 +15,7 @@ export class MatchmakingService {
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
         if (!user) throw new Error('User missing');
 
-        const mmr = teamId ? (await this.prisma.team.findUnique({ where: { id: teamId } }))?.mmr : user.mmr;
+        const mmr = teamId ? (await this.prisma.team.findUnique({ where: { id: teamId } }))?.score : user.mmr;
 
         // Check if already in queue
         const existing = await this.prisma.matchmakingQueue.findFirst({

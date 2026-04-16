@@ -1,10 +1,14 @@
 import { Injectable, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserRole } from '@zapsters/database';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class TeamService {
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private notificationService: NotificationService
+    ) { }
 
     async getTeams() {
         return this.prisma.team.findMany({
@@ -12,8 +16,30 @@ export class TeamService {
                 owner: {
                     select: { id: true, name: true, email: true, picture: true }
                 },
+                members: {
+                    include: {
+                        user: {
+                            select: { id: true, name: true, email: true, picture: true, xp: true }
+                        }
+                    }
+                },
                 _count: {
                     select: { members: true }
+                }
+            },
+            orderBy: { score: 'desc' }
+        });
+    }
+
+    async getTeamsDetailed() {
+        return this.prisma.team.findMany({
+            include: {
+                members: {
+                    include: {
+                        user: {
+                            select: { id: true, name: true, email: true, picture: true, xp: true, role: true }
+                        }
+                    }
                 }
             },
             orderBy: { score: 'desc' }
@@ -85,9 +111,6 @@ export class TeamService {
             throw new ForbiddenException('You do not have permission to edit this team');
         }
 
-        // Admins can override maxMembers, players cannot if they are not owner? 
-        // Actually player owner can edit their own team size according to requirements.
-        
         return this.prisma.team.update({
             where: { id: teamId },
             data: {
@@ -106,16 +129,30 @@ export class TeamService {
             throw new ForbiddenException('You do not have permission to delete this team');
         }
 
-        // Clear teamId for all members
-        await this.prisma.user.updateMany({
-            where: { teamId: teamId },
-            data: { teamId: null }
-        });
+        return this.prisma.$transaction(async (tx) => {
+            // 1. Clear teamId for all users who consider this their current team
+            await tx.user.updateMany({
+                where: { teamId: teamId },
+                data: { teamId: null }
+            });
 
-        return this.prisma.team.delete({ where: { id: teamId } });
+            // 2. Delete all Join Requests
+            await tx.teamJoinRequest.deleteMany({ where: { teamId } });
+
+            // 3. Delete all Active Sessions
+            await tx.activeSession.deleteMany({ where: { teamId } });
+
+            // 4. Delete all Challenge Completions
+            await tx.challengeCompletion.deleteMany({ where: { teamId } });
+
+            // 5. Delete all Team Members
+            await tx.teamMember.deleteMany({ where: { teamId } });
+
+            // 6. Finally delete the team
+            return tx.team.delete({ where: { id: teamId } });
+        });
     }
 
-    // Admin-only score management
     async adjustScore(teamId: string, amount: number) {
         return this.prisma.team.update({
             where: { id: teamId },
@@ -148,7 +185,6 @@ export class TeamService {
             throw new BadRequestException('Team is full');
         }
 
-        // Check if already in a team
         const existingMember = await this.prisma.teamMember.findFirst({
             where: { userId }
         });
@@ -160,7 +196,6 @@ export class TeamService {
             data: { teamId, userId }
         });
 
-        // Update user's active teamId
         await this.prisma.user.update({
             where: { id: userId },
             data: { teamId: teamId }
@@ -173,7 +208,6 @@ export class TeamService {
         const team = await this.prisma.team.findUnique({ where: { id: teamId } });
         if (!team) throw new NotFoundException('Team not found');
 
-        // Cannot leave if you are the owner (must delete or transfer)
         if (team.ownerId === userId) {
             throw new BadRequestException('Owner cannot leave team. Delete the team or transfer ownership.');
         }
@@ -182,7 +216,6 @@ export class TeamService {
             where: { teamId_userId: { teamId, userId } }
         });
 
-        // Clear user's active teamId
         await this.prisma.user.update({
             where: { id: userId },
             data: { teamId: null }
@@ -190,5 +223,107 @@ export class TeamService {
 
         return result;
     }
-}
 
+    async requestToJoin(teamId: string, userId: string) {
+        const team = await this.prisma.team.findUnique({
+            where: { id: teamId },
+            include: { _count: { select: { members: true } } }
+        });
+
+        if (!team) throw new NotFoundException('Team not found');
+        if (team._count.members >= team.maxMembers) {
+            throw new BadRequestException('Team is full');
+        }
+
+        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        if (user?.teamId) {
+            throw new BadRequestException('You are already in a team');
+        }
+
+        const request = await this.prisma.teamJoinRequest.upsert({
+            where: { teamId_userId: { teamId, userId } },
+            update: { status: 'PENDING', createdAt: new Date() },
+            create: { teamId, userId }
+        });
+
+        await this.notificationService.create(
+            team.ownerId,
+            'TEAM_JOIN_REQUEST',
+            'NEW RECRUIT REQUEST',
+            `${user?.name || 'A player'} wants to join your ranks.`,
+            { teamId, userId, requestId: request.id }
+        );
+
+        return request;
+    }
+
+    async getJoinRequestsForTeam(teamId: string, userId: string) {
+        const team = await this.prisma.team.findUnique({ where: { id: teamId } });
+        if (!team) throw new NotFoundException('Team not found');
+
+        if (team.ownerId !== userId) {
+            throw new ForbiddenException('Only team leaders can see join requests');
+        }
+
+        return this.prisma.teamJoinRequest.findMany({
+            where: { teamId, status: 'PENDING' },
+            include: { user: { select: { id: true, name: true, nickname: true, picture: true, xp: true, level: true } } }
+        });
+    }
+
+    async respondToJoinRequest(requestId: string, teamLeaderId: string, accept: boolean) {
+        const request = await this.prisma.teamJoinRequest.findUnique({
+            where: { id: requestId },
+            include: { team: true, user: true }
+        });
+
+        if (!request) throw new NotFoundException('Request not found');
+        if (request.team.ownerId !== teamLeaderId) {
+            throw new ForbiddenException('Only team leaders can respond to requests');
+        }
+
+        if (accept) {
+            const memberCount = await this.prisma.teamMember.count({ where: { teamId: request.teamId } });
+            if (memberCount >= request.team.maxMembers) {
+                throw new BadRequestException('Team is full');
+            }
+
+            await this.prisma.teamMember.create({
+                data: { teamId: request.teamId, userId: request.userId }
+            });
+
+            await this.prisma.user.update({
+                where: { id: request.userId },
+                data: { teamId: request.teamId }
+            });
+
+            await this.prisma.teamJoinRequest.update({
+                where: { id: requestId },
+                data: { status: 'ACCEPTED' }
+            });
+
+            await this.notificationService.create(
+                request.userId,
+                'TEAM_JOIN_ACCEPTED',
+                'ENLISTMENT CONFIRMED',
+                `You have been accepted into House ${request.team.name}.`,
+                { teamId: request.teamId }
+            );
+        } else {
+            await this.prisma.teamJoinRequest.update({
+                where: { id: requestId },
+                data: { status: 'REJECTED' }
+            });
+
+            await this.notificationService.create(
+                request.userId,
+                'TEAM_JOIN_REJECTED',
+                'ENLISTMENT DECLINED',
+                `Your request to join House ${request.team.name} was declined.`,
+                { teamId: request.teamId }
+            );
+        }
+
+        return { success: true };
+    }
+}

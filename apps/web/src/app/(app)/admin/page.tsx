@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { UserRole } from '@zapsters/database';
 
 export default function AdminPage() {
-    const { user, isAuthenticated } = useAuthStore();
+    const { user, token, isAuthenticated } = useAuthStore();
     const router = useRouter();
 
     const [mounted, setMounted] = useState(false);
@@ -20,6 +20,7 @@ export default function AdminPage() {
         activeSessions: any[]; 
         onlineCount: number; 
     }>({ activeSessions: [], onlineCount: 0 });
+    const [detailedTeams, setDetailedTeams] = useState<any[]>([]);
 
     useEffect(() => {
         setMounted(true);
@@ -49,9 +50,25 @@ export default function AdminPage() {
             } catch (_) {}
         };
 
+        const fetchDetailedTeams = async () => {
+            if (!token) return;
+            try {
+                const res = await fetch('/api/teams/admin/detailed', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    setDetailedTeams(await res.json());
+                }
+            } catch (_) {}
+        };
+
         fetchStats();
         fetchMonitoring();
-        const timer = setInterval(fetchMonitoring, 30000); // 30s update cycle
+        fetchDetailedTeams();
+        const timer = setInterval(() => {
+            fetchMonitoring();
+            fetchDetailedTeams();
+        }, 30000); // 30s update cycle
         return () => clearInterval(timer);
     }, [isAuthenticated, user, router]);
 
@@ -190,6 +207,58 @@ export default function AdminPage() {
                                 <span className="text-[11px] font-black truncate text-white/40 group-hover:text-black">
                                     {log.message}
                                 </span>
+                            </div>
+                        ))}
+                    </div>
+                </HUDCard>
+            </div>
+
+            {/* HOUSE ROSTERS — Detailed player scores */}
+            <div className="relative z-10">
+                <HUDCard
+                    title="HOUSE ROSTERS"
+                    tag="PERSONNEL DATA"
+                    icon={<Users className="text-[#E81414]" />}
+                    statusLabel={`${detailedTeams.length} HOUSES REGISTERED`}
+                >
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5">
+                        {detailedTeams.length === 0 ? (
+                            <div className="col-span-full p-20 text-center text-white/10 font-black uppercase tracking-[0.4em]">
+                                NO DATA SYNCHRONIZED
+                            </div>
+                        ) : detailedTeams.map((team) => (
+                            <div key={team.id} className="bg-black p-8 space-y-8">
+                                <div className="flex items-center justify-between border-b border-white/5 pb-6">
+                                    <div className="space-y-1">
+                                        <h3 className="text-xl font-black text-white uppercase tracking-tight">{team.name}</h3>
+                                        <div className="text-[10px] text-white/20 font-black tracking-[0.2em] uppercase">TEAM STRENGTH: {team.score}</div>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-[10px] text-[#E81414] font-black tracking-widest uppercase">ID: {team.id.slice(0, 8)}</div>
+                                    </div>
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    {team.members.map((member: any) => (
+                                        <div key={member.user.id} className="flex items-center justify-between group p-4 rounded-xl hover:bg-white/5 transition-all">
+                                            <div className="flex items-center gap-4">
+                                                <img 
+                                                    src={member.user.picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${member.user.name}`} 
+                                                    className="w-10 h-10 rounded-full border border-white/10" 
+                                                    alt="" 
+                                                />
+                                                <div className="space-y-0.5">
+                                                    <div className="text-xs font-black text-white uppercase">{member.user.name}</div>
+                                                    <div className="text-[8px] text-white/30 font-black tracking-[0.1em] uppercase">{member.user.email}</div>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-lg font-black text-[#E81414] font-got-num">{member.user.xp.toLocaleString()}</div>
+                                                <div className="text-[8px] text-white/20 font-black tracking-widest uppercase">XP POINTS</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         ))}
                     </div>

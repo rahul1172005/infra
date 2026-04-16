@@ -17,7 +17,7 @@ import { MetaCard } from '@/components/ui/MetaCard';
 // Settings Row
 function SettingRow({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) {
     return (
-        <div className="flex items-center justify-between py-5 border-b border-white/5 last:border-0 gap-4 sm:gap-6">
+        <div className="flex items-center justify-between py-8 border-b border-white/5 last:border-0 gap-6 sm:gap-10">
             <div className="space-y-0.5 min-w-0 flex-1">
                 <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] text-white truncate sm:whitespace-normal">{label}</p>
                 {sub && <p className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-white/30 truncate sm:whitespace-normal">{sub}</p>}
@@ -119,7 +119,7 @@ export default function SettingsPage() {
 
                 {/* Notifications */}
                 <HUDCard title="NOTIFICATIONS" icon={<GOTIcon type="bell" size={56} className="opacity-70" />}>
-                    <div className="px-2">
+                    <div className="px-4">
                         <SettingRow label="EMAIL ALERTS" sub="RECEIVE ALERTS VIA EMAIL">
                             <ToggleSwitch enabled={notifications.emailAlerts} onToggle={() => toggle(setNotifications, 'emailAlerts')} />
                         </SettingRow>
@@ -140,7 +140,7 @@ export default function SettingsPage() {
 
                 {/* Privacy */}
                 <HUDCard title="PRIVACY" icon={<GOTIcon type="eye" size={56} className="opacity-70" />}>
-                    <div className="px-2">
+                    <div className="px-4">
                         <SettingRow label="PUBLIC PROFILE" sub="VISIBLE TO THE REALM">
                             <ToggleSwitch enabled={privacy.publicProfile} onToggle={() => toggle(setPrivacy, 'publicProfile')} />
                         </SettingRow>
@@ -158,7 +158,7 @@ export default function SettingsPage() {
 
                 {/* Preferences */}
                 <HUDCard title="PREFERENCES" icon={<GOTIcon type="globe" size={56} className="opacity-70" />}>
-                    <div className="px-2">
+                    <div className="px-4">
                         <SettingRow label="THEME" sub="INTERFACE COLOR SCHEME">
                             <SelectInput options={['DARK', 'DARKER', 'ABYSS']} value={preferences.theme} onChange={(v) => setPreferences(p => ({ ...p, theme: v }))} />
                         </SettingRow>
@@ -179,7 +179,7 @@ export default function SettingsPage() {
 
                 {/* Security */}
                 <HUDCard title="SECURITY" icon={<GOTIcon type="shield" size={56} className="opacity-70" />}>
-                    <div className="px-2">
+                    <div className="px-4">
                         <SettingRow label="CHANGE PASSWORD" sub="UPDATE DIRECT KEY CREDENTIAL">
                             <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors">
                                 UPDATE <ChevronRight className="w-3 h-3" />

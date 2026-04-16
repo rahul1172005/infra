@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { useMusicStore } from '@/lib/store/useMusicStore';
 import { Music, XCircle } from 'lucide-react';
 import { useAuthStore } from '@/lib/store/useAuthStore';
+import { UserRole } from '@zapsters/database';
+import { NotificationBell } from '@/components/ui/NotificationBell';
 
 // Google Icon SVG
 const GoogleIcon = ({ size = 16 }: { size?: number }) => (
@@ -158,6 +160,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { href: '/workspace', label: 'WORKSPACE' },
                 { href: '/analytics', label: 'ANALYTICS' },
                 { href: '/challenges', label: 'CHALLENGES' },
+                ...(user?.role === UserRole.ADMIN ? [
+                    { href: '/admin', label: 'ADMIN CENTER' },
+                ] : []),
             ]
         },
         {
@@ -165,7 +170,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             items: [
                 { href: '/teams', label: 'HOUSES' },
                 { href: '/leaderboard', label: 'LEADERBOARD' },
-                ...(user?.role === 'ADMIN' ? [
+                ...(user?.role === UserRole.ADMIN ? [
                     { href: '/operations/scores', label: 'BATTLE SCORES' },
                 ] : []),
                 { href: '/domains', label: 'DOMAINS' },
@@ -176,8 +181,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             items: [
                 { href: '/settings', label: 'SETTINGS' },
                 { href: '/profile', label: 'PROFILE' },
-                ...(user?.role === 'ADMIN' ? [
-                    { href: '/admin', label: 'FORBIDDEN CITADEL' },
+                ...(user?.role === UserRole.ADMIN ? [
                     { href: '/admin/monitoring', label: 'SITUATION ROOM' },
                     { href: '/admin/proctoring', label: 'PROCTORING LOGS' },
                 ] : []),
@@ -288,6 +292,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </div>
 
                     <div className="flex items-center gap-2 sm:gap-3 xl:gap-5 shrink-0 pl-1 sm:pl-4">
+                        {/* Notification Raven */}
+                        <NotificationBell />
+
                         {/* Music Toggle Button */}
                         <button
                             onClick={toggleOpen}

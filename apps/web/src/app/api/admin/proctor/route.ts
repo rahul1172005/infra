@@ -1,35 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import jwt from 'jsonwebtoken';
+import { getServerSession, auditAction } from '@/lib/auth-server';
 
 export async function GET(req: NextRequest) {
     try {
-        const authHeader = req.headers.get('Authorization');
-        const token = authHeader?.split(' ')[1];
+        const session = await getServerSession(req);
+        if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
-        const decoded = jwt.verify(token, jwtSecret) as { sub: string; email: string };
-        const userId = decoded.sub || decoded.email;
-
-        // Note: Prisma might crash here on some setups if the ID is malformed, but this matches the standard auth schema.
-        const user = await prisma.user.findUnique({ where: { id: userId } });
-
+        const user = await prisma.user.findUnique({ where: { id: session.sub } });
         if (!user || user.role !== 'ADMIN') {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
         const rawLogs = await prisma.cheatLog.findMany({
-            where: {
-                action: 'PROCTOR_VIOLATION',
-                severity: 'HIGH'
-            },
-            include: {
-                user: {
-                    select: { name: true, picture: true }
-                }
-            },
+            where: { action: 'PROCTOR_VIOLATION', severity: 'HIGH' },
+            include: { user: { select: { name: true, picture: true } } },
             orderBy: { createdAt: 'desc' },
         });
 
@@ -69,17 +54,10 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     try {
-        const authHeader = req.headers.get('Authorization');
-        const token = authHeader?.split(' ')[1];
+        const session = await getServerSession(req);
+        if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
-        const decoded = jwt.verify(token, jwtSecret) as { sub: string; email: string };
-        const adminUserId = decoded.sub || decoded.email;
-
-        const adminUser = await prisma.user.findUnique({ where: { id: adminUserId } });
-
+        const adminUser = await prisma.user.findUnique({ where: { id: session.sub } });
         if (!adminUser || adminUser.role !== 'ADMIN') {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
@@ -88,24 +66,21 @@ export async function POST(req: NextRequest) {
 
         if (action === 'UNLOCK') {
             await prisma.cheatLog.updateMany({
-                where: {
-                    userId,
-                    challengeId,
-                    action: 'PROCTOR_VIOLATION',
-                    severity: 'HIGH'
-                },
-                data: {
-                    severity: 'RESOLVED'
-                }
+                where: { userId, challengeId, action: 'PROCTOR_VIOLATION', severity: 'HIGH' },
+                data: { severity: 'RESOLVED' }
+            });
+
+            await auditAction({
+                userId: session.sub,
+                action: 'PROCTOR_UNLOCK',
+                entityType: 'USER',
+                entityId: userId,
+                description: `Admin ${session.email} unlocked proctoring for user ${userId} on challenge ${challengeId}`,
+                severity: 'WARNING'
             });
         } else if (action === 'GRANT_ATTEMPTS' && removeCount) {
             const logsToResolve = await prisma.cheatLog.findMany({
-                where: {
-                    userId,
-                    challengeId,
-                    action: 'PROCTOR_VIOLATION',
-                    severity: 'HIGH'
-                },
+                where: { userId, challengeId, action: 'PROCTOR_VIOLATION', severity: 'HIGH' },
                 orderBy: { createdAt: 'desc' },
                 take: removeCount
             });
@@ -114,6 +89,16 @@ export async function POST(req: NextRequest) {
             await prisma.cheatLog.updateMany({
                 where: { id: { in: ids } },
                 data: { severity: 'RESOLVED' }
+            });
+
+            await auditAction({
+                userId: session.sub,
+                action: 'PROCTOR_GRANT_ATTEMPTS',
+                entityType: 'USER',
+                entityId: userId,
+                description: `Admin ${session.email} granted ${removeCount} attempts back to user ${userId} on challenge ${challengeId}`,
+                metadata: { removeCount },
+                severity: 'WARNING'
             });
         }
 

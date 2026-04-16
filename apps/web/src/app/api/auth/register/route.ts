@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
             }
         });
 
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) throw new Error('JWT_SECRET is not configured');
         const sessionToken = jwt.sign(
             { sub: user.id, email: user.email, role: user.role },
             jwtSecret,
@@ -67,10 +68,6 @@ export async function POST(req: NextRequest) {
 
     } catch (err: any) {
         console.error('Registration API error:', err);
-        return NextResponse.json({ 
-            message: 'Internal server error', 
-            error: err.message,
-            stack: err.stack 
-        }, { status: 500 });
+        return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
     }
 }

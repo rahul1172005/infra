@@ -1563,7 +1563,11 @@ export default function CodeArenaProfessional() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: i * 0.03 }}
-                                className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 hover:border-[#E81414] hover:bg-[#E81414] transition-all duration-500 group relative overflow-hidden cursor-pointer"
+                                className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 hover:border-[#E81414] hover:bg-[#E81414] hover:shadow-[0_0_80px_-20px_rgba(232,20,20,0.5)] transition-all duration-500 group relative overflow-hidden cursor-pointer"
+                                onClick={() => {
+                                    setSelectedId(id);
+                                    setView('arena');
+                                }}
                             >
                                 <div className="space-y-6 relative z-10">
                                     <div className="flex justify-between items-start">
@@ -1593,11 +1597,7 @@ export default function CodeArenaProfessional() {
 
                                     <div className="flex items-center justify-between gap-4">
                                         <Button
-                                            onClick={() => {
-                                                setSelectedId(id);
-                                                setView('arena');
-                                            }}
-                                            className="flex-1 h-12 bg-white border border-white text-black text-[9px] font-black tracking-[0.3em] uppercase transition-all duration-500"
+                                            className="flex-1 h-12 bg-white border border-white text-black text-[9px] font-black tracking-[0.3em] uppercase transition-all duration-500 group-hover:bg-black group-hover:text-white group-hover:border-black"
                                         >
                                             SOLVE PROBLEM
                                         </Button>
@@ -1984,9 +1984,10 @@ function CategorySelector({ onSelect, toggleFullscreen }: { onSelect: (id: numbe
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.05 }}
                         className={`group relative p-10 rounded-[2.5rem] border transition-all duration-700 overflow-hidden cursor-pointer ${cat.status === 'OPEN'
-                            ? 'bg-black/40 border-white/10 hover:border-white/40 hover:bg-zinc-800'
+                            ? 'bg-black/40 border-white/10 hover:border-[#E81414] hover:bg-[#E81414] hover:shadow-[0_0_80px_-20px_rgba(232,20,20,0.5)]'
                             : 'opacity-50 blur-[1px] pointer-events-none'
                             }`}
+                        onClick={() => onSelect(cat.id)}
                     >
                         <div className="relative z-10 space-y-10">
                             <div className="p-8 rounded-[1.5rem] bg-zinc-900 w-fit border border-white/10 group-hover:bg-black group-hover:border-white/20 transition-all duration-500">
@@ -1997,8 +1998,7 @@ function CategorySelector({ onSelect, toggleFullscreen }: { onSelect: (id: numbe
                                 <p className="text-[10px] font-black text-[#E81414] tracking-[0.4em] uppercase transition-colors group-hover:text-black/80">{cat.honor}</p>
                             </div>
                             <Button
-                                onClick={() => onSelect(cat.id)}
-                                className="w-full h-14 bg-white border border-white text-black transition-all duration-500 text-[10px] font-black tracking-[0.3em] uppercase"
+                                className="w-full h-14 bg-white border border-white text-black transition-all duration-500 text-[10px] font-black tracking-[0.3em] uppercase group-hover:bg-black group-hover:text-white group-hover:border-black"
                             >
                                 ENTER DUNGEON
                             </Button>

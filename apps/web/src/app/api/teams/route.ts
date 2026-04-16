@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import jwt from 'jsonwebtoken';
+import { getServerSession, auditAction } from '@/lib/auth-server';
 
 export async function GET() {
     try {
@@ -26,30 +26,13 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-    const authHeader = req.headers.get('Authorization');
     try {
-        if (!authHeader) {
-            return NextResponse.json({ message: 'Authorization header missing' }, { status: 401 });
+        const session = await getServerSession(req);
+        if (!session) {
+            return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const token = authHeader.split(' ')[1];
-        if (!token) {
-            return NextResponse.json({ message: 'Token missing' }, { status: 401 });
-        }
-
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
-        let decoded: any;
-        
-        try {
-            decoded = jwt.verify(token, jwtSecret);
-        } catch (e) {
-            return NextResponse.json({ message: 'Invalid or expired token. Please log in again.' }, { status: 401 });
-        }
-
-        const userId = decoded.sub || decoded.userId || decoded.id;
-        if (!userId) {
-            return NextResponse.json({ message: 'Invalid token payload: user ID not found' }, { status: 401 });
-        }
+        const userId = session.sub;
 
         const body = await req.json();
         const { name, maxMembers } = body;
@@ -64,7 +47,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Max members must be greater than 0' }, { status: 400 });
         }
 
-        // 2. Ensure User Exists (Critical after db push --force-reset)
+        // 2. Ensure User Exists
         const user = await prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
             return NextResponse.json({ message: 'User not found in database. Please log out and log in again.' }, { status: 401 });
@@ -76,13 +59,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'A house with this name already exists' }, { status: 400 });
         }
 
-        // 4. One team per user check (Task 7 requirement)
+        // 4. One team per user check
         const existingOwned = await prisma.team.findFirst({ where: { ownerId: userId } });
         if (existingOwned) {
             return NextResponse.json({ message: 'You already own a house. Delete it first to create a new one.' }, { status: 400 });
         }
 
-        // 5. Create the team AND add owner as first member (Nested Create)
+        // 5. Create the team AND add owner as first member
         const team = await prisma.team.create({
             data: {
                 name,
@@ -100,6 +83,14 @@ export async function POST(req: NextRequest) {
         await prisma.user.update({
             where: { id: userId },
             data: { teamId: team.id }
+        });
+
+        await auditAction({
+            userId,
+            action: 'TEAM_CREATED',
+            entityType: 'TEAM',
+            entityId: team.id,
+            description: `User ${session.email} created team "${team.name}"`,
         });
 
         return NextResponse.json({

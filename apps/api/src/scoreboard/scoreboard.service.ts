@@ -64,7 +64,6 @@ export class ScoreboardService {
                 picture: true,
                 xp: true,
                 level: true,
-                level: true,
                 currentTeam: {
                     select: { name: true }
                 }

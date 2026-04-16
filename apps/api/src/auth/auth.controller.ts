@@ -21,9 +21,14 @@ export class AuthController {
     }
 
     @Post('login')
-    async login(@Body() body: any) {
+    async login(@Body() body: any, @Req() req: any) {
         this.logger.log(`Received credential login request for: ${body.email}`);
-        return this.authService.loginWithCredentials(body.email, body.password);
+        return this.authService.loginWithCredentials(
+            body.email, 
+            body.password, 
+            req.ip || req.headers['x-forwarded-for'], 
+            req.headers['user-agent']
+        );
     }
 
     @Post('register')

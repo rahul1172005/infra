@@ -97,7 +97,7 @@ export default function ChallengesPage() {
                             transition={{ delay: i * 0.1, duration: 0.5, ease: 'easeOut' }}
                             className="group relative flex flex-col rounded-[2rem] border border-white/10 overflow-hidden bg-black/40 hover:bg-[#E81414] transition-colors duration-500 min-h-[380px]"
                         >
-                            <div className="relative z-10 flex flex-col flex-1 p-8 md:p-10">
+                            <div className="relative z-10 flex flex-col flex-1 p-10 md:p-12">
                                 {/* Header row */}
                                 <div className="flex justify-between items-start mb-8">
                                     <div className="icon-wrap w-16 h-16 rounded-3xl flex items-center justify-center border bg-zinc-900 border-white/10 group-hover:bg-black group-hover:border-white/20 transition-all duration-500">

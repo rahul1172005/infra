@@ -16,7 +16,7 @@ import { useAuthStore } from '@/lib/store/useAuthStore';
 // Activity feed item
 function ActivityItem({ action, time, coins }: { action: string; time: string; coins: string }) {
     return (
-        <div className="flex items-center justify-between py-6 md:py-8 border-b border-white/5 last:border-0 group hover:bg-[#E81414] hover:text-black px-6 md:px-10 transition-all cursor-pointer">
+        <div className="flex items-center justify-between py-8 border-b border-white/5 last:border-0 group hover:bg-[#E81414] hover:text-black px-8 md:px-12 transition-all cursor-pointer">
             <div className="flex items-center gap-6 md:gap-10">
                 <div className="flex items-center justify-center shrink-0">
                     <GOTIcon type="zap" size={32} scale={1.6} x={0} y={0} className="text-[#E81414] group-hover:text-black" />
@@ -291,7 +291,7 @@ export default function ProfilePage() {
                                 <div
                                     key={badge.id}
                                     onClick={() => setSelectedBadge(badge)}
-                                    className={`flex flex-col items-center gap-8 p-10 rounded-[2rem] transition-all duration-300 group cursor-pointer relative overflow-hidden ${badge.earned ? 'bg-white/5 text-white hover:bg-[#E81414] hover:text-black' : 'bg-black/40 text-white/20 grayscale opacity-40'}`}
+                                    className={`flex flex-col items-center gap-8 p-12 rounded-[2rem] transition-all duration-300 group cursor-pointer relative overflow-hidden ${badge.earned ? 'bg-white/5 text-white hover:bg-[#E81414] hover:text-black' : 'bg-black/40 text-white/20 grayscale opacity-40'}`}
                                 >
                                     <div className={`flex items-center justify-center transition-colors duration-300 ${badge.earned ? 'text-[#E81414] group-hover:text-black' : 'text-white/20'}`}>
                                         <GOTIcon type={badge.type as any} size={48} scale={1.6} x={0} y={0} />
@@ -313,7 +313,7 @@ export default function ProfilePage() {
                             </div>
                             <div className="space-y-6 flex-1">
                                 {selectedBadge.requirements.map((req: string, idx: number) => (
-                                    <div key={idx} className="flex items-center gap-6 p-6 bg-white/[0.03] border border-white/5 rounded-2xl">
+                                    <div key={idx} className="flex items-center gap-8 p-8 bg-white/[0.03] border border-white/5 rounded-2xl">
                                         <div className="w-8 h-8 flex items-center justify-center text-[#E81414] font-black text-xs border border-[#E81414]/30 rounded-full">{idx + 1}</div>
                                         <span className="text-xs font-black tracking-widest uppercase text-white/60">{req}</span>
                                     </div>

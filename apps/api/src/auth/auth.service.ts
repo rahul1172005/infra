@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { OAuth2Client } from 'google-auth-library';
 import { UserRole } from '@zapsters/database';
 import { compare, hash } from 'bcrypt';
+import { AuditService } from '../audit/audit.service';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,8 @@ export class AuthService {
 
     constructor(
         private jwtService: JwtService,
-        private prisma: PrismaService
+        private prisma: PrismaService,
+        private audit: AuditService
     ) {
         this.googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
     }
@@ -21,7 +23,42 @@ export class AuthService {
         return adminEmails.includes(email.toLowerCase()) ? UserRole.ADMIN : UserRole.PLAYER;
     }
 
-    async login(user: any) {
+    async login(user: any, ip?: string, userAgent?: string) {
+        if (!user.isActive) {
+            throw new UnauthorizedException('Account is inactive. Please contact support.');
+        }
+
+        if (user.role === UserRole.ADMIN && user.allowedIps?.length > 0 && ip) {
+            if (!user.allowedIps.includes(ip)) {
+                await this.audit.log({
+                    userId: user.id,
+                    action: 'LOGIN_FAILURE',
+                    description: `Admin login attempt from unauthorized IP: ${ip}`,
+                    severity: 'CRITICAL',
+                    ipAddress: ip,
+                    userAgent
+                });
+                throw new UnauthorizedException('Login restricted from this IP address.');
+            }
+        }
+
+        await this.prisma.user.update({
+            where: { id: user.id },
+            data: { 
+                lastLoginAt: new Date(),
+                failedLoginAttempts: 0,
+                lockedUntil: null
+            }
+        });
+
+        await this.audit.log({
+            userId: user.id,
+            action: 'USER_LOGIN',
+            description: `User logged in successfully: ${user.email}`,
+            ipAddress: ip,
+            userAgent
+        });
+
         const payload = { sub: user.id, email: user.email, role: user.role };
         return {
             access_token: this.jwtService.sign(payload),
@@ -109,14 +146,14 @@ export class AuthService {
                 });
             }
 
-            return this.login(user);
+            return this.login(user, undefined, 'Google OAuth');
         } catch (error) {
             console.error('Google Auth Error:', error);
             throw new UnauthorizedException('Google authentication failed');
         }
     }
 
-    async loginWithCredentials(email: string, pass: string) {
+    async loginWithCredentials(email: string, pass: string, ip?: string, userAgent?: string) {
         const user = await this.prisma.user.findUnique({
             where: { email },
         });
@@ -125,12 +162,45 @@ export class AuthService {
             throw new UnauthorizedException('Invalid credentials');
         }
 
+        if (user.lockedUntil && user.lockedUntil > new Date()) {
+            throw new UnauthorizedException(`Account is locked until ${user.lockedUntil.toISOString()}`);
+        }
+
         const isMatch = await compare(pass, user.password);
         if (!isMatch) {
+            const failedAttempts = user.failedLoginAttempts + 1;
+            const data: any = { failedLoginAttempts: failedAttempts };
+            
+            if (failedAttempts >= 5) {
+                data.lockedUntil = new Date(Date.now() + 30 * 60 * 1000); // 30 min lock
+                await this.audit.log({
+                    userId: user.id,
+                    action: 'ACCOUNT_LOCKED',
+                    description: `Account locked due to multiple failed login attempts.`,
+                    severity: 'WARNING',
+                    ipAddress: ip,
+                    userAgent
+                });
+            }
+
+            await this.prisma.user.update({
+                where: { id: user.id },
+                data
+            });
+
+            await this.audit.log({
+                userId: user.id,
+                action: 'LOGIN_FAILURE',
+                description: `Failed login attempt for ${email}`,
+                severity: 'WARNING',
+                ipAddress: ip,
+                userAgent
+            });
+
             throw new UnauthorizedException('Invalid credentials');
         }
 
-        return this.login(user);
+        return this.login(user, ip, userAgent);
     }
 
     async register(email: string, pass: string, name: string) {

@@ -14,6 +14,7 @@ interface ButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   fullWidth?: boolean;
+  loading?: boolean;
 }
 
 export function Button({
@@ -26,6 +27,7 @@ export function Button({
   disabled = false,
   type = 'button',
   fullWidth = false,
+  loading = false,
 }: ButtonProps) {
   const baseStyles = 'inline-flex items-center justify-center font-black uppercase tracking-[0.3em] transition-all rounded-full whitespace-nowrap active:scale-95 disabled:opacity-50 disabled:pointer-events-none group relative overflow-hidden';
 
@@ -48,8 +50,8 @@ export function Button({
   return (
     <button
       type={type}
-      onClick={onClick}
-      disabled={disabled}
+      onClick={loading ? undefined : onClick}
+      disabled={disabled || loading}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
     >
       <div className="flex items-center gap-3 relative z-10">

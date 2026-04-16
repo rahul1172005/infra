@@ -1,31 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import jwt from 'jsonwebtoken';
+import { getServerSession, auditAction } from '@/lib/auth-server';
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const { amount } = await req.json();
-    const authHeader = req.headers.get('Authorization');
 
     try {
-        if (!authHeader) {
+        const session = await getServerSession(req);
+        if (!session) {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const token = authHeader.split(' ')[1];
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
-        const decoded: any = jwt.verify(token, jwtSecret);
-
-        if (decoded.role !== 'ADMIN') {
+        if (session.role !== 'ADMIN') {
             return NextResponse.json({ message: 'Admin access required' }, { status: 403 });
         }
+
+        const { amount } = await req.json();
 
         const team = await prisma.team.findUnique({ where: { id } });
         if (!team) return NextResponse.json({ message: 'Team not found' }, { status: 404 });
 
+        const newScore = (team.score || 0) + (parseInt(amount) || 0);
         const updated = await prisma.team.update({
             where: { id },
-            data: { score: (team.score || 0) + (parseInt(amount) || 0) }
+            data: { score: newScore }
+        });
+
+        await auditAction({
+            userId: session.sub,
+            action: 'TEAM_SCORE_ADJUST',
+            entityType: 'TEAM',
+            entityId: id,
+            description: `Admin ${session.email} adjusted score for team "${team.name}" by ${amount} → new score: ${newScore}`,
+            metadata: { oldScore: team.score, adjustment: parseInt(amount), newScore },
+            severity: 'INFO'
         });
 
         return NextResponse.json(updated);

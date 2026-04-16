@@ -1,19 +1,16 @@
+import { getServerSession } from '@/lib/auth-server';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import jwt from 'jsonwebtoken';
 
 export async function POST(req: NextRequest) {
     try {
-        const authHeader = req.headers.get('Authorization');
-        const token = authHeader?.split(' ')[1];
+        const session = await getServerSession(req);
 
-        if (!token) {
+        if (!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const jwtSecret = process.env.JWT_SECRET || 'zapsters_super_secret_jwt';
-        const decoded = jwt.verify(token, jwtSecret) as { sub: string; email: string };
-        const userId = decoded.sub || decoded.email;
+        const userId = session.sub;
 
         const { challengeId, type, snapshot } = await req.json();
 
